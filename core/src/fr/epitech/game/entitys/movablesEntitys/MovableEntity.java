@@ -2,7 +2,7 @@ package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import fr.epitech.game.Direction.Direction;
+import fr.epitech.game.directions.Direction;
 import fr.epitech.game.inventorys.Inventory;
 import fr.epitech.game.inventorys.items.equipables.armors.Armor;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;

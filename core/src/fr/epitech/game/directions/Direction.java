@@ -1,4 +1,4 @@
-package fr.epitech.game.Direction;
+package fr.epitech.game.directions;
 
 public enum Direction {
     UP,
