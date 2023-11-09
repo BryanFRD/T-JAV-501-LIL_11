@@ -1,8 +1,9 @@
-package fr.epitech.game.Entity.MovableEntity;
+package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.math.Vector2;
 import fr.epitech.game.Direction.Direction;
 import fr.epitech.game.Inventory.Inventory;
+import fr.epitech.game.Inventory.Item.Equipable.Armor.Armor;
 import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
 
 public abstract class MovableEntity extends fr.epitech.game.Entity.Entity{
@@ -16,6 +17,11 @@ public abstract class MovableEntity extends fr.epitech.game.Entity.Entity{
         this.maxHealth = 100;
         this.inventory = new Inventory();
         this.speed = 1.0f;
+    }
+    public MovableEntity(String name, Vector2 coordinate, Integer health, Float speed) {
+        super(name, coordinate);
+        this.health = health;
+        this.speed = speed;
     }
 
     public void moveTo(float x, float y){
@@ -53,7 +59,7 @@ public abstract class MovableEntity extends fr.epitech.game.Entity.Entity{
         return this.maxHealth;
     }
 
-    public Integer getArmor(){
+    public Armor getArmor(){
         return this.inventory.getArmor();
     }
 

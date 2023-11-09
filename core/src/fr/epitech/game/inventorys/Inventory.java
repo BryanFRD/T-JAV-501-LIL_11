@@ -6,16 +6,8 @@ import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
 import java.util.Map;
 
 public class Inventory {
-    /*
-    #Map<Item, Integer>:items
-     */
     protected Map<Item, Integer> items;
 
-    /*
-    +getItems():Map<Item, Integer>
-+addItem(Item):void
-removeItem(Item):void
-     */
 
     public Map<Item, Integer> getItems() {
         return items;
@@ -36,7 +28,7 @@ removeItem(Item):void
         return null;
     }
 
-    public void getDamage() {
+    public Integer getDamage() {
         return null;
     }
 }
