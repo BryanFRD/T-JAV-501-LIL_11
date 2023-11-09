@@ -10,7 +10,7 @@ public abstract class Entity extends Sprite {
     protected Vector2 coordinate;
 
     public Entity(String name, Vector2 coordinate, Texture texture) {
-        super(texture)
+        super(texture);
         this.name = getName();
         this.coordinate = new Vector2();
     }

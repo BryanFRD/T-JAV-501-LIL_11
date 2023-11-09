@@ -3,9 +3,9 @@ package fr.epitech.game.entitys.movablesEntitys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import fr.epitech.game.Direction.Direction;
-import fr.epitech.game.Inventory.Inventory;
-import fr.epitech.game.Inventory.Item.Equipable.Armor.Armor;
-import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
+import fr.epitech.game.inventorys.Inventory;
+import fr.epitech.game.inventorys.items.equipables.armors.Armor;
+import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import org.w3c.dom.Text;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
