@@ -1,6 +1,6 @@
-package fr.epitech.game.Inventory.Item;
+package fr.epitech.game.inventorys.items;
 
-public abstract class Item extends fr.epitech.game.Inventory.Inventory{
+public abstract class Item extends fr.epitech.game.inventorys.Inventory{
 
     protected String name;
 

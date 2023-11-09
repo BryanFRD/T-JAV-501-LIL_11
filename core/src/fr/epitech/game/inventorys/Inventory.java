@@ -1,8 +1,8 @@
-package fr.epitech.game.Inventory;
+package fr.epitech.game.inventorys;
 
-import fr.epitech.game.Inventory.Item.Item;
-import fr.epitech.game.Inventory.Item.Equipable.Armor.Armor;
-import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
+import fr.epitech.game.inventorys.items.Item;
+import fr.epitech.game.inventorys.items.equipables.armors.Armor;
+import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import java.util.Map;
 
 public class Inventory {
