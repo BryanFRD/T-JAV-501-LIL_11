@@ -1,25 +1,28 @@
 package fr.epitech.game.entitys.movablesEntitys;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import fr.epitech.game.Direction.Direction;
 import fr.epitech.game.Inventory.Inventory;
 import fr.epitech.game.Inventory.Item.Equipable.Armor.Armor;
 import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
+import org.w3c.dom.Text;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected Integer health;
     protected Integer maxHealth;
     protected Inventory inventory;
     protected Float speed;
-    public MovableEntity(String name, Vector2 coordinate) {
-        super(name, coordinate);
+    public MovableEntity(String name, Vector2 coordinate, Texture texture) {
+        super(name, coordinate, texture);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
         this.speed = 1.0f;
+
     }
-    public MovableEntity(String name, Vector2 coordinate, Integer health, Float speed) {
-        super(name, coordinate);
+    public MovableEntity(String name, Vector2 coordinate, Texture texture, Integer health, Float speed) {
+        super(name, coordinate, texture);
         this.health = health;
         this.speed = speed;
     }

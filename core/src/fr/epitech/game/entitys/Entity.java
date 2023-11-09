@@ -1,17 +1,17 @@
 package fr.epitech.game.entitys;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 
-public abstract class Entity implements fr.epitech.game.Updatable.Updatable, fr.epitech.game.Renderable.Renderable{
+public abstract class Entity extends Sprite {
     protected String name;
-    protected Sprite sprite;
     protected Vector2 coordinate;
 
-    public Entity(String name, Vector2 coordinate) {
+    public Entity(String name, Vector2 coordinate, Texture texture) {
+        super(texture)
         this.name = getName();
-        this.sprite = new Sprite();
         this.coordinate = new Vector2();
     }
 
