@@ -1,25 +1,24 @@
 package fr.epitech.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import fr.epitech.game.screens.MainScreen;
+import fr.epitech.game.screens.PlayScreen;
 
 public class EpiGame extends Game {
-	
+
+	public static final int V_WIDTH = 1920;
+	public static final int V_HEIGHT = 1080;
+	private SpriteBatch batch;
+
 	@Override
 	public void create () {
-
+		this.batch = new SpriteBatch();
+		setScreen(new PlayScreen(this));
 	}
 
-	@Override
-	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-	}
-	
-	@Override
-	public void dispose () {
-
+	public SpriteBatch getBatch() {
+		return batch;
 	}
 }
