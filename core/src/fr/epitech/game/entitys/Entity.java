@@ -1,4 +1,4 @@
-package fr.epitech.game.Entity;
+package fr.epitech.game.entitys;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;

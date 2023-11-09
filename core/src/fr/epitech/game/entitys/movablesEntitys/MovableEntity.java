@@ -6,7 +6,7 @@ import fr.epitech.game.Inventory.Inventory;
 import fr.epitech.game.Inventory.Item.Equipable.Armor.Armor;
 import fr.epitech.game.Inventory.Item.Equipable.Weapon.Weapon;
 
-public abstract class MovableEntity extends fr.epitech.game.Entity.Entity{
+public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected Integer health;
     protected Integer maxHealth;
     protected Inventory inventory;
