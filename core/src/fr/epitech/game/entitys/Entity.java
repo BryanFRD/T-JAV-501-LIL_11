@@ -11,8 +11,8 @@ public abstract class Entity extends Sprite {
 
     public Entity(String name, Vector2 coordinate, Texture texture) {
         super(texture);
-        this.name = getName();
-        this.coordinate = new Vector2();
+        this.name = name;
+        this.coordinate = coordinate;
     }
 
     public String getName() {
