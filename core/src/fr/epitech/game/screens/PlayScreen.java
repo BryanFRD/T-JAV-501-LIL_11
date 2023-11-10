@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
+import fr.epitech.game.map.WorldMap;
 import fr.epitech.game.scenes.Hud;
 
 public class PlayScreen implements Screen {
@@ -23,39 +24,14 @@ public class PlayScreen implements Screen {
     private final OrthographicCamera camera;
     private final Viewport viewport;
     private final Hud hud;
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private World world;
-    private Box2DDebugRenderer b2dr;
+    private final WorldMap worldMap;
 
     public PlayScreen(EpiGame game){
         this.game = game;
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.hud = new Hud(game.getBatch());
-        this.mapLoader = new TmxMapLoader();
-        this.map = mapLoader.load("test.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        world = new World(new Vector2(0, 0), true);
-        b2dr = new Box2DDebugRenderer();
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2), (rect.getY() + rect.getHeight() / 2));
-
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
+        this.worldMap = new WorldMap(this.camera, this.viewport);
     }
 
     public void handleInput(float delta){
@@ -71,10 +47,10 @@ public class PlayScreen implements Screen {
     public void update(float delta){
         handleInput(delta);
 
-        world.step(1/60f, 6, 2);
+        worldMap.getWorld().step(1/60f, 6, 2);
 
         camera.update();
-        renderer.setView(camera);
+        worldMap.getRenderer().setView(camera);
     }
 
     @Override
@@ -84,8 +60,8 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.render();
-        b2dr.render(world, camera.combined);
+        worldMap.getRenderer().render();
+        worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
 
         game.getBatch().setProjectionMatrix(hud.getStage().getCamera().combined);
         hud.getStage().draw();

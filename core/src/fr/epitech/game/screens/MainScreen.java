@@ -1,42 +1,55 @@
 package fr.epitech.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import fr.epitech.game.EpiGame;
+import sun.font.TrueTypeFont;
 
 public class MainScreen implements Screen {
 
     private final EpiGame game;
     private final Stage stage;
-    private final TextButton.TextButtonStyle skin;
-
+    private final Skin skin;
 
     public MainScreen(final EpiGame game){
         this.game = game;
         this.stage = new Stage(new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT));
-        this.skin = new TextButton.TextButtonStyle();
+        this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
 
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-        this.skin.font = font.font;
+        Texture backgroundTexture = new Texture(Gdx.files.internal("Forest_background_16.png"));
+        Image backgroundImage = new Image(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 25;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+
+        skin.add("default", textButtonStyle);
 
         Table table = new Table();
         table.setFillParent(true);
         table.center();
         stage.addActor(table);
 
-        Label title = new Label("EpiGame", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label title = new Label("EpiGame", labelStyle);
         TextButton playButton = new TextButton("Play", skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton exitButton = new TextButton("Exit", skin);
