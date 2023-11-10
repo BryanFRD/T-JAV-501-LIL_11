@@ -9,10 +9,10 @@ import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import org.w3c.dom.Text;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
-    protected Integer health;
-    protected Integer maxHealth;
+    protected int health;
+    protected int maxHealth;
     protected Inventory inventory;
-    protected Float speed;
+    protected float speed;
     public MovableEntity(String name, Vector2 coordinate, Texture texture) {
         super(name, coordinate, texture);
         this.health = 100;
@@ -20,11 +20,6 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         this.inventory = new Inventory();
         this.speed = 1.0f;
 
-    }
-    public MovableEntity(String name, Vector2 coordinate, Texture texture, Integer health, Float speed) {
-        super(name, coordinate, texture);
-        this.health = health;
-        this.speed = speed;
     }
 
     public void moveTo(float x, float y){

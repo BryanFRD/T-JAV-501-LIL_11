@@ -1,15 +1,21 @@
 package fr.epitech.game.entitys.movablesEntitys.characters;
 
-import fr.epitech.game.entitys.Entity;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
+import fr.epitech.game.inventorys.Inventory;
 
-public abstract class Character extends Entity {
+public abstract class Character extends MovableEntity {
 
     protected int gold;
 
     protected int capacity;
 
-    public Character() {
-
+    public Character(String name, Vector2 coordinate, Texture texture, int gold, int capacity) {
+        super(name, coordinate, texture);
+        this.gold = gold;
+        this.capacity = capacity;
     }
 
 }

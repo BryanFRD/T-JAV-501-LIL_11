@@ -7,7 +7,7 @@ import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
 
 public abstract class Enemy extends MovableEntity {
     public Enemy(String name, Vector2 coordinate, Texture texture,  Integer health, Float speed) {
-        super(name, coordinate, texture, health, speed);
+        super(name, coordinate, texture);
     }
 
     public void moveTo(float x, float y){

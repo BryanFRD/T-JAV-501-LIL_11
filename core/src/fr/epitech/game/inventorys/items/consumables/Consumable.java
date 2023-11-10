@@ -1,6 +1,5 @@
-package fr.epitech.game.Inventory.Item.Consumable;
+package fr.epitech.game.inventorys.items.consumables;
 
-import fr.epitech.game.Inventory.Item.Item;
+public interface Consumable {
 
-public interface Consumable extends Item {
 }
