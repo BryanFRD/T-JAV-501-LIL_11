@@ -1,7 +1,7 @@
-package fr.epitech.game.Inventory.Item.Consumable;
+package fr.epitech.game.inventorys.items.consumables;
 
-public abstract class ConsumableItem extends fr.epitech.game.Inventory.Item.Item
-        implements Consumable {
+import fr.epitech.game.inventorys.items.Item;
+public abstract class ConsumableItem extends Item implements Consumable {
     public ConsumableItem(String name) {
         super(name);
     }
