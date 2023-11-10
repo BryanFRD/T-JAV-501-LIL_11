@@ -15,7 +15,7 @@ public class EpiGame extends Game {
 	@Override
 	public void create () {
 		this.batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new MainScreen(this));
 	}
 
 	public SpriteBatch getBatch() {
