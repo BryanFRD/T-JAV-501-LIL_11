@@ -1,5 +1,5 @@
 package fr.epitech.game.entitys.enemys;
-
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,8 +9,8 @@ public class Zombie extends Enemy{
     public void setTexture (Texture texture) {
         this.texture = texture;
     }
-    public Zombie(String name, Vector2 coordinate, Texture texture, Integer health, Float speed) {
-        super("Zombie",
+    public Zombie(World world, String name, Vector2 coordinate, Texture texture, Integer health, Float speed) {
+        super(world ,"Zombie",
                 coordinate,
                 texture,
                 80,
