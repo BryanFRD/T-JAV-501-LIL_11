@@ -1,55 +1,72 @@
 package fr.epitech.game.map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.epitech.game.SimplexNoise;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class WorldMap {
 
-    private final TmxMapLoader mapLoader;
-    private final TiledMap map;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final World world;
-    private final Box2DDebugRenderer b2dr;
+    private final SpriteBatch batch;
+    private World world;
+    private Box2DDebugRenderer b2dr;
+    private final List<Chunk> loadedChunks;
+    private final double seed;
+    private int playerX = 0, playerY = 0, renderDistance = 3;
 
-    public WorldMap(OrthographicCamera camera, Viewport viewport){
-        this.mapLoader = new TmxMapLoader();
-        this.map = mapLoader.load("test.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        world = new World(new Vector2(0, 0), true);
-        b2dr = new Box2DDebugRenderer();
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
+    public WorldMap(SpriteBatch batch){
+        this.batch = batch;
+        this.loadedChunks = new ArrayList<>();
+        this.seed = new Random().nextDouble();
+        this.world = new World(new Vector2(0, -1), true);
+        this.b2dr = new Box2DDebugRenderer();
+    }
 
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+    public void update(float delta){
+        world.step(1/60f, 6, 2);
+    }
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2), (rect.getY() + rect.getHeight() / 2));
+    public void render(){
+        int startX = Math.max(-1, this.playerX - renderDistance) + 1;
+        int endX = this.playerX + renderDistance;
 
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+        for(int x = startX; x < endX; x++){
+            if(loadedChunks.size() <= x){
+                Chunk chunk = new Chunk(world, seed);
+                chunk.generateChunk(loadedChunks.size());
+                loadedChunks.add(chunk);
+            }
+
+            if(loadedChunks.size() <= x || loadedChunks.get(x) == null)
+                continue;
+
+            Chunk chunk = loadedChunks.get(x);
+            chunk.render(batch);
         }
     }
 
-    public TiledMap getMap() {
-        return map;
-    }
-
-    public OrthogonalTiledMapRenderer getRenderer() {
-        return renderer;
+    public void updatePlayerPosition(float playerX, float playerY){
+        this.playerX = (int) playerX / (Chunk.TILE_SIZE * Chunk.SIZE_X);
+        this.playerY = (int) playerY / (Chunk.TILE_SIZE * Chunk.SIZE_Y);
     }
 
     public World getWorld() {
