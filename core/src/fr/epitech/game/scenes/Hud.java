@@ -21,8 +21,9 @@ public class Hud {
 
     private final SpriteBatch batch;
     private Texture healthBackground, healthForeground;
-    private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - 30);
-    private int health = 100;
+    private final int healthBarWidth = 200, healthBarHeight = 30;
+    private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - healthBarHeight - 10);
+    private int health = 1000;
 
     public Hud(SpriteBatch batch){
         this.batch = batch;
@@ -38,13 +39,13 @@ public class Hud {
     }
 
     public void update(float delta){
-        health -= (int) Math.floor(1 * delta);
+        health = Math.max(0, health - 1);
     }
 
     public void render() {
         batch.begin();
-        batch.draw(healthBackground, healthBarPosition.x, healthBarPosition.y, 100, 20);
-        batch.draw(healthForeground, healthBarPosition.x, healthBarPosition.y, 100, 20);
+        batch.draw(healthBackground, healthBarPosition.x, healthBarPosition.y, healthBarWidth, healthBarHeight);
+        batch.draw(healthForeground, healthBarPosition.x, healthBarPosition.y, healthBarWidth * (health / 1000f), healthBarHeight);
         batch.end();
     }
 

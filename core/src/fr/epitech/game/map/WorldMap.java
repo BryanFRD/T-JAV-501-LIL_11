@@ -31,13 +31,14 @@ public class WorldMap {
     private Box2DDebugRenderer b2dr;
     private final List<Chunk> loadedChunks;
     private final double seed;
-    private int playerX = 0, playerY = 0, renderDistance = 10;
+    private int playerX = 0, playerY = 0, renderDistance = 3;
 
     public WorldMap(SpriteBatch batch){
         this.batch = batch;
         this.loadedChunks = new ArrayList<>();
         this.seed = new Random().nextDouble();
         this.world = new World(new Vector2(0, -1), true);
+        this.b2dr = new Box2DDebugRenderer();
     }
 
     public void update(float delta){
@@ -45,12 +46,12 @@ public class WorldMap {
     }
 
     public void render(){
-        int startX = Math.max(0, this.playerX - renderDistance);
+        int startX = Math.max(-1, this.playerX - renderDistance) + 1;
         int endX = this.playerX + renderDistance;
 
         for(int x = startX; x < endX; x++){
             if(loadedChunks.size() <= x){
-                Chunk chunk = new Chunk(seed);
+                Chunk chunk = new Chunk(world, seed);
                 chunk.generateChunk(loadedChunks.size());
                 loadedChunks.add(chunk);
             }
