@@ -53,7 +53,7 @@ public class SelectCharacterScreen implements Screen {
         stage.addActor(table);
 
         Label title = new Label("Select your character", labelStyle);
-        backButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_01.png")))));
+        backButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Arrows/arrow_124.png")))));
         backButton.setSize(50, 50);
         selectButton = new TextButton("Select", skin);
         barbarianButton = new CheckBox("Barbarian", skin);

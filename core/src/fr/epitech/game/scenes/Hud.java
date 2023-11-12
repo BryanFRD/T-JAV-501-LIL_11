@@ -1,29 +1,51 @@
 package fr.epitech.game.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
 
 public class Hud {
 
-    private final Stage stage;
-    private final Viewport viewport;
+    private final SpriteBatch batch;
+    private Texture healthBackground, healthForeground;
+    private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - 30);
+    private int health = 100;
 
     public Hud(SpriteBatch batch){
-        this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, new OrthographicCamera());
-        this.stage = new Stage(viewport, batch);
+        this.batch = batch;
 
-        Table table = new Table();
-        table.top();
-        table.setFillParent(true);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 25;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+
+        healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
+        healthForeground = new Texture(Gdx.files.internal("Bars/bar_89.png"));
     }
 
-    public Stage getStage() {
-        return stage;
+    public void update(float delta){
+        health -= (int) Math.floor(1 * delta);
+    }
+
+    public void render() {
+        batch.begin();
+        batch.draw(healthBackground, healthBarPosition.x, healthBarPosition.y, 100, 20);
+        batch.draw(healthForeground, healthBarPosition.x, healthBarPosition.y, 100, 20);
+        batch.end();
     }
 
 }

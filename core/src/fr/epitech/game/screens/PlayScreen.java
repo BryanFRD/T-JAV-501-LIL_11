@@ -1,9 +1,11 @@
 package fr.epitech.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -30,13 +32,29 @@ public class PlayScreen implements Screen {
         this.game = game;
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
-        this.hud = new Hud(game.getBatch());
-        this.worldMap = new WorldMap(this.camera, this.viewport);
+        this.hud = new Hud(new SpriteBatch());
+        this.worldMap = new WorldMap(game.getBatch());
+
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
     }
 
     public void handleInput(float delta){
-        if(Gdx.input.isTouched()){
-            camera.position.x += 100 * delta;
+        int cameraSpeed = 500;
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.A)){
+            camera.position.x -= cameraSpeed * delta;
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.D)){
+            camera.position.x += cameraSpeed * delta;
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.W)){
+            camera.position.y += cameraSpeed * delta;
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.S)){
+            camera.position.y -= cameraSpeed * delta;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            Gdx.app.exit();
         }
     }
 
@@ -47,24 +65,23 @@ public class PlayScreen implements Screen {
     public void update(float delta){
         handleInput(delta);
 
-        worldMap.getWorld().step(1/60f, 6, 2);
-
         camera.update();
-        worldMap.getRenderer().setView(camera);
+        worldMap.update(delta);
+        worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
+
+        hud.update(delta);
     }
 
     @Override
     public void render(float delta) {
         update(delta);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        worldMap.getRenderer().render();
-        worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
+        game.getBatch().setProjectionMatrix(camera.combined);
+        worldMap.render();
 
-        game.getBatch().setProjectionMatrix(hud.getStage().getCamera().combined);
-        hud.getStage().draw();
+        hud.render();
     }
 
     @Override
