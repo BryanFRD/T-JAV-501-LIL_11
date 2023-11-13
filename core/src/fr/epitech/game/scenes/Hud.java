@@ -22,7 +22,7 @@ public class Hud {
 
     private final SpriteBatch batch;
     private final BitmapFont font;
-    private final GlyphLayout waveLayout, waveTimerLayout;
+    private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout;
     private Texture healthBackground, healthForeground;
     private final int healthBarWidth = 200, healthBarHeight = 30;
     private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - healthBarHeight - 10);
@@ -43,7 +43,8 @@ public class Hud {
         generator.dispose();
 
         waveLayout = new GlyphLayout(font, "Wave: 0");
-        waveTimerLayout = new GlyphLayout(font, "Wave starts in 0s");
+        waveTimerPrefixLayout = new GlyphLayout(font, "Wave starts in ");
+        waveTimerLayout = new GlyphLayout(font, "0s");
 
         healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
         healthForeground = new Texture(Gdx.files.internal("Bars/bar_89.png"));
@@ -53,17 +54,21 @@ public class Hud {
         health = Math.max(0, health - 1);
 
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
-        waveTimerLayout.setText(font, String.format("Wave starts in %.2fs", waveManager.getWaveTimer()));
+        waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
     }
 
     public void render() {
         batch.begin();
 
-        font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 10, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
-        font.draw(batch, waveTimerLayout, EpiGame.V_WIDTH / 2f - waveTimerLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height - waveTimerLayout.height / 2 - 10);
-
         batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
         batch.draw(healthForeground, x, y, healthBarWidth * (health / 1000f), healthBarHeight);
+
+        font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 10, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
+
+        if(waveManager.isNewWave()){
+            font.draw(batch, waveTimerPrefixLayout, EpiGame.V_WIDTH / 2f - waveTimerPrefixLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height / 2 - 10);
+            font.draw(batch, waveTimerLayout, EpiGame.V_WIDTH / 2f - waveTimerLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height - waveTimerLayout.height / 2 - 30);
+        }
 
         batch.end();
     }

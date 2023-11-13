@@ -40,4 +40,8 @@ public class WaveManager {
         return waveTimer;
     }
 
+    public boolean isNewWave() {
+        return newWave;
+    }
+
 }
