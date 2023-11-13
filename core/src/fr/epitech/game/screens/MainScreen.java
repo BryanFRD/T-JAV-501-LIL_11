@@ -38,15 +38,17 @@ public class MainScreen implements Screen {
         stage.addActor(backgroundImage);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 25;
-        BitmapFont font = generator.generateFont(parameter);
+        parameter.size = 100;
+        BitmapFont labelFont = generator.generateFont(parameter);
+        parameter.size = 50;
+        BitmapFont buttonFont = generator.generateFont(parameter);
         generator.dispose();
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(labelFont, Color.WHITE);
         TextureRegionDrawable buttonBackgroundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_04.png"))));
         TextureRegionDrawable buttonBackgroundOver = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_10.png"))));
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
+        textButtonStyle.font = buttonFont;
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
 
@@ -59,8 +61,11 @@ public class MainScreen implements Screen {
 
         Label title = new Label("EpiGame", labelStyle);
         playButton = new TextButton("Play", skin);
+        playButton.getLabelCell().padBottom(30);
         settingsButton = new TextButton("Settings", skin);
+        settingsButton.getLabelCell().padBottom(30);
         exitButton = new TextButton("Exit", skin);
+        exitButton.getLabelCell().padBottom(30);
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -85,11 +90,11 @@ public class MainScreen implements Screen {
 
         table.add(title).fillX().uniformX();
         table.row().pad(75, 0, 0, 0);
-        table.add(playButton).fillX().uniformX();
+        table.add(playButton).width(250).height(75);
         table.row().pad(10, 0, 0, 0);
-        table.add(settingsButton).fillX().uniformX();
+        table.add(settingsButton).width(250).height(75);
         table.row().pad(10, 0, 0, 0);
-        table.add(exitButton).fillX().uniformX();
+        table.add(exitButton).width(250).height(75);
     }
 
     @Override
