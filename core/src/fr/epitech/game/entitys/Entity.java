@@ -49,7 +49,11 @@ public abstract class Entity extends Sprite {
         this.coordinate = coordinate;
     }
 
+    public void render() {
+    }
 
+    public void update(float delta) {
+    }
 
 
 
