@@ -28,7 +28,7 @@ public class Zombie extends Enemy{
     public void update(float dt){
         StateTime += dt;
         b2body.setLinearVelocity(velocity);
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+        moveTo(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         setRegion((Texture) walkAnimation.getKeyFrame(StateTime, true));
     }
 
