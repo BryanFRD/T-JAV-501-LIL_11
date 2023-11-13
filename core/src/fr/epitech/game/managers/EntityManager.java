@@ -1,7 +1,7 @@
 package fr.epitech.game.managers;
 
-import fr.epitech.game.entitys.enemys.Enemy;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ public class EntityManager {
         this.player = player;
         this.enemies = new ArrayList<>();
     }
-/*
+
     public void update(float delta){
-        player.render(delta);
+        player.update(delta);
         for(Enemy enemy : enemies){
-            if(enemy.isDead())
+            if(enemy.getHealth() == 0)
                 enemies.remove(enemy);
             enemy.update(delta);
         }
@@ -44,5 +44,5 @@ public class EntityManager {
     public List<Enemy> getEnemies() {
         return enemies;
     }
-*/
+
 }
