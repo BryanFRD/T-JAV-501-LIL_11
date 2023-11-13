@@ -2,6 +2,7 @@ package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.directions.Direction;
@@ -15,8 +16,17 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected int maxHealth;
     protected Inventory inventory;
     protected float speed;
+
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
         super(batch, world, name, coordinate, texture);
+        this.health = 100;
+        this.maxHealth = 100;
+        this.inventory = new Inventory();
+        this.speed = 100f;
+    }
+
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
+        super(batch, world, name, coordinate, textureRegions);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
