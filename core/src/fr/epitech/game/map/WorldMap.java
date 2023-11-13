@@ -47,7 +47,7 @@ public class WorldMap {
 
     public void render(){
         int startX = Math.max(-1, this.playerX - renderDistance) + 1;
-        int endX = this.playerX + renderDistance;
+        int endX = this.playerX + renderDistance + 10;
 
         for(int x = startX; x < endX; x++){
             if(loadedChunks.size() <= x){
@@ -56,7 +56,7 @@ public class WorldMap {
                 loadedChunks.add(chunk);
             }
 
-            if(loadedChunks.size() <= x || loadedChunks.get(x) == null)
+            if(loadedChunks.size() <= x + 10 || loadedChunks.get(x) == null)
                 continue;
 
             Chunk chunk = loadedChunks.get(x);

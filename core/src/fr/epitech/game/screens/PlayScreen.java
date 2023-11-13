@@ -35,6 +35,7 @@ public class PlayScreen implements Screen {
         this.hud = new Hud(new SpriteBatch());
         this.worldMap = new WorldMap(game.getBatch());
 
+
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
     }
 
