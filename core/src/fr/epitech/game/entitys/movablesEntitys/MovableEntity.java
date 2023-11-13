@@ -1,6 +1,7 @@
 package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.directions.Direction;
@@ -14,13 +15,12 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected int maxHealth;
     protected Inventory inventory;
     protected float speed;
-    public MovableEntity(World world, String name, Vector2 coordinate, Texture texture) {
-        super(world, name, coordinate, texture);
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
+        super(batch, world, name, coordinate, texture);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 1.0f;
-
+        this.speed = 100f;
     }
 
     public void update(float delta) {
@@ -41,16 +41,14 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     public void move(Direction direction){
         Vector2 velocity = new Vector2();
         switch (direction){
-            case UP:
-                velocity.set(0, speed);
-                break;
             case LEFT:
-                velocity.set(-speed, 0);
-                break;
-            case RIGHT:
                 velocity.set(speed, 0);
                 break;
+            case RIGHT:
+                velocity.set(-speed, 0);
+                break;
         }
+
         b2body.setLinearVelocity(velocity);
     }
 

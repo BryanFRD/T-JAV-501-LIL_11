@@ -3,22 +3,22 @@ package fr.epitech.game.entitys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 
 public abstract class Entity extends Sprite {
 
-    protected Body b2body; 
-
+    protected SpriteBatch batch;
+    protected Body b2body;
     protected String name;
     protected Vector2 coordinate;
-
     protected World world;
 
-    public Entity(World world, String name, Vector2 coordinate, Texture texture) {
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
         super(texture);
-        setColor(Color.RED);
+        this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
         this.world = world;
@@ -27,13 +27,13 @@ public abstract class Entity extends Sprite {
 
     public void defineEntity() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(coordinate.x,coordinate.y);
+        bdef.position.set(coordinate.x, coordinate.y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 0.5f);
+        shape.setAsBox(16, 32);
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
@@ -53,6 +53,11 @@ public abstract class Entity extends Sprite {
     }
 
     public void render() {
+        batch.begin();
+
+        batch.draw(super.getTexture(), b2body.getPosition().x - 16, b2body.getPosition().y - 32, 64, 64);
+
+        batch.end();
     }
 
 

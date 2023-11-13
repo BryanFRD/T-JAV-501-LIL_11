@@ -40,7 +40,7 @@ public class PlayScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.worldMap = new WorldMap(game.getBatch());
-        this.entityManager = new EntityManager(new Barbarian(worldMap.getWorld(), "Barbarian", new Vector2(0, 0)));
+        this.entityManager = new EntityManager(new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000)));
         this.waveManager = new WaveManager(entityManager);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
@@ -48,34 +48,14 @@ public class PlayScreen implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
     }
 
-    public void handleInput(float delta){
-        int cameraSpeed = 500;
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.A)){
-            camera.position.x -= cameraSpeed * delta;
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.D)){
-            camera.position.x += cameraSpeed * delta;
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.W)){
-            camera.position.y += cameraSpeed * delta;
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.S)){
-            camera.position.y -= cameraSpeed * delta;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            Gdx.app.exit();
-        }
-    }
-
     @Override
     public void show() {
     }
 
     public void update(float delta){
-        handleInput(delta);
         this.playerInputHandler.handle(delta);
 
+        camera.position.set(entityManager.getPlayer().getCoordinate().x, entityManager.getPlayer().getCoordinate().y, 0);
         camera.update();
         worldMap.update(delta);
         worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
