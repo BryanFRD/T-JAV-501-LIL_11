@@ -13,9 +13,9 @@ public abstract class Enemy extends MovableEntity {
     protected World world;
     public Body b2body;
 
-    public Enemy(WorldMap world, PlayScreen screen, String name) {
-    super(world, name, new Vector2(32, 32));
-    this.world = world.getWorld();
+    public Enemy(World world, PlayScreen screen, String name) {
+    super(world, name, new Vector2(32, 32), new Texture("assets/monster_58.png"));
+    this.world = world;
     this.screen = screen;
     moveTo(32, 32);
     }

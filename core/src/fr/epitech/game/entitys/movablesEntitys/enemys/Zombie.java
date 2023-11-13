@@ -15,7 +15,7 @@ public class Zombie extends Enemy{
     private Array<Texture> frames;
     private Vector2 velocity = new Vector2(0, 0);
 
-    public Zombie(WorldMap world, PlayScreen screen) {
+    public Zombie(World world, PlayScreen screen) {
         super(world, screen, "Zombie");
         frames = new Array<Texture>();
         for (int i = 0; i < 4; i++)
