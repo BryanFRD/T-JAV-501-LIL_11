@@ -23,6 +23,12 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
 
     }
 
+    public void update(float delta) {
+        coordinate.x = b2body.getPosition().x - getWidth() / 2;
+        coordinate.y = b2body.getPosition().y - getHeight() / 2;
+    }
+
+
     public void moveTo(float x, float y){
         this.coordinate.x = x;
         this.coordinate.y = y;
@@ -33,21 +39,23 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void move(Direction direction){
+        Vector2 velocity = new Vector2();
         switch (direction){
             case UP:
-                this.coordinate.y += this.speed;
+                velocity.set(0, speed);
                 break;
             case LEFT:
-                this.coordinate.x -= this.speed;
+                velocity.set(-speed, 0);
                 break;
             case RIGHT:
-                this.coordinate.x += this.speed;
+                velocity.set(speed, 0);
                 break;
         }
+        b2body.setLinearVelocity(velocity);
     }
 
     public void jump(){
-        this.coordinate.y += this.speed;
+        b2body.applyLinearImpulse(new Vector2(0, speed), b2body.getWorldCenter(), true);
     }
 
     public Integer getHealth(){
