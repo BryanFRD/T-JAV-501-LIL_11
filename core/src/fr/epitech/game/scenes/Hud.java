@@ -27,7 +27,6 @@ public class Hud {
     private final int healthBarWidth = 200, healthBarHeight = 30;
     private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - healthBarHeight - 10);
     private int x = 10, y = EpiGame.V_HEIGHT - healthBarHeight - 10;
-    private int health = 1000;
     private final WaveManager waveManager;
     private final EntityManager entityManager;
 
@@ -51,8 +50,6 @@ public class Hud {
     }
 
     public void update(float delta){
-        health = Math.max(0, health - 1);
-
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
         waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
     }
@@ -61,7 +58,7 @@ public class Hud {
         batch.begin();
 
         batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
-        batch.draw(healthForeground, x, y, healthBarWidth * (health / 1000f), healthBarHeight);
+        batch.draw(healthForeground, x, y, healthBarWidth * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight);
 
         font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 10, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
 

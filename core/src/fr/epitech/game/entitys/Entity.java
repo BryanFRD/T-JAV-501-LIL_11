@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -15,6 +16,7 @@ public abstract class Entity extends Sprite {
     protected String name;
     protected Vector2 coordinate;
     protected World world;
+    protected TextureRegion[] textureRegions;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
         super(texture);
@@ -22,6 +24,15 @@ public abstract class Entity extends Sprite {
         this.name = name;
         this.coordinate = coordinate;
         this.world = world;
+        defineEntity();
+    }
+
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
+        this.batch = batch;
+        this.name = name;
+        this.coordinate = coordinate;
+        this.world = world;
+        this.textureRegions = textureRegions;
         defineEntity();
     }
 
@@ -55,7 +66,11 @@ public abstract class Entity extends Sprite {
     public void render() {
         batch.begin();
 
-        batch.draw(super.getTexture(), b2body.getPosition().x - 16, b2body.getPosition().y - 32, 64, 64);
+        if(getTexture() != null){
+            batch.draw(super.getTexture(), b2body.getPosition().x - 32, b2body.getPosition().y - 32, 64, 64);
+        } else if(this.textureRegions != null){
+            batch.draw(textureRegions[0], b2body.getPosition().x - 32, b2body.getPosition().y - 32, 64, 64);
+        }
 
         batch.end();
     }
