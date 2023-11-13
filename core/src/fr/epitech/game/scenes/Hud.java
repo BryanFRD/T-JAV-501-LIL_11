@@ -45,7 +45,7 @@ public class Hud {
     public void render() {
         batch.begin();
         batch.draw(healthBackground, healthBarPosition.x, healthBarPosition.y, healthBarWidth, healthBarHeight);
-        batch.draw(healthForeground, healthBarPosition.x, healthBarPosition.y, healthBarWidth * (health / 1000f), healthBarHeight);
+        batch.draw(healthForeground, healthBarPosition.x + 5, healthBarPosition.y, healthBarWidth * (health / 1000f), healthBarHeight);
         batch.end();
     }
 

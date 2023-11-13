@@ -89,7 +89,7 @@ public class MainScreen implements Screen {
         });
 
         table.add(title).fillX().uniformX();
-        table.row().pad(75, 0, 0, 0);
+        table.row().pad(250, 0, 0, 0);
         table.add(playButton).width(250).height(75);
         table.row().pad(10, 0, 0, 0);
         table.add(settingsButton).width(250).height(75);
@@ -134,7 +134,7 @@ public class MainScreen implements Screen {
 
     @Override
     public void hide() {
-
+        stage.dispose();
     }
 
     @Override
