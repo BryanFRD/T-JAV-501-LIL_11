@@ -17,6 +17,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
+import fr.epitech.game.entitys.movablesEntitys.characters.Barbarian;
+import fr.epitech.game.managers.EntityManager;
+import fr.epitech.game.managers.WaveManager;
 import fr.epitech.game.map.WorldMap;
 import fr.epitech.game.scenes.Hud;
 
@@ -27,14 +30,17 @@ public class PlayScreen implements Screen {
     private final Viewport viewport;
     private final Hud hud;
     private final WorldMap worldMap;
+    private final EntityManager entityManager;
+    private final WaveManager waveManager;
 
     public PlayScreen(EpiGame game){
         this.game = game;
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
-        this.hud = new Hud(new SpriteBatch());
         this.worldMap = new WorldMap(game.getBatch());
-
+        this.entityManager = new EntityManager(new Barbarian(worldMap.getWorld(), "Barbarian", new Vector2(0, 0)));
+        this.waveManager = new WaveManager(entityManager);
+        this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
     }
@@ -70,6 +76,9 @@ public class PlayScreen implements Screen {
         worldMap.update(delta);
         worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
 
+        entityManager.update(delta);
+        waveManager.update(delta);
+
         hud.update(delta);
     }
 
@@ -83,6 +92,8 @@ public class PlayScreen implements Screen {
         worldMap.render();
 
         worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
+
+        entityManager.render();
 
         hud.render();
     }
