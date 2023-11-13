@@ -1,5 +1,6 @@
 package fr.epitech.game.map;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -29,12 +30,13 @@ public class Chunk {
         this.offsetX = offsetX;
         for(int x = 0; x < cells.length; x++){
             int blockX = x + offsetX * Chunk.SIZE_X;
-            double noise = SimplexNoise.noise(blockX / 100f, seed) * 10 + 20;
+            double noise = SimplexNoise.noise(blockX / 100f, 0, seed) * 10 + 20;
             for(int y = 0; y < cells[x].length; y++){
                 int blockY = y * Chunk.TILE_SIZE;
-                double noiseCloud = SimplexNoise.noise(blockX / seed, blockY / seed);
+                double noiseCloud = SimplexNoise.noise(blockX / 2f, blockY / 2f, seed);
+                double noiseStone = SimplexNoise.noise(blockX / 5f, blockY / 5f, seed);
                 if(noise < y) {
-                    if(noiseCloud > 0.9f && noise < y - 4){
+                    if(noiseCloud > 0.9f && noise < y - 5){
                         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                         cell.setTile(new StaticTiledMapTile(textures[0][4]));
                         cells[x][y] = cell;
@@ -43,7 +45,7 @@ public class Chunk {
                 }
 
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                cell.setTile(new StaticTiledMapTile(noise > y + 1 ? textures[0][1] : textures[0][0]));
+                cell.setTile(new StaticTiledMapTile(noise > y + 1 ? noise > y + 8 || (noiseStone > 0 && noise > y + 5) ? textures[0][5] : textures[0][1] : textures[0][0]));
                 cells[x][y] = cell;
             }
         }
