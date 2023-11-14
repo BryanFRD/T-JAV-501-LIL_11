@@ -7,33 +7,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import fr.epitech.game.map.WorldMap;
-import fr.epitech.game.screens.PlayScreen;
+import fr.epitech.game.EpiGame;
+import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.map.Chunk;
 
 public class Zombie extends Enemy{
 
-    private float StateTime;
-    private Animation walkAnimation;
-    private Array<Texture> frames;
-    private Vector2 velocity = new Vector2(0, 0);
+    private int enemx = 0, enemy = 0;
 
-    public Zombie(SpriteBatch batch, World world) {
-        super(batch, world, "Zombie", new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture());
-        defineEnemy();
-    }
-    @Override
-    protected void defineEnemy() {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(32, 32);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(16);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-
+    public Zombie(SpriteBatch batch, World world, Vector2 velocity) {
+        super(batch, world, "Zombie", new Vector2(EpiGame.V_WIDTH / 2f, 1000),  new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture());
     }
 }
