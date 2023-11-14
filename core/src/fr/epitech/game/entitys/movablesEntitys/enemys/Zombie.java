@@ -2,6 +2,7 @@ package fr.epitech.game.entitys.movablesEntitys.enemys;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -16,13 +17,8 @@ public class Zombie extends Enemy{
     private Array<Texture> frames;
     private Vector2 velocity = new Vector2(0, 0);
 
-    public Zombie(SpriteBatch batch, World world, PlayScreen screen) {
-        super(batch, world, screen, "Zombie");
-        frames = new Array<Texture>();
-        for (int i = 0; i < 4; i++)
-            frames.add(new Texture("assets/monster_58.png"));
-        walkAnimation = new Animation(0.4f, frames);
-        StateTime = 0;
+    public Zombie(SpriteBatch batch, World world) {
+        super(batch, world, "Zombie", new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture());
         defineEnemy();
     }
 
