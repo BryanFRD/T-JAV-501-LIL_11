@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -22,6 +23,7 @@ import fr.epitech.game.entitys.movablesEntitys.characters.Barbarian;
 import fr.epitech.game.handlers.PlayerInputHandler;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
+import fr.epitech.game.map.Chunk;
 import fr.epitech.game.map.WorldMap;
 import fr.epitech.game.scenes.Hud;
 
@@ -56,10 +58,10 @@ public class PlayScreen implements Screen {
     public void update(float delta){
         this.playerInputHandler.handle(delta);
 
-        Quaternion quaternion = new Quaternion().;
+        float cameraX = Math.max(entityManager.getPlayer().getCoordinate().x, EpiGame.V_WIDTH / 2f);
+        float cameraY = Math.max(Math.min(entityManager.getPlayer().getCoordinate().y, Chunk.SIZE_Y * Chunk.TILE_SIZE - EpiGame.V_HEIGHT / 2f), EpiGame.V_HEIGHT / 2f);
 
-        camera.position.set(entityManager.getPlayer().getCoordinate().x, entityManager.getPlayer().getCoordinate().y, 0);
-        camera.position.
+        camera.position.lerp(new Vector3(cameraX, cameraY, 0), 0.01f);
         camera.update();
         worldMap.update(delta);
         worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
