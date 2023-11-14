@@ -34,6 +34,8 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void update(float delta) {
+        super.update(delta);
+
         coordinate.x = b2body.getPosition().x - getWidth() / 2;
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
