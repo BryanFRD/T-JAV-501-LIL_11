@@ -19,7 +19,8 @@ public abstract class Entity extends Sprite {
     protected World world;
     protected TextureRegion[] textureRegions;
     protected Animation<TextureRegion> animation;
-    private float stateTime;
+    protected float stateTime;
+    protected float frameDuration = 0.25f;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
         super(texture);
@@ -36,7 +37,7 @@ public abstract class Entity extends Sprite {
         this.coordinate = coordinate;
         this.world = world;
         this.textureRegions = textureRegions;
-        this.animation = new Animation<>(0.25f, textureRegions);
+        this.animation = new Animation<>(this.frameDuration, textureRegions);
         defineEntity();
     }
 
@@ -66,12 +67,6 @@ public abstract class Entity extends Sprite {
 
     public void setCoordinate(Vector2 coordinate) {
         this.coordinate = coordinate;
-    }
-
-    public void update(float delta){
-        if(this.animation != null){
-            this.stateTime += delta;
-        }
     }
 
     public void render() {
