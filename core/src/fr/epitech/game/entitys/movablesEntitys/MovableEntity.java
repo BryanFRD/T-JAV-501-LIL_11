@@ -61,19 +61,17 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         float speedMultiplier = 3;
         switch (direction){
             case LEFT:
-                velocity.set(speed * speedMultiplier, b2body.getLinearVelocity().y);
+                b2body.applyLinearImpulse(new Vector2(0.1f * 32, 0), b2body.getWorldCenter(), true);
                 break;
             case RIGHT:
-                velocity.set(-speed * speedMultiplier, b2body.getLinearVelocity().y);
+                b2body.applyLinearImpulse(new Vector2(-0.1f * 32, 0), b2body.getWorldCenter(), true);
                 break;
         }
-
-        b2body.setLinearVelocity(velocity);
     }
 
     public void jump(){
         if(b2body.getLinearVelocity().y == 0){
-            b2body.applyLinearImpulse(new Vector2(0, 700), getCoordinate(), true);
+            b2body.applyLinearImpulse(new Vector2(0, 32), b2body.getWorldCenter(), true);
         }
     }
 

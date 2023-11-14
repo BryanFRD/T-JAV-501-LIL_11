@@ -37,7 +37,7 @@ public class WorldMap {
         this.batch = batch;
         this.loadedChunks = new ArrayList<>();
         this.seed = new Random().nextDouble();
-        this.world = new World(new Vector2(0, -100), true);
+        this.world = new World(new Vector2(0, -9.8f), true);
         this.b2dr = new Box2DDebugRenderer();
     }
 
