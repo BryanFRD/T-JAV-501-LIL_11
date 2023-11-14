@@ -40,7 +40,7 @@ public class PlayScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.worldMap = new WorldMap(game.getBatch());
-        this.entityManager = new EntityManager(new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000)));
+        this.entityManager = new EntityManager(new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000)), game.getBatch(), worldMap.getWorld());
         this.waveManager = new WaveManager(entityManager);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
