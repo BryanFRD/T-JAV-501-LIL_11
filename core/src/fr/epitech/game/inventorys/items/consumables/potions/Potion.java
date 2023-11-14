@@ -1,6 +1,7 @@
-package fr.epitech.game.Inventory.Item.Consumable.Potion;
+package fr.epitech.game.inventorys.items.consumables.potions;
 
-public class Potion extends fr.epitech.game.Inventory.Item.Consumable.Consumable {
+import fr.epitech.game.inventorys.items.consumables.ConsumableItem;
+public class Potion extends ConsumableItem {
     public Potion(String name) {
         super(name);
     }

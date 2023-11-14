@@ -1,8 +1,8 @@
-package fr.epitech.game.Inventory.Item.Equipable;
+package fr.epitech.game.inventorys.items.equipables;
 
-public abstract class EquipableItem extends fr.epitech.game.Inventory.Item.Item implements Equipable {
+public abstract class EquipableItem implements Equipable {
     public EquipableItem(String name) {
-        super(name);
+        super();
     }
     /*
     private fr.epitech.game.Weapon.Weapon weapon;
