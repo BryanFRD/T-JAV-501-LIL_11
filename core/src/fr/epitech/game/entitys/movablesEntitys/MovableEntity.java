@@ -1,6 +1,8 @@
 package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.directions.Direction;
@@ -14,14 +16,36 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected int maxHealth;
     protected Inventory inventory;
     protected float speed;
-    public MovableEntity(World world, String name, Vector2 coordinate, Texture texture) {
-        super(world, name, coordinate, texture);
+
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
+        super(batch, world, name, coordinate, texture);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 1.0f;
-
+        this.speed = 100;
     }
+
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
+        super(batch, world, name, coordinate, textureRegions);
+        this.health = 100;
+        this.maxHealth = 100;
+        this.inventory = new Inventory();
+        this.speed = 100f;
+    }
+
+    public void update(float delta) {
+        if(this.b2body.getLinearVelocity().x > 0){
+            if(this.animation != null){
+                this.stateTime += delta;
+            }
+        } else {
+            this.stateTime = 0;
+        }
+
+        coordinate.x = b2body.getPosition().x - getWidth() / 2;
+        coordinate.y = b2body.getPosition().y - getHeight() / 2;
+    }
+
 
     public void moveTo(float x, float y){
         this.coordinate.x = x;
@@ -33,21 +57,24 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void move(Direction direction){
+        Vector2 velocity = new Vector2();
+        float speedMultiplier = 2;
         switch (direction){
-            case UP:
-                this.coordinate.y += this.speed;
-                break;
             case LEFT:
-                this.coordinate.x -= this.speed;
+                velocity.set(speed * speedMultiplier, b2body.getLinearVelocity().y);
                 break;
             case RIGHT:
-                this.coordinate.x += this.speed;
+                velocity.set(-speed * speedMultiplier, b2body.getLinearVelocity().y);
                 break;
         }
+
+        b2body.setLinearVelocity(velocity);
     }
 
     public void jump(){
-        this.coordinate.y += this.speed;
+        if(b2body.getLinearVelocity().y == 0){
+            b2body.applyLinearImpulse(new Vector2(0, 400), getCoordinate(), true);
+        }
     }
 
     public Integer getHealth(){

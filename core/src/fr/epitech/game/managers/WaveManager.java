@@ -13,7 +13,7 @@ public class WaveManager {
         this.waveTimer = 0;
         this.newWave = true;
     }
-/*
+
     public void update(float delta){
         if(this.entityManager.getEnemies().isEmpty() && this.waveTimer == 0 && !this.newWave){
             this.waveTimer = 10;
@@ -39,5 +39,9 @@ public class WaveManager {
     public float getWaveTimer() {
         return waveTimer;
     }
-*/
+
+    public boolean isNewWave() {
+        return newWave;
+    }
+
 }

@@ -37,7 +37,7 @@ public class WorldMap {
         this.batch = batch;
         this.loadedChunks = new ArrayList<>();
         this.seed = new Random().nextDouble();
-        this.world = new World(new Vector2(0, -1), true);
+        this.world = new World(new Vector2(0, -100), true);
         this.b2dr = new Box2DDebugRenderer();
     }
 
@@ -47,16 +47,16 @@ public class WorldMap {
 
     public void render(){
         int startX = Math.max(-1, this.playerX - renderDistance) + 1;
-        int endX = this.playerX + renderDistance + 10;
+        int endX = this.playerX + renderDistance;
 
-        for(int x = startX; x < endX; x++){
+        for(int x = startX; x < endX + 10; x++){
             if(loadedChunks.size() <= x){
                 Chunk chunk = new Chunk(world, seed);
                 chunk.generateChunk(loadedChunks.size());
                 loadedChunks.add(chunk);
             }
 
-            if(loadedChunks.size() <= x + 10 || loadedChunks.get(x) == null)
+            if(x >= endX || loadedChunks.size() < x || loadedChunks.get(x) == null)
                 continue;
 
             Chunk chunk = loadedChunks.get(x);
