@@ -34,7 +34,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void update(float delta) {
-        if(this.b2body.getLinearVelocity().x > 0){
+        if(this.b2body.getLinearVelocity().x != 0){
             if(this.animation != null){
                 this.stateTime += delta;
             }
@@ -58,7 +58,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
 
     public void move(Direction direction){
         Vector2 velocity = new Vector2();
-        float speedMultiplier = 2;
+        float speedMultiplier = 3;
         switch (direction){
             case LEFT:
                 velocity.set(speed * speedMultiplier, b2body.getLinearVelocity().y);
@@ -73,7 +73,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
 
     public void jump(){
         if(b2body.getLinearVelocity().y == 0){
-            b2body.applyLinearImpulse(new Vector2(0, 400), getCoordinate(), true);
+            b2body.applyLinearImpulse(new Vector2(0, 700), getCoordinate(), true);
         }
     }
 
