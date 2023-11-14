@@ -58,12 +58,13 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
 
     public void move(Direction direction){
         Vector2 velocity = new Vector2();
+        float speedMultiplier = 2;
         switch (direction){
             case LEFT:
-                velocity.set(speed, b2body.getLinearVelocity().y);
+                velocity.set(speed * speedMultiplier, b2body.getLinearVelocity().y);
                 break;
             case RIGHT:
-                velocity.set(-speed, b2body.getLinearVelocity().y);
+                velocity.set(-speed * speedMultiplier, b2body.getLinearVelocity().y);
                 break;
         }
 
