@@ -46,6 +46,7 @@ public abstract class Entity extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16, 32);
 
+        fdef.friction = 100;
         fdef.shape = shape;
         b2body.createFixture(fdef);
         shape.dispose();
