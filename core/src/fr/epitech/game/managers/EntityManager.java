@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Zombie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ public class EntityManager {
     }
 
     public void generateEnemies(int wave){
+        for(int i = 0; i < wave; i++){
+            enemies.add(new Zombie(batch, world));
+        }
 
     }
 

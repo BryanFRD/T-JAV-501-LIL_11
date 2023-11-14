@@ -21,14 +21,6 @@ public class Zombie extends Enemy{
         super(batch, world, "Zombie", new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture());
         defineEnemy();
     }
-
-    public void update(float dt){
-        StateTime += dt;
-        b2body.setLinearVelocity(velocity);
-        moveTo(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-        setRegion((Texture) walkAnimation.getKeyFrame(StateTime, true));
-    }
-
     @Override
     protected void defineEnemy() {
         BodyDef bdef = new BodyDef();
