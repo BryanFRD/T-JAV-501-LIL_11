@@ -34,7 +34,13 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void update(float delta) {
-        super.update(delta);
+        if(this.b2body.getLinearVelocity().x > 0){
+            if(this.animation != null){
+                this.stateTime += delta;
+            }
+        } else {
+            this.stateTime = 0;
+        }
 
         coordinate.x = b2body.getPosition().x - getWidth() / 2;
         coordinate.y = b2body.getPosition().y - getHeight() / 2;

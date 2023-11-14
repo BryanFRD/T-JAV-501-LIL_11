@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -55,7 +56,10 @@ public class PlayScreen implements Screen {
     public void update(float delta){
         this.playerInputHandler.handle(delta);
 
+        Quaternion quaternion = new Quaternion().;
+
         camera.position.set(entityManager.getPlayer().getCoordinate().x, entityManager.getPlayer().getCoordinate().y, 0);
+        camera.position.
         camera.update();
         worldMap.update(delta);
         worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
