@@ -2,6 +2,7 @@ package fr.epitech.game.entitys;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,6 +18,9 @@ public abstract class Entity extends Sprite {
     protected Vector2 coordinate;
     protected World world;
     protected TextureRegion[] textureRegions;
+    protected Animation<TextureRegion> animation;
+    protected float stateTime;
+    protected float frameDuration = 0.25f;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
         super(texture);
@@ -33,6 +37,7 @@ public abstract class Entity extends Sprite {
         this.coordinate = coordinate;
         this.world = world;
         this.textureRegions = textureRegions;
+        this.animation = new Animation<>(this.frameDuration, textureRegions);
         defineEntity();
     }
 
@@ -67,10 +72,12 @@ public abstract class Entity extends Sprite {
     public void render() {
         batch.begin();
 
-        if(getTexture() != null){
-            batch.draw(super.getTexture(), b2body.getPosition().x - 32, b2body.getPosition().y - 32, 64, 64);
-        } else if(this.textureRegions != null){
-            batch.draw(textureRegions[0], b2body.getPosition().x - 32, b2body.getPosition().y - 32, 64, 64);
+        if(this.getTexture() != null){
+            Texture texture = this.getTexture();
+            batch.draw(texture, b2body.getPosition().x - texture.getWidth() * 2, b2body.getPosition().y - texture.getHeight() * 2, 64, 64);
+        } else if(this.animation != null){
+            TextureRegion textureRegion = this.animation.getKeyFrame(stateTime, true);
+            batch.draw(textureRegion, b2body.getPosition().x - textureRegion.getRegionWidth() * 2, b2body.getPosition().y - textureRegion.getRegionHeight() * 2, 64, 64);
         }
 
         batch.end();
