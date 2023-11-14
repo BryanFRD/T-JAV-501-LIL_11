@@ -1,5 +1,7 @@
 package fr.epitech.game.managers;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 
@@ -8,12 +10,16 @@ import java.util.List;
 
 public class EntityManager {
 
-    public final Character player;
-    public final List<Enemy> enemies;
+    private final Character player;
+    private final List<Enemy> enemies;
+    private final SpriteBatch batch;
+    private final World world;
 
-    public EntityManager(Character player){
+    public EntityManager(Character player, SpriteBatch batch, World world){
         this.player = player;
         this.enemies = new ArrayList<>();
+        this.batch = batch;
+        this.world = world;
     }
 
     public void update(float delta){

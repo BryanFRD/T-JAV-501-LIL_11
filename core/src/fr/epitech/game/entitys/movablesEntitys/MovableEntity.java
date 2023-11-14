@@ -22,7 +22,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 100f;
+        this.speed = 100;
     }
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
@@ -34,6 +34,8 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void update(float delta) {
+        super.update(delta);
+
         coordinate.x = b2body.getPosition().x - getWidth() / 2;
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
@@ -52,10 +54,10 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         Vector2 velocity = new Vector2();
         switch (direction){
             case LEFT:
-                velocity.set(speed, 0);
+                velocity.set(speed, b2body.getLinearVelocity().y);
                 break;
             case RIGHT:
-                velocity.set(-speed, 0);
+                velocity.set(-speed, b2body.getLinearVelocity().y);
                 break;
         }
 
@@ -63,7 +65,9 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void jump(){
-        b2body.applyLinearImpulse(new Vector2(0, speed), b2body.getWorldCenter(), true);
+        if(b2body.getLinearVelocity().y == 0){
+            b2body.applyLinearImpulse(new Vector2(0, 400), getCoordinate(), true);
+        }
     }
 
     public Integer getHealth(){
