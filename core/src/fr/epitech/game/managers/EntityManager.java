@@ -42,7 +42,7 @@ public class EntityManager {
 
     public void generateEnemies(int wave){
         for(int i = 0; i < wave; i++){
-            enemies.add(new Zombie(batch, world, new Vector2()));
+            enemies.add(new Zombie(batch, world, new Vector2(), this, null));
         }
     }
 
