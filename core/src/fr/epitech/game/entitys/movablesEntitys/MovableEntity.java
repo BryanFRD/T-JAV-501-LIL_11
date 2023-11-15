@@ -37,7 +37,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void update(float delta) {
-        if(this.b2body.getLinearVelocity().x > 0){
+        if(this.b2body.getLinearVelocity().x != 0){
             if(this.animation != null){
                 this.stateTime += delta;
             }
