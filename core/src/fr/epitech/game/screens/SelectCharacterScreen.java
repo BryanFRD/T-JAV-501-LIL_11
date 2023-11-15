@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import fr.epitech.game.EpiGame;
 import org.w3c.dom.Text;
@@ -22,22 +23,20 @@ public class SelectCharacterScreen implements Screen {
     private final Skin skin;
     private final TextButton selectButton, barbarianButton, mageButton, archerButton, backButton;
 
+    private String selectedCharacter = "Barbarian";
+
     public SelectCharacterScreen(final EpiGame game) {
 
         this.stage = new Stage(new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT));
         this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
 
-        /* Création d'une police de caractère personnalisée pour l'interface
-        * utilisateur du jeu. */
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 25;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
-
-        /* Définit le style et les éléments d'interface utilisateur */
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         TextureRegionDrawable buttonBackgroundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_04.png"))));
@@ -47,60 +46,29 @@ public class SelectCharacterScreen implements Screen {
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
 
-        /* Définit et configure le style pour les composants checkbox */
 
         CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
         checkBoxStyle.font = font;
 
-        /* Ajoute les styles crées pour les TextButton et les Checkbox à un objet Skin.
-        Le skin est utilisé pour stocker des ressources pour l'interface utilisateur.
-         */
 
         skin.add("default", textButtonStyle);
         skin.add("default", checkBoxStyle);
 
-        /* Configure un objet Table, utiliser pour organiser les éléments de l'interface utilisateur
-        de manière structurée et flexible.
-         */
 
-        Table table = new Table();
-        table.setFillParent(true);
-        /* Configure la table pour qu'elle remplisse l'espace de son parent. Dans ce cas, le parent est
-        le stage sur lequel la table est ajoutée.
-        True veut dire que la table s'étendra sur tout l'espace disponible du stage.
-         */
-        table.center();
-        /* Tous les éléments ajoutés à la table seront centrés horizontalement et verticalement
-         */
-        stage.addActor(table);
-        /* Ajoute la table au stage */
 
         Label title = new Label("Select your character", labelStyle);
-        /* Crée une étiquette (Label) avec le text et le labelStyle précédemment défini.*/
-
+        Label emptyLabel = new Label("", labelStyle);
 
         selectButton = new TextButton("Select", skin);
+        selectButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                game.setScreen(new PlayScreen(game, selectedCharacter));
+            }
+        });
+
+
         backButton = new TextButton("Back", skin);
-
-
-        barbarianButton = new CheckBox("Barbarian", skin);
-        mageButton = new CheckBox("Mage", skin);
-        archerButton = new CheckBox("Archer", skin);
-
-        Texture barbarianTexture = new Texture(Gdx.files.internal("knight.png"));
-        TextureRegion barbarianTextureRegion = new TextureRegion(barbarianTexture, 16,16);
-        Texture mageTexture = new Texture(Gdx.files.internal("wizard.png"));
-        TextureRegion mageTextureRegion = new TextureRegion(mageTexture, 16, 16);
-        Texture archerTexture = new Texture(Gdx.files.internal("rogue.png"));
-        TextureRegion archerTextureRegion = new TextureRegion(archerTexture, 16,16);
-        Image barbarianImage = new Image(barbarianTextureRegion);
-        Image mageImage = new Image(mageTextureRegion);
-        Image archerImage = new Image(archerTextureRegion);
-
-
-
-        barbarianButton.setChecked(true);
-
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
@@ -108,22 +76,70 @@ public class SelectCharacterScreen implements Screen {
             }
         });
 
-        selectButton.addListener(new ClickListener() {
+
+        barbarianButton = new CheckBox("Barbarian", skin);
+        barbarianButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game));
+                selectedCharacter = "Barbarian";
+                resetButtonColors();
+                barbarianButton.getLabel().setColor(Color.GREEN);
             }
         });
 
-        table.add(title).fillX().uniformX();
+        mageButton = new CheckBox("Mage", skin);
+        mageButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                selectedCharacter = "Mage";
+                resetButtonColors();
+                mageButton.getLabel().setColor(Color.GREEN);
+            }
+        });
+
+        archerButton = new CheckBox("Archer", skin);
+        archerButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                selectedCharacter = "Archer";
+                resetButtonColors();
+                archerButton.getLabel().setColor(Color.GREEN);
+            }
+        });
+
+        Texture barbarianTexture = new Texture(Gdx.files.internal("knight.png"));
+        TextureRegion barbarianTextureRegion = new TextureRegion(barbarianTexture, 16,16);
+        Image barbarianImage = new Image(barbarianTextureRegion);
+        Container<Image> barbarianContainer = new Container<>(barbarianImage);
+        barbarianContainer.size(barbarianImage.getWidth() * 8, barbarianImage.getHeight() * 8);
+
+        Texture mageTexture = new Texture(Gdx.files.internal("wizard.png"));
+        TextureRegion mageTextureRegion = new TextureRegion(mageTexture, 16, 16);
+        Image mageImage = new Image(mageTextureRegion);
+        Container<Image> mageContainer = new Container<>(mageImage);
+        mageContainer.size(mageImage.getWidth() * 8, mageImage.getHeight() * 8);
+
+        Texture archerTexture = new Texture(Gdx.files.internal("rogue.png"));
+        TextureRegion archerTextureRegion = new TextureRegion(archerTexture, 16,16);
+        Image archerImage = new Image(archerTextureRegion);
+        Container<Image> archerContainer = new Container<>(archerImage);
+        archerContainer.size(mageImage.getWidth() * 8, mageImage.getHeight() * 8);
+
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+        stage.addActor(table);
+        table.add(title).center().colspan(3).padBottom(40);
         table.row().pad(75, 0, 0, 0);
         table.row().pad(10, 0, 0, 0);
-        table.add(barbarianImage, mageImage, archerImage);
-        table.row().pad(10, 0, 0, 0);
+        table.add(barbarianContainer, mageContainer, archerContainer).center().row().padBottom(20);
+        table.row().pad(20, 0, 0, 0);
         table.add(barbarianButton, mageButton, archerButton);
-        table.row().pad(10, 0, 0, 0);
-        table.add(selectButton).fillX().uniformX();
-        table.add(backButton).fillX().uniformX().padLeft(10);
+        table.row().pad(50, 100, 0, 100);
+        table.add(selectButton).fillX().uniformX().colspan(3);
+        table.row().pad(20,100,0,100);
+        table.add(backButton).colspan(3).fillX().uniformX();
 
     }
 
@@ -170,6 +186,16 @@ public class SelectCharacterScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    private void resetButtonColors() {
+        barbarianButton.getLabel().setColor(Color.WHITE);
+        mageButton.getLabel().setColor(Color.WHITE);
+        archerButton.getLabel().setColor(Color.WHITE);
+    }
+
+    private Container<Image> createTexture() {
+
     }
 
 }

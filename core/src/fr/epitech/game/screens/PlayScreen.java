@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
+import fr.epitech.game.entitys.movablesEntitys.characters.Archer;
 import fr.epitech.game.entitys.movablesEntitys.characters.Barbarian;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.characters.Wizard;
@@ -40,14 +41,25 @@ public class PlayScreen implements Screen {
     private final WaveManager waveManager;
     private final PlayerInputHandler playerInputHandler;
 
-    public PlayScreen(EpiGame game){
+    public PlayScreen(EpiGame game, String selectedCharacter){
         this.game = game;
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.worldMap = new WorldMap(game.getBatch());
         this.entityManager = new EntityManager(game.getBatch(), worldMap.getWorld());
         this.waveManager = new WaveManager(entityManager);
-        Character player = new Wizard(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+        Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+
+        switch(selectedCharacter) {
+            case "Barbarian" :
+                player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+                break;
+            case "Mage" :
+                player = new Wizard(game.getBatch(), worldMap.getWorld(), "Mage", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+                break;
+            case "Archer" :
+                player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+        }
         this.entityManager.setPlayer(player);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
