@@ -12,13 +12,12 @@ import java.util.List;
 
 public class EntityManager {
 
-    private final Character player;
+    private Character player;
     private final List<Enemy> enemies;
     private final SpriteBatch batch;
     private final World world;
 
-    public EntityManager(Character player, SpriteBatch batch, World world){
-        this.player = player;
+    public EntityManager(SpriteBatch batch, World world){
         this.enemies = new ArrayList<>();
         this.batch = batch;
         this.world = world;
@@ -49,6 +48,9 @@ public class EntityManager {
 
     public Character getPlayer() {
         return player;
+    }
+    public void setPlayer(Character player) {
+        this.player = player;
     }
 
     public List<Enemy> getEnemies() {
