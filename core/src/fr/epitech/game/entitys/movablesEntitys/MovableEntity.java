@@ -2,6 +2,7 @@ package fr.epitech.game.entitys.movablesEntitys;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,7 +15,7 @@ import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
-public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
+public abstract class MovableEntity extends fr.epitech.game.entitys.Entity implements InputProcessor {
     protected int health;
     protected int maxHealth;
     protected Inventory inventory;
@@ -38,24 +39,6 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         this.maxHealth = 100;
         this.inventory = new Inventory();
         this.speed = 10000;
-    }
-
-    public void handleInputMovement(){
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            this.velocity.x = -this.speed;
-            reverted = false;
-        } else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            this.velocity.x = this.speed;
-            reverted = true;
-        } else {
-            this.velocity.x = 0;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && !isFalling && !isJumping){
-            isJumping = true;
-            jumpDuration = 0.5f;
-            this.velocity.y = this.speed;
-        }
     }
 
     public void move(Direction direction){
@@ -107,6 +90,9 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
 
+    public void attack(){
+
+    }
 
     public Integer getHealth(){
         return this.health;
@@ -131,4 +117,75 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     public Integer getDamage(){
         return this.inventory.getDamage();
     }
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.A){
+            this.velocity.x = -this.speed;
+            reverted = false;
+        } else if(keycode == Input.Keys.D){
+            this.velocity.x = this.speed;
+            reverted = true;
+        } else if(keycode == Input.Keys.W && !isFalling && !isJumping){
+            isJumping = true;
+            jumpDuration = 0.5f;
+            this.velocity.y = this.speed;
+        }
+
+        if(keycode == Input.Keys.ESCAPE){
+            Gdx.app.exit();
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.A){
+            this.velocity.x = 0;
+        } else if(keycode == Input.Keys.D){
+            this.velocity.x = 0;
+        } else if(keycode == Input.Keys.W){
+            this.velocity.y = 0;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
 }

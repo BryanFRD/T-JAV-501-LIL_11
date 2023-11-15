@@ -23,7 +23,6 @@ import fr.epitech.game.entitys.movablesEntitys.characters.Archer;
 import fr.epitech.game.entitys.movablesEntitys.characters.Barbarian;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.characters.Wizard;
-import fr.epitech.game.handlers.PlayerInputHandler;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 import fr.epitech.game.map.Chunk;
@@ -39,13 +38,13 @@ public class PlayScreen implements Screen {
     private final WorldMap worldMap;
     private final EntityManager entityManager;
     private final WaveManager waveManager;
-    private final PlayerInputHandler playerInputHandler;
 
     public PlayScreen(EpiGame game, String selectedCharacter){
         this.game = game;
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.worldMap = new WorldMap(game.getBatch());
+
         this.entityManager = new EntityManager(game.getBatch(), worldMap.getWorld());
         this.waveManager = new WaveManager(entityManager);
         Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
@@ -60,8 +59,9 @@ public class PlayScreen implements Screen {
             case "Archer" :
                 player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
         }
+
+        Gdx.input.setInputProcessor(player);
         this.entityManager.setPlayer(player);
-        this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -72,8 +72,6 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float delta){
-        this.playerInputHandler.handle(delta);
-
         float cameraX = Math.max(entityManager.getPlayer().getCoordinate().x, EpiGame.V_WIDTH / 2f);
         float cameraY = Math.max(Math.min(entityManager.getPlayer().getCoordinate().y, Chunk.SIZE_Y * Chunk.TILE_SIZE - EpiGame.V_HEIGHT / 2f), EpiGame.V_HEIGHT / 2f);
 
