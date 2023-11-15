@@ -11,15 +11,14 @@ import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
-public class Zombie extends Enemy{
+public class Witch extends Enemy{
 
-    private Character player;
+        private Character player;
 
-    public Zombie(SpriteBatch batch, World world, Vector2 velocity, EntityManager entityManager, WaveManager waveManager) {
-        super(batch, world, "Zombie", new Vector2(EpiGame.V_WIDTH / 2f, 1000),
-                new TextureRegion(new Texture("zombiealigner.png")).split(500/6, 128)[0], entityManager, waveManager);
+        public Witch(SpriteBatch batch, World world, Vector2 velocity, EntityManager entityManager, WaveManager waveManager) {
+            super(batch, world, "Witch", new Vector2(EpiGame.V_WIDTH / 6f, 1000),
+                    new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 160)[0], entityManager, waveManager);
 
-        this.player = entityManager.getPlayer();
-
-    }
+            this.player = entityManager.getPlayer();
+        }
 }
