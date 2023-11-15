@@ -47,14 +47,14 @@ public abstract class Enemy extends MovableEntity {
             move(Direction.RIGHT);
 
             if (lastx != curretx) {
-                jump();
+                move(Direction.UP);
             }
 
         } else if (player.getCoordinate().x < b2body.getPosition().x) {
             move(Direction.LEFT);
 
             if (lastx != curretx) {
-                jump();
+                move(Direction.UP);
             }
         }
     }

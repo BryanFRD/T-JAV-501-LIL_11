@@ -22,8 +22,4 @@ public class Zombie extends Enemy{
         this.player = entityManager.getPlayer();
         }
 
-    public Zombie(SpriteBatch batch, World world, Vector2 velocity, EntityManager entityManager, WaveManager waveManager) {
-        super(batch, world, "Zombie", new Vector2(EpiGame.V_WIDTH / 2f, 1000),  new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture(), entityManager, waveManager);
-
-    }
 }
