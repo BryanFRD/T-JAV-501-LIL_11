@@ -8,10 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.epitech.game.managers.EntityManager;
+import fr.epitech.game.managers.WaveManager;
 
 
 public abstract class Entity extends Sprite {
 
+    protected EntityManager entityManager;
+    protected WaveManager waveManager;
     protected SpriteBatch batch;
     protected Body b2body;
     protected String name;
@@ -22,22 +26,26 @@ public abstract class Entity extends Sprite {
     protected float stateTime;
     protected float frameDuration = 0.25f;
 
-    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
         super(texture);
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
         this.world = world;
+        this.entityManager = entityManager;
+        this.waveManager = waveManager;
         defineEntity();
     }
 
-    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
         this.world = world;
         this.textureRegions = textureRegions;
         this.animation = new Animation<>(this.frameDuration, textureRegions);
+        this.entityManager = entityManager;
+        this.waveManager = waveManager;
         defineEntity();
     }
 
@@ -51,7 +59,7 @@ public abstract class Entity extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16, 32);
 
-        fdef.friction = 100;
+        fdef.friction = 10;
         fdef.shape = shape;
         b2body.createFixture(fdef);
         shape.dispose();

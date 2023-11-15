@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
 import fr.epitech.game.entitys.movablesEntitys.characters.Barbarian;
+import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.entitys.movablesEntitys.characters.Wizard;
 import fr.epitech.game.handlers.PlayerInputHandler;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
@@ -43,8 +45,10 @@ public class PlayScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT, camera);
         this.worldMap = new WorldMap(game.getBatch());
-        this.entityManager = new EntityManager(new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000)), game.getBatch(), worldMap.getWorld());
+        this.entityManager = new EntityManager(game.getBatch(), worldMap.getWorld());
         this.waveManager = new WaveManager(entityManager);
+        Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+        this.entityManager.setPlayer(player);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
 

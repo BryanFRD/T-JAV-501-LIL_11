@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.epitech.game.EpiGame;
 import fr.epitech.game.SimplexNoise;
 
 import java.util.ArrayList;
@@ -37,11 +38,7 @@ public class WorldMap {
         this.batch = batch;
         this.loadedChunks = new ArrayList<>();
         this.seed = new Random().nextDouble();
-<<<<<<< HEAD
-        this.world = new World(new Vector2(0, -200), true);
-=======
-        this.world = new World(new Vector2(0, -9.8f), true);
->>>>>>> ca17a385a2b93b7b73276ba87525db8597157f1c
+        this.world = new World(new Vector2(0, 0), true);
         this.b2dr = new Box2DDebugRenderer();
     }
 

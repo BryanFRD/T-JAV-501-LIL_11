@@ -9,6 +9,9 @@ import fr.epitech.game.directions.Direction;
 import fr.epitech.game.inventorys.Inventory;
 import fr.epitech.game.inventorys.items.equipables.armors.Armor;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
+import fr.epitech.game.managers.EntityManager;
+import fr.epitech.game.managers.WaveManager;
+import fr.epitech.game.map.Chunk;
 import org.w3c.dom.Text;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
@@ -17,20 +20,20 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected Inventory inventory;
     protected float speed;
 
-    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture) {
-        super(batch, world, name, coordinate, texture);
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager){
+        super(batch, world, name, coordinate, texture, entityManager, waveManager);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
         this.speed = 100;
     }
 
-    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions){
-        super(batch, world, name, coordinate, textureRegions);
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
+        super(batch, world, name, coordinate, textureRegions, entityManager, waveManager);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 100f;
+        this.speed = 100 * Chunk.TILE_SIZE * Chunk.SIZE_Y;
     }
 
     public void update(float delta) {
@@ -57,21 +60,19 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     }
 
     public void move(Direction direction){
-        Vector2 velocity = new Vector2();
-        float speedMultiplier = 3;
         switch (direction){
             case LEFT:
-                b2body.applyLinearImpulse(new Vector2(0.1f * 32, 0), b2body.getWorldCenter(), true);
+                //b2body.applyLinearImpulse(new Vector2(1f * Chunk.TILE_SIZE * Chunk.SIZE_Y, 0), b2body.getWorldCenter(), true);
                 break;
             case RIGHT:
-                b2body.applyLinearImpulse(new Vector2(-0.1f * 32, 0), b2body.getWorldCenter(), true);
+                //b2body.applyLinearImpulse(new Vector2(-1f * Chunk.TILE_SIZE * Chunk.SIZE_Y, 0), b2body.getWorldCenter(), true);
                 break;
         }
     }
 
     public void jump(){
         if(b2body.getLinearVelocity().y == 0){
-            b2body.applyLinearImpulse(new Vector2(0, 32), b2body.getWorldCenter(), true);
+            //b2body.applyLinearImpulse(new Vector2(0, 10000 * Chunk.TILE_SIZE * Chunk.SIZE_Y), b2body.getWorldCenter(), true);
         }
     }
 
