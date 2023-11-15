@@ -50,7 +50,6 @@ public class PlayScreen implements Screen {
         this.waveManager = new WaveManager(entityManager);
         Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
 
-
         switch(selectedCharacter) {
             case "Barbarian" :
                 player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
@@ -61,7 +60,6 @@ public class PlayScreen implements Screen {
             case "Archer" :
                 player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
         }
-
         this.entityManager.setPlayer(player);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);

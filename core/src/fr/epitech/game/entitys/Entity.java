@@ -25,6 +25,9 @@ public abstract class Entity extends Sprite {
     protected Animation<TextureRegion> animation;
     protected float stateTime;
     protected float frameDuration = 0.25f;
+    protected float width = 32;
+    protected float height = 16;
+    protected boolean reverted = true;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
         super(texture);
@@ -53,13 +56,13 @@ public abstract class Entity extends Sprite {
         BodyDef bdef = new BodyDef();
         bdef.position.set(coordinate.x, coordinate.y);
         bdef.type = BodyDef.BodyType.DynamicBody;
+        world.setContinuousPhysics(true);
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(16, 32);
+        shape.setAsBox(this.height, this.width);
 
-        fdef.friction = 10;
         fdef.shape = shape;
         b2body.createFixture(fdef);
         shape.dispose();
@@ -85,7 +88,7 @@ public abstract class Entity extends Sprite {
             batch.draw(texture, b2body.getPosition().x - texture.getWidth() * 2, b2body.getPosition().y - texture.getHeight() * 2, 64, 64);
         } else if(this.animation != null){
             TextureRegion textureRegion = this.animation.getKeyFrame(stateTime, true);
-            batch.draw(textureRegion, b2body.getPosition().x - textureRegion.getRegionWidth() * 2, b2body.getPosition().y - textureRegion.getRegionHeight() * 2, 64, 64);
+            batch.draw(textureRegion, b2body.getPosition().x + (textureRegion.getRegionWidth() * 2) * (reverted ? 1 : -1), b2body.getPosition().y - textureRegion.getRegionHeight() * 2, 64 * (reverted ? -1 : 1), 64);
         }
 
         batch.end();
