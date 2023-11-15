@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import fr.epitech.game.EpiGame;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.managers.EntityManager;
+import fr.epitech.game.managers.WaveManager;
 import fr.epitech.game.map.Chunk;
 
 public class Zombie extends Enemy{
