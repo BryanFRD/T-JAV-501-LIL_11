@@ -70,7 +70,7 @@ public class MainScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new SelectCharacterScreen(game));
             }
         });
 
