@@ -87,6 +87,17 @@ public class SelectCharacterScreen implements Screen {
         mageButton = new CheckBox("Mage", skin);
         archerButton = new CheckBox("Archer", skin);
 
+        Texture barbarianTexture = new Texture(Gdx.files.internal("knight.png"));
+        TextureRegion barbarianTextureRegion = new TextureRegion(barbarianTexture, 16,16);
+        Texture mageTexture = new Texture(Gdx.files.internal("wizard.png"));
+        TextureRegion mageTextureRegion = new TextureRegion(mageTexture, 16, 16);
+        Texture archerTexture = new Texture(Gdx.files.internal("rogue.png"));
+        TextureRegion archerTextureRegion = new TextureRegion(archerTexture, 16,16);
+        Image barbarianImage = new Image(barbarianTextureRegion);
+        Image mageImage = new Image(mageTextureRegion);
+        Image archerImage = new Image(archerTextureRegion);
+
+
 
         barbarianButton.setChecked(true);
 
@@ -107,10 +118,12 @@ public class SelectCharacterScreen implements Screen {
         table.add(title).fillX().uniformX();
         table.row().pad(75, 0, 0, 0);
         table.row().pad(10, 0, 0, 0);
+        table.add(barbarianImage, mageImage, archerImage);
+        table.row().pad(10, 0, 0, 0);
         table.add(barbarianButton, mageButton, archerButton);
         table.row().pad(10, 0, 0, 0);
         table.add(selectButton).fillX().uniformX();
-        table.add(backButton).fillX().uniformX();
+        table.add(backButton).fillX().uniformX().padLeft(10);
 
     }
 
