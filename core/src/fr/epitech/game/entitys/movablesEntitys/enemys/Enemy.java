@@ -19,15 +19,16 @@ public abstract class Enemy extends MovableEntity {
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager);
         this.world = world;
+        moveTo(32, 32);
     }
 
-    public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
-        super(batch, world, name, coordinate, texture, entityManager, waveManager);
+    public Enemy(SpriteBatch batch, World world, String zombie, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
+        super( batch, world, zombie, coordinate, texture, entityManager, waveManager);
         this.world = world;
         moveTo(0, 1000);
     }
 
     public void moveTo(float x, float y){
-        super.moveTo(x, y);
+
     }
 }

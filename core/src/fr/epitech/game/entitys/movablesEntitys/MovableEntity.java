@@ -1,31 +1,34 @@
 package fr.epitech.game.entitys.movablesEntitys;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import fr.epitech.game.directions.Direction;
 import fr.epitech.game.inventorys.Inventory;
 import fr.epitech.game.inventorys.items.equipables.armors.Armor;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
-import fr.epitech.game.map.Chunk;
-import org.w3c.dom.Text;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
     protected int health;
     protected int maxHealth;
     protected Inventory inventory;
     protected float speed;
+    protected float jumpDuration = 0;
+    protected Vector2 velocity = new Vector2(0, 0);
+    protected boolean isJumping = false, isFalling = false;
+    protected float lastY = 0;
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 100;
+        this.speed = 10000;
     }
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
@@ -33,13 +36,49 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 100 * Chunk.TILE_SIZE * Chunk.SIZE_Y;
+        this.speed = 10000;
+    }
+
+    public void handleInputMovement(){
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            this.velocity.x = -this.speed;
+            reverted = false;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            this.velocity.x = this.speed;
+            reverted = true;
+        } else {
+            this.velocity.x = 0;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && !isFalling && !isJumping){
+            isJumping = true;
+            jumpDuration = 0.5f;
+            this.velocity.y = this.speed;
+        }
     }
 
     public void update(float delta) {
+        float currentY = b2body.getPosition().y;
+        isFalling = lastY != currentY;
+
+        lastY = currentY;
+
+        if(jumpDuration > 0){
+            jumpDuration -= delta;
+        } else {
+            velocity.y = -this.speed;
+            isJumping = false;
+        }
+
+        if(b2body.getPosition().x <= 16){
+            velocity.x = speed / 2;
+        }
+
+        b2body.setLinearVelocity(velocity);
+
         if(this.b2body.getLinearVelocity().x != 0){
             if(this.animation != null){
-                this.stateTime += delta;
+                this.stateTime += stateTime == 0 ? frameDuration : delta;
             }
         } else {
             this.stateTime = 0;
@@ -49,32 +88,6 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
 
-
-    public void moveTo(float x, float y){
-        this.coordinate.x = x;
-        this.coordinate.y = y;
-    }
-
-    public void moveTo(Vector2 coordinate){
-        this.coordinate = coordinate;
-    }
-
-    public void move(Direction direction){
-        switch (direction){
-            case LEFT:
-                //b2body.applyLinearImpulse(new Vector2(1f * Chunk.TILE_SIZE * Chunk.SIZE_Y, 0), b2body.getWorldCenter(), true);
-                break;
-            case RIGHT:
-                //b2body.applyLinearImpulse(new Vector2(-1f * Chunk.TILE_SIZE * Chunk.SIZE_Y, 0), b2body.getWorldCenter(), true);
-                break;
-        }
-    }
-
-    public void jump(){
-        if(b2body.getLinearVelocity().y == 0){
-            //b2body.applyLinearImpulse(new Vector2(0, 10000 * Chunk.TILE_SIZE * Chunk.SIZE_Y), b2body.getWorldCenter(), true);
-        }
-    }
 
     public Integer getHealth(){
         return this.health;
