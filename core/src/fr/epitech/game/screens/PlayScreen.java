@@ -47,7 +47,7 @@ public class PlayScreen implements Screen {
         this.worldMap = new WorldMap(game.getBatch());
         this.entityManager = new EntityManager(game.getBatch(), worldMap.getWorld());
         this.waveManager = new WaveManager(entityManager);
-        Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
+        Character player = new Wizard(game.getBatch(), worldMap.getWorld(), "Barbarian", new Vector2(EpiGame.V_WIDTH / 2f, 1000), entityManager, waveManager);
         this.entityManager.setPlayer(player);
         this.playerInputHandler = new PlayerInputHandler(entityManager);
         this.hud = new Hud(new SpriteBatch(), waveManager, entityManager);
