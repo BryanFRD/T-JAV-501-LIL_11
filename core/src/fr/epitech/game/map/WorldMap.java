@@ -38,12 +38,13 @@ public class WorldMap {
         this.batch = batch;
         this.loadedChunks = new ArrayList<>();
         this.seed = new Random().nextDouble();
-        this.world = new World(new Vector2(0, -10 * Chunk.TILE_SIZE * Chunk.SIZE_Y), true);
+        this.world = new World(new Vector2(0, -9.8f), true);
+        System.out.println((this.world.getGravity()));
         this.b2dr = new Box2DDebugRenderer();
     }
 
     public void update(float delta){
-        world.step(1/60f, 6, 2);
+        world.step(1, 6, 2);
     }
 
     public void render(){

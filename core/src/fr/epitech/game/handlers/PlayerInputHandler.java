@@ -15,14 +15,8 @@ public class PlayerInputHandler {
     }
 
     public void handle(float delta){
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            this.player.move(Direction.RIGHT);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            this.player.move(Direction.LEFT);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            this.player.jump();
+        if(player != null){
+            player.handleInputMovement();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             Gdx.app.exit();
