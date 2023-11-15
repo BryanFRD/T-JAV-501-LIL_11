@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.directions.Direction;
 import fr.epitech.game.inventorys.Inventory;
 import fr.epitech.game.inventorys.items.equipables.armors.Armor;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
@@ -51,6 +52,24 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity{
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) && !isFalling && !isJumping){
+            isJumping = true;
+            jumpDuration = 0.5f;
+            this.velocity.y = this.speed;
+        }
+    }
+
+    public void move(Direction direction){
+        if(direction == Direction.LEFT){
+            this.velocity.x = -this.speed;
+            reverted = false;
+        } else if(direction == Direction.RIGHT){
+            this.velocity.x = this.speed;
+            reverted = true;
+        } else {
+            this.velocity.x = 0;
+        }
+
+        if(direction == Direction.UP && !isFalling && !isJumping){
             isJumping = true;
             jumpDuration = 0.5f;
             this.velocity.y = this.speed;
