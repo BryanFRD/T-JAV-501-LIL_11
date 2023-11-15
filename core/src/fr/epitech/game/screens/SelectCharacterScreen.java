@@ -194,8 +194,4 @@ public class SelectCharacterScreen implements Screen {
         archerButton.getLabel().setColor(Color.WHITE);
     }
 
-    private Container<Image> createTexture() {
-
-    }
-
 }
