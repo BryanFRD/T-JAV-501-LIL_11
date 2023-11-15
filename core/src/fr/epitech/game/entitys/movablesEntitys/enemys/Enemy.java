@@ -16,9 +16,6 @@ import fr.epitech.game.map.WorldMap;
 
 public abstract class Enemy extends MovableEntity {
     protected World world;
-    public Body b2body;
-
-    private Character player;
     float lastx, curretx;
 
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
@@ -43,14 +40,14 @@ public abstract class Enemy extends MovableEntity {
         curretx = b2body.getPosition().x;
         lastx = curretx;
         //moveTo(player.getCoordinate().x, player.getCoordinate().y);
-        if (player.getCoordinate().x > b2body.getPosition().x) {
+        if (entityManager.getPlayer().getCoordinate().x > b2body.getPosition().x) {
             move(Direction.RIGHT);
 
             if (lastx != curretx) {
                 move(Direction.UP);
             }
 
-        } else if (player.getCoordinate().x < b2body.getPosition().x) {
+        } else if (entityManager.getPlayer().getCoordinate().x < b2body.getPosition().x) {
             move(Direction.LEFT);
 
             if (lastx != curretx) {
