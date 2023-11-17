@@ -16,4 +16,9 @@ public class Barbarian extends Character {
         super(batch, world, name, coordinate, new TextureRegion(new Texture("knight.png")).split(16, 16)[new Random().nextInt(4)], entityManager, waveManager, 0, 100, 100);
     }
 
+    @Override
+    public void attack() {
+        System.out.println("Attack");
+    }
+    
 }

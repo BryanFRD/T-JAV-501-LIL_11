@@ -14,7 +14,6 @@ import fr.epitech.game.managers.WaveManager;
 public abstract class Character extends MovableEntity {
 
     protected int gold;
-
     protected int capacity;
     protected int maxCapacity;
 
