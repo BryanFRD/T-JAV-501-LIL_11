@@ -46,21 +46,24 @@ public class Hud {
         waveTimerLayout = new GlyphLayout(font, "0s");
 
         healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
-        healthForeground = new Texture(Gdx.files.internal("Bars/bar_89.png"));
+        healthForeground = new Texture(Gdx.files.internal("whitepixel.png"));
     }
 
     public void update(float delta){
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
         waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
+        entityManager.getPlayer().receiveDamage(10);
     }
 
     public void render() {
         batch.begin();
 
         batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
-        batch.draw(healthForeground, x, y, healthBarWidth * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight);
+        batch.setColor(Color.RED);
+        batch.draw(healthForeground, x + 15, y + healthBarHeight / 4f, (healthBarWidth - 20) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
+        batch.setColor(Color.WHITE);
 
-        font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 10, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
+        font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 20, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
 
         if(waveManager.isNewWave()){
             font.draw(batch, waveTimerPrefixLayout, EpiGame.V_WIDTH / 2f - waveTimerPrefixLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height / 2 - 10);

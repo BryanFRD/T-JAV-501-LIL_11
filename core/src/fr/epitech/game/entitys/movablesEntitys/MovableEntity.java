@@ -24,6 +24,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     protected Vector2 velocity = new Vector2(0, 0);
     protected boolean isJumping = false, isFalling = false;
     protected float lastY = 0;
+    protected float invicibilityTimer = 0;
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager);
@@ -60,6 +61,10 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     }
 
     public void update(float delta) {
+        if(invicibilityTimer > 0){
+            invicibilityTimer -= delta;
+        }
+
         float currentY = b2body.getPosition().y;
         isFalling = lastY != currentY;
 
@@ -92,6 +97,16 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
     public void attack(){
 
+    }
+
+    public void receiveDamage(int damage){
+        //TODO get armor
+        if(this.invicibilityTimer > 0){
+            return;
+        }
+        invicibilityTimer = 1;
+
+        this.health = Math.max(0, this.health - Math.max(1, damage - 0));
     }
 
     public Integer getHealth(){
