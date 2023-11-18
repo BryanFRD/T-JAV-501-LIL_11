@@ -11,7 +11,7 @@ import fr.epitech.game.SimplexNoise;
 
 public class Chunk {
 
-    public static final int SIZE_X = 16, SIZE_Y = 64, TILE_SIZE = 32;
+    public static final int SIZE_X = 16, SIZE_Y = 64, TILE_SIZE = 8;
     private final TiledMapTileLayer.Cell[][] cells;
     private final World world;
     private final double seed;

@@ -7,8 +7,8 @@ import fr.epitech.game.screens.MainScreen;
 
 public class EpiGame extends Game {
 
-	public static final int V_WIDTH = 1920;
-	public static final int V_HEIGHT = 1080;
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 208;
 	private SpriteBatch batch;
 
 	@Override

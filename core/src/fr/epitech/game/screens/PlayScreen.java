@@ -75,10 +75,11 @@ public class PlayScreen implements Screen {
         float cameraX = Math.max(entityManager.getPlayer().getCoordinate().x, EpiGame.V_WIDTH / 2f);
         float cameraY = Math.max(Math.min(entityManager.getPlayer().getCoordinate().y, Chunk.SIZE_Y * Chunk.TILE_SIZE - EpiGame.V_HEIGHT / 2f), EpiGame.V_HEIGHT / 2f);
 
-        camera.position.slerp(new Vector3(cameraX, cameraY, 0), 0.01f);
+        //camera.position.slerp(new Vector3(cameraX, cameraY, 0), 0.01f);
+        camera.position.set(cameraX, cameraY, 0);
         camera.update();
         worldMap.update(delta);
-        worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
+        //worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
 
         entityManager.update(delta);
         waveManager.update(delta);

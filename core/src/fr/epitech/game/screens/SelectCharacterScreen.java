@@ -134,9 +134,9 @@ public class SelectCharacterScreen implements Screen {
         table.row().pad(75, 0, 0, 0);
         table.row().pad(10, 0, 0, 0);
         table.add(barbarianContainer, mageContainer, archerContainer).center().row().padBottom(20);
-        table.row().pad(20, 0, 0, 0);
+        table.row().pad(0, 0, 0, 0);
         table.add(barbarianButton, mageButton, archerButton);
-        table.row().pad(50, 100, 0, 100);
+        table.row().pad(0, 100, 0, 100);
         table.add(selectButton).fillX().uniformX().colspan(3);
         table.row().pad(20,100,0,100);
         table.add(backButton).colspan(3).fillX().uniformX();

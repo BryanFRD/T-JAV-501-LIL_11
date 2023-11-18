@@ -44,7 +44,7 @@ public class WorldMap {
     }
 
     public void update(float delta){
-        world.step(1, 6, 2);
+        world.step(1/60f, 6, 2);
     }
 
     public void render(){
@@ -66,10 +66,10 @@ public class WorldMap {
         }
     }
 
-    public void updatePlayerPosition(float playerX, float playerY){
+    /*public void updatePlayerPosition(float playerX, float playerY){
         this.playerX = (int) playerX / (Chunk.TILE_SIZE * Chunk.SIZE_X);
         this.playerY = (int) playerY / (Chunk.TILE_SIZE * Chunk.SIZE_Y);
-    }
+    }*/
 
     public World getWorld() {
         return world;

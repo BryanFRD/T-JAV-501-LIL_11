@@ -31,7 +31,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10000;
+        this.speed = 10;
     }
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
@@ -39,7 +39,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10000;
+        this.speed = 10;
     }
 
     public void move(Direction direction){
@@ -73,7 +73,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         if(jumpDuration > 0){
             jumpDuration -= delta;
         } else {
-            velocity.y = -this.speed;
+            velocity.y = -100;
             isJumping = false;
         }
 
