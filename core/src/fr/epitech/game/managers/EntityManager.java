@@ -30,7 +30,7 @@ public class EntityManager {
         for(Enemy enemy : enemies){
             if(enemy.getHealth() == 0)
                 enemies.remove(enemy);
-            enemy.update(delta);
+            //enemy.update(delta);
         }
     }
 

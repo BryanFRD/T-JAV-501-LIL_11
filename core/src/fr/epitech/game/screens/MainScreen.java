@@ -38,9 +38,7 @@ public class MainScreen implements Screen {
         stage.addActor(backgroundImage);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 100;
         BitmapFont labelFont = generator.generateFont(parameter);
-        parameter.size = 50;
         BitmapFont buttonFont = generator.generateFont(parameter);
         generator.dispose();
 
@@ -61,11 +59,8 @@ public class MainScreen implements Screen {
 
         Label title = new Label("EpiGame", labelStyle);
         playButton = new TextButton("Play", skin);
-        playButton.getLabelCell().padBottom(30);
         settingsButton = new TextButton("Settings", skin);
-        settingsButton.getLabelCell().padBottom(30);
         exitButton = new TextButton("Exit", skin);
-        exitButton.getLabelCell().padBottom(30);
 
         playButton.addListener(new ClickListener() {
             @Override

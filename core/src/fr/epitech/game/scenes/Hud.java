@@ -26,7 +26,7 @@ public class Hud {
     private Texture healthBackground, healthForeground;
     private final int healthBarWidth = 200, healthBarHeight = 30;
     private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - healthBarHeight - 10);
-    private int x = 10, y = EpiGame.V_HEIGHT - healthBarHeight - 10;
+    private float x = 10, y = EpiGame.V_HEIGHT - healthBarHeight - 10;
     private final WaveManager waveManager;
     private final EntityManager entityManager;
 

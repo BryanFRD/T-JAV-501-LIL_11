@@ -24,7 +24,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     protected Vector2 velocity = new Vector2(0, 0);
     protected boolean isJumping = false, isFalling = false;
     protected float lastY = 0;
-    protected float invicibilityTimer = 0;
+    protected float invincibilityTimer = 0;
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager);
@@ -61,8 +61,8 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     }
 
     public void update(float delta) {
-        if(invicibilityTimer > 0){
-            invicibilityTimer -= delta;
+        if(invincibilityTimer > 0){
+            invincibilityTimer -= delta;
         }
 
         float currentY = b2body.getPosition().y;
@@ -73,15 +73,15 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         if(jumpDuration > 0){
             jumpDuration -= delta;
         } else {
-            velocity.y = -100;
+            velocity.y = world.getGravity().y;
             isJumping = false;
         }
 
-        if(b2body.getPosition().x <= 16){
-            velocity.x = speed / 2;
+        if(b2body.getPosition().x <= 5){
+            velocity.x = speed;
         }
 
-        b2body.setLinearVelocity(velocity);
+        b2body.applyLinearImpulse(velocity, b2body.getWorldCenter(), true);
 
         if(this.b2body.getLinearVelocity().x != 0){
             if(this.animation != null){
@@ -101,10 +101,10 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
     public void receiveDamage(int damage){
         //TODO get armor
-        if(this.invicibilityTimer > 0){
+        if(this.invincibilityTimer > 0){
             return;
         }
-        invicibilityTimer = 1;
+        invincibilityTimer = 1;
 
         this.health = Math.max(0, this.health - Math.max(1, damage - 0));
     }
@@ -143,9 +143,9 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
             this.velocity.x = this.speed;
             reverted = true;
         } else if(keycode == Input.Keys.W && !isFalling && !isJumping){
+            this.velocity.y = this.speed;
             isJumping = true;
             jumpDuration = 0.5f;
-            this.velocity.y = this.speed;
         }
 
         if(keycode == Input.Keys.ESCAPE){

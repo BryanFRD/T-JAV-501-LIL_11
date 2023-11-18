@@ -25,8 +25,8 @@ public abstract class Entity extends Sprite {
     protected Animation<TextureRegion> animation;
     protected float stateTime;
     protected float frameDuration = 0.25f;
-    protected float width = 16;
-    protected float height = 8;
+    protected float width = 0.5f;
+    protected float height = 1;
     protected boolean reverted = true;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
@@ -41,6 +41,7 @@ public abstract class Entity extends Sprite {
     }
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
+        super(textureRegions[0]);
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
@@ -61,7 +62,7 @@ public abstract class Entity extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(this.height, this.width);
+        shape.setAsBox(this.width, this.height);
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
@@ -83,12 +84,12 @@ public abstract class Entity extends Sprite {
     public void render() {
         batch.begin();
 
-        if(this.getTexture() != null){
-            Texture texture = this.getTexture();
-            batch.draw(texture, b2body.getPosition().x - texture.getWidth() * 2, b2body.getPosition().y - texture.getHeight() * 2, 64, 64);
-        } else if(this.animation != null){
+        if(this.animation != null){
             TextureRegion textureRegion = this.animation.getKeyFrame(stateTime, true);
-            batch.draw(textureRegion, b2body.getPosition().x + (textureRegion.getRegionWidth() * 2) * (reverted ? 1 : -1), b2body.getPosition().y - textureRegion.getRegionHeight() * 2, 16 * (reverted ? -1 : 1), 16);
+            batch.draw(textureRegion, b2body.getPosition().x - width * 2 * (reverted ? -1 : 1), b2body.getPosition().y - height, width * 4 * (reverted ? -1 : 1), height * 2);
+        } else if(this.getTexture() != null){
+            Texture texture = this.getTexture();
+            batch.draw(texture, b2body.getPosition().x - width * 2 * (reverted ? -1 : 1), b2body.getPosition().y - height, width * 4 * (reverted ? -1 : 1), height * 2);
         }
 
         batch.end();
