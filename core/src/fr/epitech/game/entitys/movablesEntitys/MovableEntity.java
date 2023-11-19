@@ -187,6 +187,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(button == 0){
+            //TODO: Get angle from mouse position and player position
             float angle = MathUtils.atan2(Gdx.graphics.getHeight() - screenY - Gdx.graphics.getHeight() / 2f, screenX - Gdx.graphics.getWidth() / 2f);
             attack(angle);
         }
