@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.epitech.game.EpiGame;
 import fr.epitech.game.SimplexNoise;
 
 public class Chunk {
@@ -74,6 +75,8 @@ public class Chunk {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2, height / 2);
         fdef.shape = shape;
+        fdef.filter.categoryBits = EpiGame.WORLD_BIT;
+
         body.createFixture(fdef);
     }
 

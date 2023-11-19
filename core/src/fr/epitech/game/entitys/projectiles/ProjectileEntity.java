@@ -1,0 +1,52 @@
+package fr.epitech.game.entitys.projectiles;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import fr.epitech.game.entitys.Entity;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
+import fr.epitech.game.managers.EntityManager;
+
+public abstract class ProjectileEntity extends Entity {
+
+    protected Vector2 startPosition;
+    protected float speed = 1000f;
+    protected float damage = 10f;
+    protected float range = 5000f;
+
+    public ProjectileEntity(SpriteBatch batch, World world, Vector2 coordinate, String name, TextureRegion[] textureRegions, EntityManager entityManager, float angle, short categoryBits, short maskBits) {
+        super(batch, world, name, coordinate, textureRegions, entityManager, null, categoryBits, maskBits);
+        this.startPosition = coordinate;
+        this.angle = angle;
+        this.frameDuration = 0.05f;
+        this.forcedAnimation = true;
+    }
+
+    public void update(float delta){
+        super.update(delta);
+
+        float x = (float) (Math.cos(angle) * speed) * delta;
+        float y = (float) (Math.sin(angle) * speed) * delta;
+
+        this.b2body.setLinearVelocity(x, y);
+
+        checksCollision();
+    }
+
+    public void checksCollision(){
+        for(Enemy enemy : entityManager.getEnemies()){
+            if(Intersector.overlaps(enemy.getBoundingRectangle(), this.getBoundingRectangle())){
+                enemy.receiveDamage(damage);
+                destroy();
+            }
+        }
+    }
+
+    public void destroy(){
+        this.entityManager.removeProjectile(this);
+    }
+
+}

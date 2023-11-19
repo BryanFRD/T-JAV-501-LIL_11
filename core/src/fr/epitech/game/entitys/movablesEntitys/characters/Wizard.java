@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.inventorys.items.equipables.weapons.WizardStaff;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
@@ -14,6 +15,7 @@ public class Wizard extends Character {
 
     public Wizard(SpriteBatch batch, World world, String name, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
         super(batch, world, name, coordinate, new TextureRegion(new Texture("wizard.png")).split(16, 16)[new Random().nextInt(4)], entityManager, waveManager, 0, 100, 100);
+        getInventory().setCurrentWeapon(new WizardStaff(batch, world, entityManager, this, "Wizard Staff", 10));
     }
 
 }
