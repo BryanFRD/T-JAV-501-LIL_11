@@ -17,7 +17,7 @@ public class Barbarian extends Character {
     }
 
     @Override
-    public void attack() {
+    public void attack(float angle) {
         System.out.println("Attack");
     }
     

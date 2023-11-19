@@ -36,9 +36,12 @@ public class MainScreen implements Screen {
         Image backgroundImage = new Image(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
+
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 180;
         BitmapFont labelFont = generator.generateFont(parameter);
+        parameter.size = 100;
         BitmapFont buttonFont = generator.generateFont(parameter);
         generator.dispose();
 
@@ -83,13 +86,17 @@ public class MainScreen implements Screen {
             }
         });
 
+        playButton.getLabelCell().padBottom(75);
+        settingsButton.getLabelCell().padBottom(75);
+        exitButton.getLabelCell().padBottom(75);
+
         table.add(title).fillX().uniformX();
         table.row().pad(250, 0, 0, 0);
-        table.add(playButton).width(250).height(75);
-        table.row().pad(10, 0, 0, 0);
-        table.add(settingsButton).width(250).height(75);
-        table.row().pad(10, 0, 0, 0);
-        table.add(exitButton).width(250).height(75);
+        table.add(playButton).width(400).height(175);
+        table.row().pad(50, 0, 0, 0);
+        table.add(settingsButton).width(400).height(175);
+        table.row().pad(50, 0, 0, 0);
+        table.add(exitButton).width(400).height(175);
     }
 
     @Override

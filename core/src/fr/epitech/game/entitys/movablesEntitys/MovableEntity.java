@@ -31,7 +31,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10;
+        this.speed = 10f;
     }
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
@@ -39,7 +39,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10;
+        this.speed = 10f;
     }
 
     public void move(Direction direction){
@@ -56,7 +56,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         if(direction == Direction.UP && !isFalling && !isJumping){
             isJumping = true;
             jumpDuration = 0.5f;
-            this.velocity.y = this.speed;
+            this.velocity.y = 4;
         }
     }
 
@@ -81,7 +81,9 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
             velocity.x = speed;
         }
 
-        b2body.applyLinearImpulse(velocity, b2body.getWorldCenter(), true);
+        b2body.setLinearVelocity(velocity.x, 0);
+        b2body.applyLinearImpulse(0, velocity.y, b2body.getWorldCenter().x, b2body.getWorldCenter().y, true);
+        System.out.println(b2body.getLinearVelocity().y);
 
         if(this.b2body.getLinearVelocity().x != 0){
             if(this.animation != null){
@@ -95,8 +97,12 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
 
-    public void attack(){
+    public void attack(float angle){
+        if(this.inventory.getWeapon() == null){
+            return;
+        }
 
+        this.inventory.getWeapon().attack(this.getCoordinate(), angle);
     }
 
     public void receiveDamage(int damage){
@@ -143,9 +149,11 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
             this.velocity.x = this.speed;
             reverted = true;
         } else if(keycode == Input.Keys.W && !isFalling && !isJumping){
-            this.velocity.y = this.speed;
+            this.velocity.y = 7.5f;
             isJumping = true;
-            jumpDuration = 0.5f;
+            jumpDuration = 0.25f;
+        } else {
+            jumpDuration = 0;
         }
 
         if(keycode == Input.Keys.ESCAPE){

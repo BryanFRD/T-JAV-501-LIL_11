@@ -24,7 +24,7 @@ public abstract class Entity extends Sprite {
     protected TextureRegion[] textureRegions;
     protected Animation<TextureRegion> animation;
     protected float stateTime;
-    protected float frameDuration = 0.25f;
+    protected float frameDuration = 0.20f;
     protected float width = 0.5f;
     protected float height = 1;
     protected boolean reverted = true;
@@ -95,5 +95,8 @@ public abstract class Entity extends Sprite {
         batch.end();
     }
 
+    public Body getB2body() {
+        return b2body;
+    }
 
 }
