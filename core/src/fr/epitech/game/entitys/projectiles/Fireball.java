@@ -13,8 +13,10 @@ import fr.epitech.game.managers.EntityManager;
 
 public class Fireball extends ProjectileEntity {
 
-    public Fireball(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, float angle, short categoryBits, short maskBits) {
+    public Fireball(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, float angle, float damage, short categoryBits, short maskBits) {
         super(batch, world, coordinate, "Fireball", new TextureRegion[5], entityManager, angle, categoryBits, maskBits);
+
+        this.damage = damage;
 
         this.textureRegions[0] = new TextureRegion(new Texture("fireball_V_1_1/FB500-1.png"));
         this.textureRegions[1] = new TextureRegion(new Texture("fireball_V_1_1/FB500-2.png"));

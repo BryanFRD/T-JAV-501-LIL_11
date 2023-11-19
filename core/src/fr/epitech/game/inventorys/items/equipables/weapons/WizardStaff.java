@@ -2,6 +2,7 @@ package fr.epitech.game.inventorys.items.equipables.weapons;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.EpiGame;
 import fr.epitech.game.entitys.Entity;
 import fr.epitech.game.entitys.projectiles.Fireball;
 import fr.epitech.game.managers.EntityManager;
@@ -14,7 +15,7 @@ public class WizardStaff extends Weapon {
 
     @Override
     public void attack(float angle) {
-        Fireball fireball = new Fireball(batch, world, holder.getPosition(), entityManager, angle, holder.getCategoryBits(), holder.getMaskBits());
+        Fireball fireball = new Fireball(batch, world, holder.getPosition(), entityManager, angle, damage, holder.getCategoryBits(), EpiGame.NOTHING_BIT);
         entityManager.addProjectiles(fireball);
     }
 
