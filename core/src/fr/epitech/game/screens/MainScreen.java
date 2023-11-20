@@ -53,6 +53,8 @@ public class MainScreen implements Screen {
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
 
+        /* test */
+
         skin.add("default", textButtonStyle);
 
         Table table = new Table();
