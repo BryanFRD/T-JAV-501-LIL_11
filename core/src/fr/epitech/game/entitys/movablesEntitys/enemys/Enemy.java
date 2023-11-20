@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.math.Vector2;
+import fr.epitech.game.EpiGame;
 import fr.epitech.game.directions.Direction;
 import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
@@ -19,15 +20,13 @@ public abstract class Enemy extends MovableEntity {
     float lastx, curretx;
 
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
-        super(batch, world, name, coordinate, texture, entityManager, waveManager);
+        super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.ENEMY_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.PLAYER_BIT));
         this.world = world;
-        moveTo(32, 32);
     }
 
     public Enemy(SpriteBatch batch, World world, String zombie, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager) {
-        super( batch, world, zombie, coordinate, texture, entityManager, waveManager);
+        super( batch, world, zombie, coordinate, texture, entityManager, waveManager, EpiGame.ENEMY_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.PLAYER_BIT));
         this.world = world;
-        moveTo(0, 1000);
     }
 
     public void moveTo(float x, float y){
@@ -39,15 +38,15 @@ public abstract class Enemy extends MovableEntity {
         super.update(delta);
         curretx = b2body.getPosition().x;
         lastx = curretx;
-        //moveTo(player.getCoordinate().x, player.getCoordinate().y);
-        if (entityManager.getPlayer().getCoordinate().x > b2body.getPosition().x) {
+
+        if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
             move(Direction.RIGHT);
 
             if (lastx != curretx) {
                 move(Direction.UP);
             }
 
-        } else if (entityManager.getPlayer().getCoordinate().x < b2body.getPosition().x) {
+        } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
             move(Direction.LEFT);
 
             if (lastx != curretx) {

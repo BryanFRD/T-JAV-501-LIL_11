@@ -3,34 +3,45 @@ package fr.epitech.game.managers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.entitys.projectiles.ProjectileEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
-import fr.epitech.game.entitys.movablesEntitys.enemys.Skeleton;
-import fr.epitech.game.entitys.movablesEntitys.enemys.Witch;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Zombie;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EntityManager {
 
     private Character player;
     private final List<Enemy> enemies;
+    private final List<ProjectileEntity> projectiles;
     private final SpriteBatch batch;
     private final World world;
 
     public EntityManager(SpriteBatch batch, World world){
         this.enemies = new ArrayList<>();
+        this.projectiles = new ArrayList<>();
         this.batch = batch;
         this.world = world;
     }
 
     public void update(float delta){
         player.update(delta);
-        for(Enemy enemy : enemies){
-            if(enemy.getHealth() == 0)
+        for(Enemy enemy : enemies.toArray(new Enemy[0])){
+            if(enemy.getHealth() == 0){
+                enemy.delete();
                 enemies.remove(enemy);
+                continue;
+            }
             enemy.update(delta);
+        }
+
+        for (ProjectileEntity projectile : projectiles.toArray(new ProjectileEntity[0])) {
+            projectile.update(delta);
         }
     }
 
@@ -39,14 +50,16 @@ public class EntityManager {
             enemy.render();
         }
 
+        for (ProjectileEntity projectile : projectiles) {
+            projectile.render();
+        }
+
         player.render();
     }
 
     public void generateEnemies(int wave){
         for(int i = 0; i < wave; i++){
-            enemies.add(new Zombie(batch, world, new Vector2(), this, null));
-            //enemies.add(new Witch(batch, world, new Vector2(), this, null));
-            //enemies.add(new Skeleton(batch, world, new Vector2(), this, null));
+            enemies.add(new Zombie(batch, world, new Vector2(10, 50), this, null));
         }
     }
 
@@ -59,6 +72,19 @@ public class EntityManager {
 
     public List<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void addProjectiles(ProjectileEntity projectile){
+        this.projectiles.add(projectile);
+    }
+
+    public List<ProjectileEntity> getProjectiles() {
+        return projectiles;
+    }
+
+    public void removeProjectile(ProjectileEntity projectile){
+        projectile.delete();
+        this.projectiles.remove(projectile);
     }
 
 }

@@ -23,14 +23,13 @@ public class SelectCharacterScreen implements Screen {
     private final Skin skin;
     private final TextButton selectButton, barbarianButton, mageButton, archerButton, backButton;
 
-    private String selectedCharacter = "Barbarian";
+    private String selectedCharacter = "Mage";
 
     public SelectCharacterScreen(final EpiGame game) {
 
         this.stage = new Stage(new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT));
         this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
-
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -46,15 +45,11 @@ public class SelectCharacterScreen implements Screen {
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
 
-
         CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
         checkBoxStyle.font = font;
 
-
         skin.add("default", textButtonStyle);
         skin.add("default", checkBoxStyle);
-
-
 
         Label title = new Label("Select your character", labelStyle);
         Label emptyLabel = new Label("", labelStyle);
@@ -67,7 +62,6 @@ public class SelectCharacterScreen implements Screen {
             }
         });
 
-
         backButton = new TextButton("Back", skin);
         backButton.addListener(new ClickListener() {
             @Override
@@ -75,7 +69,6 @@ public class SelectCharacterScreen implements Screen {
                 game.setScreen(new MainScreen(game));
             }
         });
-
 
         barbarianButton = new CheckBox("Barbarian", skin);
         barbarianButton.addListener(new ClickListener() {
@@ -125,7 +118,6 @@ public class SelectCharacterScreen implements Screen {
         Container<Image> archerContainer = new Container<>(archerImage);
         archerContainer.size(mageImage.getWidth() * 8, mageImage.getHeight() * 8);
 
-
         Table table = new Table();
         table.setFillParent(true);
         table.center();
@@ -134,13 +126,12 @@ public class SelectCharacterScreen implements Screen {
         table.row().pad(75, 0, 0, 0);
         table.row().pad(10, 0, 0, 0);
         table.add(barbarianContainer, mageContainer, archerContainer).center().row().padBottom(20);
-        table.row().pad(20, 0, 0, 0);
+        table.row().pad(0, 0, 0, 0);
         table.add(barbarianButton, mageButton, archerButton);
-        table.row().pad(50, 100, 0, 100);
+        table.row().pad(0, 100, 0, 100);
         table.add(selectButton).fillX().uniformX().colspan(3);
         table.row().pad(20,100,0,100);
         table.add(backButton).colspan(3).fillX().uniformX();
-
     }
 
     @Override

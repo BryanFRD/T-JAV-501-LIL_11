@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.directions.Direction;
@@ -16,29 +17,30 @@ import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity implements InputProcessor {
-    protected int health;
-    protected int maxHealth;
+    protected float health;
+    protected float maxHealth;
     protected Inventory inventory;
     protected float speed;
     protected float jumpDuration = 0;
     protected Vector2 velocity = new Vector2(0, 0);
     protected boolean isJumping = false, isFalling = false;
     protected float lastY = 0;
+    protected float invincibilityTimer = 0;
 
-    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager){
-        super(batch, world, name, coordinate, texture, entityManager, waveManager);
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
+        super(batch, world, name, coordinate, texture, entityManager, waveManager, categoryBits, maskBits);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10000;
+        this.speed = 10f;
     }
 
-    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager){
-        super(batch, world, name, coordinate, textureRegions, entityManager, waveManager);
+    public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
+        super(batch, world, name, coordinate, textureRegions, entityManager, waveManager, categoryBits, maskBits);
         this.health = 100;
         this.maxHealth = 100;
         this.inventory = new Inventory();
-        this.speed = 10000;
+        this.speed = 10f;
     }
 
     public void move(Direction direction){
@@ -55,11 +57,17 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         if(direction == Direction.UP && !isFalling && !isJumping){
             isJumping = true;
             jumpDuration = 0.5f;
-            this.velocity.y = this.speed;
+            this.velocity.y = 4;
         }
     }
 
     public void update(float delta) {
+        super.update(delta);
+
+        if(invincibilityTimer > 0){
+            invincibilityTimer -= delta;
+        }
+
         float currentY = b2body.getPosition().y;
         isFalling = lastY != currentY;
 
@@ -68,37 +76,48 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         if(jumpDuration > 0){
             jumpDuration -= delta;
         } else {
-            velocity.y = -this.speed;
+            velocity.y = world.getGravity().y;
             isJumping = false;
         }
 
-        if(b2body.getPosition().x <= 16){
-            velocity.x = speed / 2;
+        if(b2body.getPosition().x <= 5){
+            velocity.x = speed;
         }
 
-        b2body.setLinearVelocity(velocity);
-
-        if(this.b2body.getLinearVelocity().x != 0){
-            if(this.animation != null){
-                this.stateTime += stateTime == 0 ? frameDuration : delta;
-            }
-        } else {
-            this.stateTime = 0;
-        }
+        b2body.setLinearVelocity(velocity.x, 0);
+        b2body.applyLinearImpulse(0, velocity.y, b2body.getWorldCenter().x, b2body.getWorldCenter().y, true);
 
         coordinate.x = b2body.getPosition().x - getWidth() / 2;
         coordinate.y = b2body.getPosition().y - getHeight() / 2;
     }
 
-    public void attack(){
+    public void attack(float angle){
+        if(this.inventory.getWeapon() == null){
+            return;
+        }
 
+        this.inventory.getWeapon().attack(angle);
     }
 
-    public Integer getHealth(){
+    public void receiveDamage(float damage){
+        //TODO get armor
+        if(this.invincibilityTimer > 0){
+            return;
+        }
+        invincibilityTimer = 1;
+        float armor = 0;
+        if(this.inventory.getArmor() != null){
+            armor = this.inventory.getArmor().getDefense();
+        }
+
+        this.health = Math.max(0, this.health - Math.max(1, damage - armor));
+    }
+
+    public float getHealth(){
         return this.health;
     }
 
-    public Integer getMaxHealth(){
+    public float getMaxHealth(){
         return this.maxHealth;
     }
 
@@ -114,7 +133,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         return this.inventory;
     }
 
-    public Integer getDamage(){
+    public float getDamage(){
         return this.inventory.getDamage();
     }
 
@@ -128,9 +147,11 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
             this.velocity.x = this.speed;
             reverted = true;
         } else if(keycode == Input.Keys.W && !isFalling && !isJumping){
+            this.velocity.y = 7.5f;
             isJumping = true;
-            jumpDuration = 0.5f;
-            this.velocity.y = this.speed;
+            jumpDuration = 0.25f;
+        } else {
+            jumpDuration = 0;
         }
 
         if(keycode == Input.Keys.ESCAPE){
@@ -165,7 +186,13 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if(button == 0){
+            //TODO: Get angle from mouse position and player position
+            float angle = MathUtils.atan2(Gdx.graphics.getHeight() - screenY - Gdx.graphics.getHeight() / 2f, screenX - Gdx.graphics.getWidth() / 2f);
+            attack(angle);
+        }
+
+        return true;
     }
 
     @Override

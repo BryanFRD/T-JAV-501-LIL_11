@@ -6,8 +6,12 @@ import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import java.util.Map;
 
 public class Inventory {
-    protected Map<Item, Integer> items;
 
+    //TODO: Implement this class
+
+    protected Map<Item, Integer> items;
+    protected Armor currentArmor;
+    protected Weapon currentWeapon;
 
     public Map<Item, Integer> getItems() {
         return items;
@@ -22,13 +26,22 @@ public class Inventory {
     }
 
     public Armor getArmor() {
-        return null;
+        return this.currentArmor;
     }
     public Weapon getWeapon() {
-        return null;
+        return this.currentWeapon;
     }
 
-    public Integer getDamage() {
-        return null;
+    public float getDamage() {
+        return 0;
     }
+
+    public void setCurrentWeapon(Weapon weapon) {
+        this.currentWeapon = weapon;
+    }
+
+    public void setCurrentArmor(Armor armor) {
+        this.currentArmor = armor;
+    }
+
 }
