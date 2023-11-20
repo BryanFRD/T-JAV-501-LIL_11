@@ -32,7 +32,7 @@ public class MainScreen implements Screen {
         this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal("Forest_background_16.png"));
+        Texture backgroundTexture = new Texture(Gdx.files.internal("background1.jpg"));
         Image backgroundImage = new Image(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
@@ -52,6 +52,8 @@ public class MainScreen implements Screen {
         textButtonStyle.font = buttonFont;
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
+
+        /* test */
 
         skin.add("default", textButtonStyle);
 
