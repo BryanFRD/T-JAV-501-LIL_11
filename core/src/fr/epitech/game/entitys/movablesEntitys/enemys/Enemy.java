@@ -37,21 +37,22 @@ public abstract class Enemy extends MovableEntity {
     public void update(float delta) {
         super.update(delta);
         curretx = b2body.getPosition().x;
-        lastx = curretx;
+        this.lastx = curretx;
 
-        if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
+        if ( curretx == this.lastx) {
+            move(Direction.UP);
+        }
+        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.05 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.05) {
+            move(Direction.STOP);
+
+        }else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
             move(Direction.RIGHT);
 
-            if (lastx != curretx) {
-                move(Direction.UP);
-            }
 
         } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
             move(Direction.LEFT);
 
-            if (lastx != curretx) {
-                move(Direction.UP);
-            }
+
         }
     }
 }

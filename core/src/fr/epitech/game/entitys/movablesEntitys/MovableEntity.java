@@ -50,7 +50,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
         } else if(direction == Direction.RIGHT){
             this.velocity.x = this.speed;
             reverted = true;
-        } else {
+        } else if (direction == Direction.STOP){
             this.velocity.x = 0;
         }
 
