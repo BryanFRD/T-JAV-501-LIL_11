@@ -37,6 +37,7 @@ public class Fireball extends ProjectileEntity {
         bdef.position.set(coordinate.x, coordinate.y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
+        b2body.setUserData(this);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
