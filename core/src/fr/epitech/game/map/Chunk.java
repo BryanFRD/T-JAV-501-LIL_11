@@ -70,7 +70,6 @@ public class Chunk {
         bdef.position.set(x + width / 2, y + height / 2);
         bdef.type = BodyDef.BodyType.StaticBody;
         Body body = world.createBody(bdef);
-        body.setUserData(this);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
@@ -79,6 +78,7 @@ public class Chunk {
         fdef.filter.categoryBits = EpiGame.WORLD_BIT;
 
         body.createFixture(fdef);
+        body.setUserData(this);
     }
 
     public TiledMapTileLayer.Cell getCell(int x, int y){

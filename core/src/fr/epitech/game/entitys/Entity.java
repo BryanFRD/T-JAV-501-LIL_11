@@ -65,7 +65,6 @@ public abstract class Entity extends Sprite {
         bdef.position.set(coordinate.x, coordinate.y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
-        b2body.setUserData(this);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
@@ -75,6 +74,7 @@ public abstract class Entity extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
+        b2body.setUserData(this);
         shape.dispose();
     }
 
@@ -130,7 +130,9 @@ public abstract class Entity extends Sprite {
     }
 
     public void delete(){
-        world.destroyBody(b2body);
+        if(!world.isLocked()){
+            world.destroyBody(b2body);
+        }
     }
 
 }

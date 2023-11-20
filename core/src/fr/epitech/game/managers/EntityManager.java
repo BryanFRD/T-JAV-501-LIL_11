@@ -40,8 +40,10 @@ public class EntityManager {
             enemy.update(delta);
         }
 
-        for (ProjectileEntity projectile : projectiles.toArray(new ProjectileEntity[0])) {
-            projectile.update(delta);
+        if(!projectiles.isEmpty()){
+            for (ProjectileEntity projectile : projectiles.toArray(new ProjectileEntity[0])) {
+                projectile.update(delta);
+            }
         }
     }
 
