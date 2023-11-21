@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import fr.epitech.game.EpiGame;
 import fr.epitech.game.directions.Direction;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.inventorys.items.equipables.weapons.WizardStaff;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
@@ -18,7 +19,7 @@ public class Witch extends Enemy{
         public Witch(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
             super(batch, world, "Witch", coordinate,
                     new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 150)[0], entityManager, waveManager);
-
+            getInventory().setCurrentWeapon(new WizardStaff(batch, world, entityManager, this, "Wizard Staff", 50));
             this.player = entityManager.getPlayer();
         }
 }
