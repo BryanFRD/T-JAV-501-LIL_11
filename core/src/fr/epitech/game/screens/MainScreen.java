@@ -32,7 +32,7 @@ public class MainScreen implements Screen {
         this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal("Forest_background_16.png"));
+        Texture backgroundTexture = new Texture(Gdx.files.internal("background1.jpg"));
         Image backgroundImage = new Image(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         stage.addActor(backgroundImage);
@@ -40,6 +40,9 @@ public class MainScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 180;
+        parameter.shadowOffsetX = 8;
+        parameter.shadowOffsetY = 8;
+        parameter.shadowColor = new Color(0, 0, 0, 0.8f);
         BitmapFont labelFont = generator.generateFont(parameter);
         parameter.size = 100;
         BitmapFont buttonFont = generator.generateFont(parameter);

@@ -33,7 +33,7 @@ public class SelectCharacterScreen implements Screen {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 25;
+        parameter.size = 50;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
 
@@ -104,19 +104,19 @@ public class SelectCharacterScreen implements Screen {
         TextureRegion barbarianTextureRegion = new TextureRegion(barbarianTexture, 16,16);
         Image barbarianImage = new Image(barbarianTextureRegion);
         Container<Image> barbarianContainer = new Container<>(barbarianImage);
-        barbarianContainer.size(barbarianImage.getWidth() * 8, barbarianImage.getHeight() * 8);
+        barbarianContainer.size(barbarianImage.getWidth() * 16, barbarianImage.getHeight() * 16);
 
         Texture mageTexture = new Texture(Gdx.files.internal("wizard.png"));
         TextureRegion mageTextureRegion = new TextureRegion(mageTexture, 16, 16);
         Image mageImage = new Image(mageTextureRegion);
         Container<Image> mageContainer = new Container<>(mageImage);
-        mageContainer.size(mageImage.getWidth() * 8, mageImage.getHeight() * 8);
+        mageContainer.size(mageImage.getWidth() * 16, mageImage.getHeight() * 16);
 
         Texture archerTexture = new Texture(Gdx.files.internal("rogue.png"));
         TextureRegion archerTextureRegion = new TextureRegion(archerTexture, 16,16);
         Image archerImage = new Image(archerTextureRegion);
         Container<Image> archerContainer = new Container<>(archerImage);
-        archerContainer.size(mageImage.getWidth() * 8, mageImage.getHeight() * 8);
+        archerContainer.size(mageImage.getWidth() * 16, mageImage.getHeight() * 16);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -124,9 +124,9 @@ public class SelectCharacterScreen implements Screen {
         stage.addActor(table);
         table.add(title).center().colspan(3).padBottom(40);
         table.row().pad(75, 0, 0, 0);
-        table.row().pad(10, 0, 0, 0);
-        table.add(barbarianContainer, mageContainer, archerContainer).center().row().padBottom(20);
-        table.row().pad(0, 0, 0, 0);
+        table.row().pad(40, 0, 40, 0);
+        table.add(barbarianContainer, mageContainer, archerContainer).center().row();
+        table.row().pad(0, 0, 40, 0);
         table.add(barbarianButton, mageButton, archerButton);
         table.row().pad(0, 100, 0, 100);
         table.add(selectButton).fillX().uniformX().colspan(3);

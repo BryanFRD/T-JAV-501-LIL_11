@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import fr.epitech.game.entitys.Entity;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Skeleton;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Witch;
 import fr.epitech.game.entitys.projectiles.ProjectileEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;

@@ -17,7 +17,7 @@ import fr.epitech.game.map.WorldMap;
 
 public abstract class Enemy extends MovableEntity {
     protected World world;
-    float lastx, curretx;
+    float lastx = 1, curretx;
 
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.ENEMY_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.PLAYER_BIT | EpiGame.ENEMY_BIT));
@@ -29,7 +29,7 @@ public abstract class Enemy extends MovableEntity {
         this.world = world;
     }
 
-    public void moveTo(float x, float y){
+    public void moveTo(float x, float y) {
 
     }
 
@@ -37,21 +37,31 @@ public abstract class Enemy extends MovableEntity {
     public void update(float delta) {
         super.update(delta);
         curretx = b2body.getPosition().x;
-        lastx = curretx;
 
-        if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
+
+        System.out.println("player x : " + entityManager.getPlayer().getPosition().x +  "   enemy x : " + b2body.getPosition().x + "   lastx : " + lastx + "   curretx : " + curretx);
+
+
+        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.25 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.25) {
+            move(Direction.STOP);
+            this.lastx = 0;
+
+
+        } else if (curretx == lastx) {
+            move(Direction.UP);
+
+
+        } else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
             move(Direction.RIGHT);
+            this.lastx = curretx;
+            //this.lastx = curretx;
 
-            if (lastx != curretx) {
-                move(Direction.UP);
-            }
 
         } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
             move(Direction.LEFT);
+            this.lastx = curretx;
+            //this.lastx = curretx;
 
-            if (lastx != curretx) {
-                move(Direction.UP);
-            }
         }
     }
 }
