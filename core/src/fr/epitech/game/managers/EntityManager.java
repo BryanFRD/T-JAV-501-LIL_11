@@ -61,9 +61,9 @@ public class EntityManager {
 
     public void generateEnemies(int wave){
         while (0 != wave){
-            enemies.add(new Zombie(batch, world, new Vector2(200, 100), this, null));
-            //enemies.add(new Witch(batch, world, new Vector2(250, 100), this, null));
-            //enemies.add(new Skeleton(batch, world, new Vector2(300, 100), this, null));
+            enemies.add(new Zombie(batch, world, new Vector2(player.getPosition().x + 150, 100), this, null));
+            enemies.add(new Witch(batch, world, new Vector2(player.getPosition().x + 200, 100), this, null));
+            enemies.add(new Skeleton(batch, world, new Vector2(player.getPosition().x + 250, 100), this, null));
             wave--;
         }
     }
