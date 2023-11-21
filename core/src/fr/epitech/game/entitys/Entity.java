@@ -34,6 +34,7 @@ public abstract class Entity extends Sprite {
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits) {
         super(texture);
+        System.out.println("Entity created");
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
@@ -47,6 +48,7 @@ public abstract class Entity extends Sprite {
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
         super(textureRegions[0] != null ? textureRegions[0] : new TextureRegion(new Texture("badlogic.jpg")));
+        System.out.println("Entity created");
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
@@ -57,20 +59,30 @@ public abstract class Entity extends Sprite {
         this.waveManager = waveManager;
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
+        System.out.println("Entity created 2");
         defineEntity();
     }
 
     public void defineEntity() {
+        System.out.println("define entity");
+
         BodyDef bdef = new BodyDef();
+        System.out.println("Body def created");
         bdef.position.set(coordinate.x, coordinate.y);
+        System.out.println("Body position set");
         bdef.type = BodyDef.BodyType.DynamicBody;
+        System.out.println("Body type set");
         b2body = world.createBody(bdef);
+
+        System.out.println("Entity created 3");
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(this.width, this.height);
         fdef.filter.categoryBits = this.categoryBits;
         fdef.filter.maskBits = this.maskBits;
+
+        System.out.println("Entity created 4");
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
@@ -129,9 +141,16 @@ public abstract class Entity extends Sprite {
         return b2body;
     }
 
+    public void dispose(){
+        if(getTexture() != null){
+            getTexture().dispose();
+        }
+    }
+
     public void delete(){
         if(!world.isLocked()){
             world.destroyBody(b2body);
+            dispose();
         }
     }
 

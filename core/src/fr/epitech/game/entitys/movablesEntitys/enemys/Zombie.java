@@ -18,8 +18,10 @@ public class Zombie extends Enemy{
     public Zombie(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
         super(batch, world, "Zombie", coordinate,
                 new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0], entityManager, waveManager);
+        System.out.println("Zombie created");
 
         this.player = entityManager.getPlayer();
+        System.out.println("Player found");
         }
 
 }

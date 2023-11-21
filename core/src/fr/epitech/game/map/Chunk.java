@@ -79,6 +79,7 @@ public class Chunk {
 
         body.createFixture(fdef);
         body.setUserData(this);
+        shape.dispose();
     }
 
     public TiledMapTileLayer.Cell getCell(int x, int y){

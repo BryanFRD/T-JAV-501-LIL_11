@@ -41,18 +41,13 @@ public abstract class ProjectileEntity extends Entity {
         float y = (float) (Math.sin(angle) * speed) * delta;
 
         this.b2body.setLinearVelocity(x, y);
-
-        //checksCollision();
     }
 
-    /*public void checksCollision(){
-        for(Enemy enemy : entityManager.getEnemies()){
-            if(Intersector.overlaps(enemy.getBoundingRectangle(), this.getBoundingRectangle())){
-                enemy.receiveDamage(damage);
-                destroy();
-            }
-        }
-    }*/
+    @Override
+    public void dispose() {
+        System.out.println("disposed");
+        super.dispose();
+    }
 
     public void destroy(){
         this.entityManager.removeProjectile(this);

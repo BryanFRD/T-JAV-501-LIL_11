@@ -28,7 +28,9 @@ public class WorldMap {
     }
 
     public void update(float delta){
-        world.step(delta, 6, 2);
+        System.out.println("Loaded chunks: " + loadedChunks.size());
+        world.step(1/60f, 6, 2);
+        System.out.println("World stepped");
     }
 
     public void render(){
