@@ -40,6 +40,9 @@ public class MainScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 180;
+        parameter.shadowOffsetX = 8;
+        parameter.shadowOffsetY = 8;
+        parameter.shadowColor = new Color(0, 0, 0, 0.8f);
         BitmapFont labelFont = generator.generateFont(parameter);
         parameter.size = 100;
         BitmapFont buttonFont = generator.generateFont(parameter);
@@ -52,8 +55,6 @@ public class MainScreen implements Screen {
         textButtonStyle.font = buttonFont;
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
-
-        /* test */
 
         skin.add("default", textButtonStyle);
 
