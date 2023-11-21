@@ -27,6 +27,7 @@ public class MainScreen implements Screen {
     private final TextButton playButton, settingsButton, exitButton;
 
     public MainScreen(final EpiGame game){
+
         this.game = game;
         this.stage = new Stage(new FitViewport(EpiGame.V_WIDTH, EpiGame.V_HEIGHT));
         this.skin = new Skin();
