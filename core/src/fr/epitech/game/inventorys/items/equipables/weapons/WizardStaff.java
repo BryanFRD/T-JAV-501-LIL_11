@@ -15,7 +15,7 @@ public class WizardStaff extends Weapon {
 
     @Override
     public void attack(float angle) {
-        Fireball fireball = new Fireball(batch, world, holder.getPosition(), entityManager, angle, damage, holder.getCategoryBits(), EpiGame.NOTHING_BIT);
+        Fireball fireball = new Fireball(batch, world, holder.getPosition(), entityManager, angle, damage, holder.getCategoryBits(), holder.getMaskBits());
         entityManager.addProjectiles(fireball);
     }
 

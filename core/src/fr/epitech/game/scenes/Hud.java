@@ -51,7 +51,6 @@ public class Hud {
     public void update(float delta){
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
         waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
-        entityManager.getPlayer().receiveDamage(10);
     }
 
     public void render() {
@@ -59,7 +58,7 @@ public class Hud {
 
         batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
         batch.setColor(Color.RED);
-        batch.draw(healthForeground, x + 15, y + healthBarHeight / 4f, (healthBarWidth - 20) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
+        batch.draw(healthForeground, x + 15, y + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
         batch.setColor(Color.WHITE);
 
         font.draw(batch, waveLayout, EpiGame.V_WIDTH / 2 - waveLayout.width - 20, EpiGame.V_HEIGHT / 2 - waveLayout.height / 2 - 10);
