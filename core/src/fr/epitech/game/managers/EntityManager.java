@@ -3,10 +3,13 @@ package fr.epitech.game.managers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import fr.epitech.game.entitys.Entity;
 import fr.epitech.game.entitys.projectiles.ProjectileEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Zombie;
+import jdk.internal.icu.text.UnicodeSet;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,10 +24,12 @@ public class EntityManager {
     private final List<ProjectileEntity> projectiles;
     private final SpriteBatch batch;
     private final World world;
+    private List<ProjectileEntity> deletedProjectiles;
 
     public EntityManager(SpriteBatch batch, World world){
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
+        this.deletedProjectiles = new ArrayList<>();
         this.batch = batch;
         this.world = world;
     }
@@ -45,6 +50,13 @@ public class EntityManager {
                 projectile.update(delta);
             }
         }
+
+        if(!deletedProjectiles.isEmpty()){
+            for (ProjectileEntity deletedProjectile : deletedProjectiles.toArray(new ProjectileEntity[0])) {
+                deletedProjectile.delete();
+                deletedProjectiles.remove(deletedProjectile);
+            }
+        }
     }
 
     public void render(){
@@ -57,6 +69,8 @@ public class EntityManager {
         }
 
         player.render();
+
+
     }
 
     public void generateEnemies(int wave){
@@ -87,6 +101,7 @@ public class EntityManager {
     public void removeProjectile(ProjectileEntity projectile){
         projectile.delete();
         this.projectiles.remove(projectile);
+        this.deletedProjectiles.add(projectile);
     }
 
 }

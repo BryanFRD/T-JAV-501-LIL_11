@@ -12,15 +12,15 @@ public class WorldContactListener implements ContactListener {
         if(fixtureA.getBody() == null || fixtureB.getBody() == null || fixtureA.getBody().getUserData() == null || fixtureB.getBody().getUserData() == null)
             return;
 
-        Object userDataA = fixtureA.getBody().getUserData(), userDataB = fixtureB.getBody().getUserData();
+        final Object userDataA = fixtureA.getBody().getUserData(), userDataB = fixtureB.getBody().getUserData();
 
         if(userDataA instanceof Fireball || userDataB instanceof Fireball) {
-            boolean FireballIsFixtureA = userDataA instanceof Fireball;
-            if(FireballIsFixtureA && userDataB instanceof Fireball)
+            final boolean fireballIsFixtureA = userDataA instanceof Fireball;
+            if(fireballIsFixtureA && userDataB instanceof Fireball)
                 return;
 
-            Fireball fireball = FireballIsFixtureA ? (Fireball) userDataA : (Fireball) userDataB;
-            Object fixture = !FireballIsFixtureA ? userDataA : userDataB;
+            final Fireball fireball = fireballIsFixtureA ? (Fireball) userDataA : (Fireball) userDataB;
+            final Object fixture = !fireballIsFixtureA ? userDataA : userDataB;
 
             if(fixture instanceof Chunk){
                 fireball.destroy();
