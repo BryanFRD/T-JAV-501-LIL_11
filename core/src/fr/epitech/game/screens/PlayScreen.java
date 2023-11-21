@@ -79,23 +79,16 @@ public class PlayScreen implements Screen {
         float cameraY = Math.max(Math.min(entityManager.getPlayer().getB2body().getPosition().y, Chunk.SIZE_Y * Chunk.TILE_SIZE - EpiGame.V_HEIGHT / EpiGame.PPM), EpiGame.V_HEIGHT / EpiGame.PPM / 2f);
 
         camera.position.slerp(new Vector3(cameraX, cameraY, 0), 0.1f);
-        System.out.println("Camera position slerped");
         camera.update();
-        System.out.println("Camera updated");
         worldMap.update(delta);
-        System.out.println("WorldMap updated");
 
         worldMap.updatePlayerPosition(camera.position.x, camera.position.y);
-        System.out.println("PlayerPosition updated");
 
         entityManager.update(delta);
-        System.out.println("Entities updated");
 
         waveManager.update(delta);
-        System.out.println("Wave updated");
 
         hud.update(delta);
-        System.out.println("Hud updated");
     }
 
     @Override
@@ -103,21 +96,14 @@ public class PlayScreen implements Screen {
         update(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        System.out.println("Cleared");
 
         game.getBatch().setProjectionMatrix(camera.combined);
-        System.out.println("Batch projection matrix set");
         worldMap.render();
-        System.out.println("WorldMap rendered");
 
         worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
-        System.out.println("Box2DRenderer rendered");
 
         entityManager.render();
-        System.out.println("Entities rendered");
-
         hud.render();
-        System.out.println("Hud rendered");
     }
 
     @Override

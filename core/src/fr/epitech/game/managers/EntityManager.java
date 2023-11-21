@@ -71,8 +71,6 @@ public class EntityManager {
         }
 
         player.render();
-
-
     }
 
     public void generateEnemies(int wave){
