@@ -56,7 +56,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
         if(direction == Direction.UP && !isFalling && !isJumping){
             isJumping = true;
-            jumpDuration = 0.5f;
+            jumpDuration = 0.75f;
             this.velocity.y = 4;
         }
     }
