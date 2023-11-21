@@ -71,15 +71,11 @@ public class EntityManager {
         }
 
         player.render();
-
-
     }
 
     public void generateEnemies(int wave){
-        for(int i = 0; i < 100; i++){
-            System.out.println("Generating enemy");
-            enemies.add(new Zombie(batch, world, new Vector2(10, 50), this, null));
-            System.out.println("Enemy generated");
+        for(int i = 0; i < wave; i++){
+            enemies.add(new Zombie(batch, world, new Vector2(100, 50 + (i*5)), this, null));
         }
     }
 

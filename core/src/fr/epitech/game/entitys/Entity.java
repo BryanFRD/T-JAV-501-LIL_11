@@ -64,25 +64,16 @@ public abstract class Entity extends Sprite {
     }
 
     public void defineEntity() {
-        System.out.println("define entity");
-
         BodyDef bdef = new BodyDef();
-        System.out.println("Body def created");
         bdef.position.set(coordinate.x, coordinate.y);
-        System.out.println("Body position set");
         bdef.type = BodyDef.BodyType.DynamicBody;
-        System.out.println("Body type set");
         b2body = world.createBody(bdef);
-
-        System.out.println("Entity created 3");
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(this.width, this.height);
         fdef.filter.categoryBits = this.categoryBits;
         fdef.filter.maskBits = this.maskBits;
-
-        System.out.println("Entity created 4");
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
