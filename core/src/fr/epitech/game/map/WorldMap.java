@@ -23,10 +23,14 @@ public class WorldMap {
         this.seed = new Random().nextDouble();
         this.world = new World(new Vector2(0, -9.8f), true);
         this.b2dr = new Box2DDebugRenderer();
+
+        world.setContactListener(new WorldContactListener());
     }
 
     public void update(float delta){
-        world.step(delta, 6, 2);
+        System.out.println("Loaded chunks: " + loadedChunks.size());
+        world.step(1/60f, 6, 2);
+        System.out.println("World stepped");
     }
 
     public void render(){

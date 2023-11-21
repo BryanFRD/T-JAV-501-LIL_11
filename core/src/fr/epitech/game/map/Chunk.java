@@ -78,6 +78,8 @@ public class Chunk {
         fdef.filter.categoryBits = EpiGame.WORLD_BIT;
 
         body.createFixture(fdef);
+        body.setUserData(this);
+        shape.dispose();
     }
 
     public TiledMapTileLayer.Cell getCell(int x, int y){
