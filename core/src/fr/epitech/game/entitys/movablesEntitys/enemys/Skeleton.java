@@ -15,8 +15,8 @@ public class Skeleton extends Enemy{
 
             private Character player;
 
-            public Skeleton(SpriteBatch batch, World world, Vector2 velocity, EntityManager entityManager, WaveManager waveManager) {
-                super(batch, world, "Skeleton", new Vector2(EpiGame.V_WIDTH / 4f, 1000),
+            public Skeleton(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
+                super(batch, world, "Skeleton", coordinate,
                         new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0], entityManager, waveManager);
 
                 this.player = entityManager.getPlayer();

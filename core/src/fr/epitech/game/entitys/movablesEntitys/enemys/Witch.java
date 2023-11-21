@@ -15,9 +15,9 @@ public class Witch extends Enemy{
 
         private Character player;
 
-        public Witch(SpriteBatch batch, World world, Vector2 velocity, EntityManager entityManager, WaveManager waveManager) {
-            super(batch, world, "Witch", new Vector2(EpiGame.V_WIDTH / 6f, 1000),
-                    new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 160)[0], entityManager, waveManager);
+        public Witch(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
+            super(batch, world, "Witch", coordinate,
+                    new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 150)[0], entityManager, waveManager);
 
             this.player = entityManager.getPlayer();
         }

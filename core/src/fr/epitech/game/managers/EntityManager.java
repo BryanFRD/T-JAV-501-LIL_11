@@ -3,6 +3,8 @@ package fr.epitech.game.managers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Skeleton;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Witch;
 import fr.epitech.game.entitys.projectiles.ProjectileEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
@@ -58,8 +60,11 @@ public class EntityManager {
     }
 
     public void generateEnemies(int wave){
-        for(int i = 0; i < wave; i++){
-            enemies.add(new Zombie(batch, world, new Vector2(10, 50), this, null));
+        while (0 != wave){
+            enemies.add(new Zombie(batch, world, new Vector2(200, 100), this, null));
+            //enemies.add(new Witch(batch, world, new Vector2(250, 100), this, null));
+            //enemies.add(new Skeleton(batch, world, new Vector2(300, 100), this, null));
+            wave--;
         }
     }
 
