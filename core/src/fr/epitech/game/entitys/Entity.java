@@ -31,6 +31,7 @@ public abstract class Entity extends Sprite {
     protected float height = 1;
     protected boolean reverted = true;
     protected boolean forcedAnimation = false;
+    protected boolean entityDefined = false;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits) {
         super(texture);
@@ -48,7 +49,6 @@ public abstract class Entity extends Sprite {
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
         super(textureRegions[0] != null ? textureRegions[0] : new TextureRegion(new Texture("badlogic.jpg")));
-        System.out.println("Entity created");
         this.batch = batch;
         this.name = name;
         this.coordinate = coordinate;
@@ -59,8 +59,42 @@ public abstract class Entity extends Sprite {
         this.waveManager = waveManager;
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
-        System.out.println("Entity created 2");
         defineEntity();
+    }
+
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits, boolean defineEntity) {
+        super(texture);
+        System.out.println("Entity created");
+        this.batch = batch;
+        this.name = name;
+        this.coordinate = coordinate;
+        this.world = world;
+        this.entityManager = entityManager;
+        this.waveManager = waveManager;
+        this.categoryBits = categoryBits;
+        this.maskBits = maskBits;
+
+        if(defineEntity){
+            defineEntity();
+        }
+    }
+
+    public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits, boolean defineEntity){
+        super(textureRegions[0] != null ? textureRegions[0] : new TextureRegion(new Texture("badlogic.jpg")));
+        this.batch = batch;
+        this.name = name;
+        this.coordinate = coordinate;
+        this.world = world;
+        this.textureRegions = textureRegions;
+        this.animation = new Animation<>(this.frameDuration, textureRegions);
+        this.entityManager = entityManager;
+        this.waveManager = waveManager;
+        this.categoryBits = categoryBits;
+        this.maskBits = maskBits;
+
+        if(defineEntity){
+            defineEntity();
+        }
     }
 
     public void defineEntity() {
@@ -79,6 +113,8 @@ public abstract class Entity extends Sprite {
         b2body.createFixture(fdef);
         b2body.setUserData(this);
         shape.dispose();
+
+        entityDefined = true;
     }
 
     public String getName() {
@@ -90,6 +126,10 @@ public abstract class Entity extends Sprite {
     }
 
     public void update(float delta) {
+        if(!entityDefined){
+            return;
+        }
+
         if(this.b2body.getLinearVelocity().x != 0 || forcedAnimation){
             if(this.animation != null){
                 this.stateTime += stateTime == 0 ? frameDuration : delta;
@@ -102,6 +142,10 @@ public abstract class Entity extends Sprite {
     }
 
     public void render() {
+        if(!entityDefined){
+            return;
+        }
+
         batch.begin();
 
         float x = b2body.getPosition().x - width * 2 * (reverted ? -1 : 1);
@@ -145,4 +189,23 @@ public abstract class Entity extends Sprite {
         }
     }
 
+    public World getWorld() {
+        return world;
+    }
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+    public boolean isEntityDefined() {
+        return entityDefined;
+    }
 }

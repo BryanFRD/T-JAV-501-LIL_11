@@ -1,10 +1,11 @@
 package fr.epitech.game.map;
 
 import com.badlogic.gdx.physics.box2d.*;
-import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 import fr.epitech.game.entitys.projectiles.Fireball;
+import fr.epitech.game.managers.EntityManager;
 
 public class WorldContactListener implements ContactListener {
+
     @Override
     public void beginContact(Contact contact) {
         final Fixture fixtureA = contact.getFixtureA(), fixtureB = contact.getFixtureB();
@@ -22,13 +23,8 @@ public class WorldContactListener implements ContactListener {
             final Fireball fireball = fireballIsFixtureA ? (Fireball) userDataA : (Fireball) userDataB;
             final Object fixture = !fireballIsFixtureA ? userDataA : userDataB;
 
-            if(fixture instanceof Chunk){
-                fireball.destroy();
-            } else if(fixture instanceof Enemy){
-                Enemy enemy = (Enemy) fixture;
-                enemy.receiveDamage(fireball.getDamage());
-                fireball.destroy();
-            }
+            fireball.getEntityManager().createExplosion(fireball.getPosition(), fireball.getDamage(), fireball.getCategoryBits(), fireball.getMaskBits());
+            fireball.destroy();
         }
     }
 
