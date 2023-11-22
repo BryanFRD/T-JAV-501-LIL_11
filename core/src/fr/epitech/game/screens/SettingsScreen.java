@@ -45,11 +45,18 @@ public class SettingsScreen implements Screen {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 100;
+        parameter2.size = 150;
+        parameter2.borderColor = Color.BLACK;
+        parameter2.borderWidth = 4;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 2;
         BitmapFont font = generator.generateFont(parameter);
+        BitmapFont font2 = generator.generateFont(parameter2);
         generator.dispose();
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font2, Color.WHITE);
         TextureRegionDrawable buttonBackgroundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_04.png"))));
         TextureRegionDrawable buttonBackgroundOver = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_10.png"))));
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -57,6 +64,10 @@ public class SettingsScreen implements Screen {
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
         skin.add("default", textButtonStyle);
+
+        Label title = new Label("Sound settings", labelStyle);
+        Label emptyLabel = new Label("", labelStyle);
+
 
         backButton = new TextButton("Back", skin);
         backButton.addListener(new ClickListener() {
@@ -75,6 +86,7 @@ public class SettingsScreen implements Screen {
                 updateVolumeLabel();
             }
         });
+        plusButton.getLabelCell().padBottom(30).width(80);
 
 
         minusButton = new TextButton("-", skin);
@@ -85,6 +97,7 @@ public class SettingsScreen implements Screen {
                 updateVolumeLabel();
             }
         });
+        minusButton.getLabelCell().padBottom(30).width(80);
 
         muteButton = new TextButton("Mute", skin);
         muteButton.addListener(new ClickListener() {
@@ -102,6 +115,7 @@ public class SettingsScreen implements Screen {
                 updateVolumeLabel();
             }
         });
+        muteButton.getLabelCell().padBottom(30).width(320);
 
         volumeLabel = new Label("Volume : " + game.getVolume() + "%", labelStyle);
 
@@ -109,12 +123,13 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         table.center();
         stage.addActor(table);
+        table.add(emptyLabel, title, emptyLabel).center();
+        table.row().padTop(80);
+        table.add(minusButton, muteButton, plusButton).padTop(40).padBottom(40);
         table.row();
-        table.add(plusButton, muteButton, minusButton);
+        table.add(backButton).center().width(400).height(175).colspan(3).padTop(40).padBottom(40);
         table.row();
-        table.add(backButton).center().width(400).height(175);
-        table.row();
-        table.add(volumeLabel);
+        table.add(volumeLabel).center().colspan(3).padTop(40).padBottom(40);
 
     }
 
