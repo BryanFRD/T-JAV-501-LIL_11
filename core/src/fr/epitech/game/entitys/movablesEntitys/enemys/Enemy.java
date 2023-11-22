@@ -37,6 +37,8 @@ public abstract class Enemy extends MovableEntity {
     public void update(float delta) {
         super.update(delta);
         curretx = b2body.getPosition().x;
+        float angle = MathUtils.atan2(entityManager.getPlayer().getPosition().y - b2body.getPosition().y, entityManager.getPlayer().getPosition().x - b2body.getPosition().x);
+
 
         if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.25 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.25) {
             move(Direction.STOP);
@@ -56,12 +58,9 @@ public abstract class Enemy extends MovableEntity {
             move(Direction.LEFT);
             this.lastx = curretx;
 
-
         }
+        attack(angle);
     }
 
-    public void attack(float angle) {
-        Fireball fireball = new Fireball(batch, world, b2body.getPosition(), entityManager, angle, 25, getCategoryBits(), getMaskBits());
-        entityManager.addProjectiles(fireball);
-    }
+    public abstract void attack(float angle);
 }
