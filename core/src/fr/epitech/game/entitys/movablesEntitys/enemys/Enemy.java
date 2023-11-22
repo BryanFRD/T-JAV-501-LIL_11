@@ -21,7 +21,7 @@ import fr.epitech.game.map.WorldMap;
 public abstract class Enemy extends MovableEntity {
     protected World world;
     protected float lastx = 1, curretx;
-    protected int experienceGiven = 5;
+    protected int experienceGiven = 1;
 
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.ENEMY_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.PLAYER_BIT | EpiGame.ENEMY_BIT));

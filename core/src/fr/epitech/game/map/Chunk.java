@@ -102,4 +102,14 @@ public class Chunk {
         batch.end();
     }
 
+    public int getHighestY(int x){
+        for(int y = Chunk.SIZE_Y - 1; y >= 0; y--){
+            if(cells[x][y] != null && cells[x][y].getTile() != null && cells[x][y].getTile().getTextureRegion() == textures[0][0]){
+                return y;
+            }
+        }
+
+        return 50;
+    }
+
 }

@@ -55,6 +55,10 @@ public class WorldMap {
         this.playerY = (int) playerY / (Chunk.TILE_SIZE * Chunk.SIZE_Y);
     }
 
+    public Chunk getChunkAtX(float x){
+        return loadedChunks.get((int) x / ((Chunk.TILE_SIZE * Chunk.SIZE_X) * 20));
+    }
+
     public World getWorld() {
         return world;
     }

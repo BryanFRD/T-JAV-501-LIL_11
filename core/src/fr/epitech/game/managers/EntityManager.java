@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import fr.epitech.game.EpiGame;
 import fr.epitech.game.entitys.Entity;
 import fr.epitech.game.entitys.ExplosionEntity;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Skeleton;
@@ -12,6 +13,8 @@ import fr.epitech.game.entitys.projectiles.ProjectileEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Zombie;
+import fr.epitech.game.map.Chunk;
+import fr.epitech.game.map.WorldMap;
 import jdk.internal.icu.text.UnicodeSet;
 
 import java.lang.reflect.Constructor;
@@ -26,24 +29,24 @@ public class EntityManager {
     private final List<Enemy> enemies;
     private final List<ProjectileEntity> projectiles;
     private final SpriteBatch batch;
-    private final World world;
+    private final WorldMap worldMap;
     private final List<ProjectileEntity> deletedProjectiles;
     private final List<ExplosionEntity> explosionEntities;
     private final List<ExplosionEntity> deletedExplosionEntities;
 
-    public EntityManager(SpriteBatch batch, World world){
+    public EntityManager(SpriteBatch batch, WorldMap worldMap){
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.deletedProjectiles = new ArrayList<>();
         this.explosionEntities = new ArrayList<>();
         this.deletedExplosionEntities = new ArrayList<>();
         this.batch = batch;
-        this.world = world;
+        this.worldMap = worldMap;
     }
 
     public void update(float delta){
         for(Enemy enemy : enemies.toArray(new Enemy[0])){
-            if(enemy.getHealth() == 0){
+            if(enemy.getHealth() == 0 || enemy.getPosition().y < -10){
                 enemy.delete();
                 enemies.remove(enemy);
                 player.addExperience(enemy.getExperienceGiven());
@@ -96,9 +99,12 @@ public class EntityManager {
 
     public void generateEnemies(int wave){
         while (0 != wave){
-            enemies.add(new Zombie(batch, world, new Vector2(player.getPosition().x + 100, player.getPosition().y), this, null));
-            enemies.add(new Witch(batch, world, new Vector2(player.getPosition().x + 150, player.getPosition().y), this, null));
-            enemies.add(new Skeleton(batch, world, new Vector2(player.getPosition().x + 200, player.getPosition().y), this, null));
+            float x = (int) player.getPosition().x + 100;
+            Chunk chunk = worldMap.getChunkAtX(x);
+            float y = chunk.getHighestY(0) + 10;
+            enemies.add(new Zombie(batch, worldMap.getWorld(), new Vector2(x, y), this, null));
+            enemies.add(new Witch(batch, worldMap.getWorld(), new Vector2(x, y), this, null));
+            enemies.add(new Skeleton(batch, worldMap.getWorld(), new Vector2(x, y), this, null));
             wave--;
         }
     }
@@ -129,7 +135,7 @@ public class EntityManager {
     }
 
     public void createExplosion(Vector2 position, float damage, short categoryBits, short maskBits){
-        ExplosionEntity explosionEntity = new ExplosionEntity(batch, world, position, this, null, damage, categoryBits, maskBits, false);
+        ExplosionEntity explosionEntity = new ExplosionEntity(batch, worldMap.getWorld(), position, this, null, damage, categoryBits, maskBits, false);
         explosionEntities.add(explosionEntity);
     }
 

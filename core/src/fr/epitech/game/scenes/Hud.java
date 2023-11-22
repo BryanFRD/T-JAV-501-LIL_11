@@ -55,14 +55,13 @@ public class Hud {
 
         batch.draw(healthBackground, healthbarX, healthbarY, healthBarWidth, healthBarHeight);
         batch.setColor(Color.RED);
-        batch.draw(healthForeground, healthbarX + 15, healthbarY + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
+        batch.draw(healthForeground, healthbarX + 16, healthbarY + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
         batch.setColor(Color.WHITE);
 
         batch.draw(experienceBackground, experienceX, experienceY, experienceBarWidth, experienceBarHeight);
         batch.setColor(Color.LIME);
 
-        int level = entityManager.getPlayer().getLevel();
-        batch.draw(experienceForeground, experienceX + 15, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) level / entityManager.getPlayer().calculateLevel(level+1)), experienceBarHeight / 2f);
+        batch.draw(experienceForeground, experienceX + 14, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) entityManager.getPlayer().getXp() / entityManager.getPlayer().getNeededXp()), experienceBarHeight / 2f);
         batch.setColor(Color.WHITE);
 
         font.draw(batch, levelLayout, 20, EpiGame.V_HEIGHT / 2 - levelLayout.height / 2 - 10);

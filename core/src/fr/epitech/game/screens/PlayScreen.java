@@ -36,10 +36,13 @@ public class PlayScreen implements Screen {
         this.viewport = new FitViewport(EpiGame.V_WIDTH / EpiGame.PPM, EpiGame.V_HEIGHT / EpiGame.PPM, camera);
         this.worldMap = new WorldMap(game.getBatch());
 
-        this.entityManager = new EntityManager(game.getBatch(), worldMap.getWorld());
+        this.entityManager = new EntityManager(game.getBatch(), worldMap);
         this.waveManager = new WaveManager(entityManager);
 
-        Vector2 playerSpawn = new Vector2(5, 50);
+        worldMap.render();
+
+        Chunk spawnChunk = worldMap.getChunkAtX(5);
+        Vector2 playerSpawn = new Vector2(5, spawnChunk.getHighestY(0) + 5);
 
         Character player;
 
@@ -66,7 +69,6 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float delta){
-
         Vector2 position = entityManager.getPlayer().getPosition();
 
         float cameraX = Math.max(position.x, EpiGame.V_WIDTH / EpiGame.PPM / 2f);
