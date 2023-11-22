@@ -15,11 +15,17 @@ public class Zombie extends Enemy{
 
     public Zombie(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
         super(batch, world, "Zombie", coordinate,
-                new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0], entityManager, waveManager);
+                new TextureRegion(new Texture("zombiealigner.png")).split(500/6, 108)[0], entityManager, waveManager);
         System.out.println("Zombie created");
 
         this.player = entityManager.getPlayer();
         System.out.println("Player found");
         }
 
+    @Override
+    public void attack(float angle) {
+        if (player.getPosition().x - b2body.getPosition().x < 2f && player.getPosition().x - b2body.getPosition().x > -2f) {
+            System.out.println("Zombie attaque le joueur !");
+        }
+    }
 }

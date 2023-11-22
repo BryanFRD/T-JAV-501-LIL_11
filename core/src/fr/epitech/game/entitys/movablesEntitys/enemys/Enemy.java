@@ -1,6 +1,7 @@
 package fr.epitech.game.entitys.movablesEntitys.enemys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -9,6 +10,7 @@ import fr.epitech.game.EpiGame;
 import fr.epitech.game.directions.Direction;
 import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.entitys.projectiles.Fireball;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
@@ -41,32 +43,39 @@ public abstract class Enemy extends MovableEntity {
         }
 
         curretx = b2body.getPosition().x;
+        float angle = MathUtils.atan2(entityManager.getPlayer().getPosition().y - b2body.getPosition().y, entityManager.getPlayer().getPosition().x - b2body.getPosition().x);
 
-        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.25 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.25) {
-            move(Direction.STOP);
-            this.lastx = 0;
+
+        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 2f && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -2f) {
+            directions.remove(Direction.UP);
+            directions.remove(Direction.LEFT);
+            directions.remove(Direction.RIGHT);
 
 
         } else if (curretx == lastx) {
-            move(Direction.UP);
+            directions.add(Direction.UP);
 
 
         } else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
-            move(Direction.RIGHT);
+            directions.remove(Direction.UP);
+            directions.remove(Direction.LEFT);
             this.lastx = curretx;
-            //this.lastx = curretx;
-
+            directions.add(Direction.RIGHT);
 
         } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
-            move(Direction.LEFT);
+            directions.remove(Direction.UP);
+            directions.remove(Direction.RIGHT);
             this.lastx = curretx;
-            //this.lastx = curretx;
+            directions.add(Direction.LEFT);
 
         }
+        System.out.println(" enemy x " + b2body.getPosition().x + "  player x  " + entityManager.getPlayer().getPosition().x + " player y " + entityManager.getPlayer().getPosition().y + " enemy y " + b2body.getPosition().y);
+        attack(angle);
     }
 
     public int getExperienceGiven(){
         return experienceGiven;
     }
-
+  
+    public abstract void attack(float angle);
 }
