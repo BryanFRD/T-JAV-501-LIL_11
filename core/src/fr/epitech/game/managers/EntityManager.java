@@ -66,7 +66,11 @@ public class EntityManager {
 
         if(!explosionEntities.isEmpty()){
             for (ExplosionEntity explosionEntity : explosionEntities.toArray(new ExplosionEntity[0])) {
-                explosionEntity.update(delta);
+                if(explosionEntity.isEntityDefined()){
+                    explosionEntity.update(delta);
+                } else {
+                    explosionEntity.defineEntity();
+                }
             }
         }
 

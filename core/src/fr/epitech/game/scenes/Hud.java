@@ -13,11 +13,11 @@ public class Hud {
 
     private final SpriteBatch batch;
     private final BitmapFont font;
-    private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout;
+    private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout, levelLayout;
     private Texture healthBackground, healthForeground, experienceBackground, experienceForeground;
     private final int healthBarWidth = 200, healthBarHeight = 30 , experienceBarWidth = 150, experienceBarHeight = 30;
-    private float healthbarX = 10, healthbarY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 10;
-    private float experienceX = 10, experienceY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 10 - experienceBarHeight - 10;
+    private float healthbarX = 10, healthbarY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 50;
+    private float experienceX = 10, experienceY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 50 - experienceBarHeight - 10;
     private final WaveManager waveManager;
     private final EntityManager entityManager;
 
@@ -35,6 +35,7 @@ public class Hud {
         waveLayout = new GlyphLayout(font, "Wave: 0");
         waveTimerPrefixLayout = new GlyphLayout(font, "Wave starts in ");
         waveTimerLayout = new GlyphLayout(font, "0s");
+        levelLayout = new GlyphLayout(font, "Level: 1");
 
         healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
         healthForeground = new Texture(Gdx.files.internal("whitepixel.png"));
@@ -46,6 +47,7 @@ public class Hud {
     public void update(float delta){
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
         waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
+        levelLayout.setText(font, "Level: " + entityManager.getPlayer().getLevel());
     }
 
     public void render() {
@@ -58,7 +60,12 @@ public class Hud {
 
         batch.draw(experienceBackground, experienceX, experienceY, experienceBarWidth, experienceBarHeight);
         batch.setColor(Color.LIME);
-        //batch.draw(experienceForeground, experienceX + 15, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) entityManager.getPlayer().getExperience() / entityManager.getPlayer().getMaxExperience()), experienceBarHeight / 2f);
+
+        int level = entityManager.getPlayer().getLevel();
+        batch.draw(experienceForeground, experienceX + 15, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) level / entityManager.getPlayer().calculateLevel(level+1)), experienceBarHeight / 2f);
+        batch.setColor(Color.WHITE);
+
+        font.draw(batch, levelLayout, 20, EpiGame.V_HEIGHT / 2 - levelLayout.height / 2 - 10);
 
         font.draw(batch, waveLayout, EpiGame.V_WIDTH / 2 - waveLayout.width - 20, EpiGame.V_HEIGHT / 2 - waveLayout.height / 2 - 10);
 
