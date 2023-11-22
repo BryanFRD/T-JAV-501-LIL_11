@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import fr.epitech.game.entitys.Entity;
+import fr.epitech.game.entitys.ExplosionEntity;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Skeleton;
 import fr.epitech.game.entitys.movablesEntitys.enemys.Witch;
 import fr.epitech.game.entitys.projectiles.ProjectileEntity;
@@ -26,18 +27,21 @@ public class EntityManager {
     private final List<ProjectileEntity> projectiles;
     private final SpriteBatch batch;
     private final World world;
-    private List<ProjectileEntity> deletedProjectiles;
+    private final List<ProjectileEntity> deletedProjectiles;
+    private final List<ExplosionEntity> explosionEntities;
+    private final List<ExplosionEntity> deletedExplosionEntities;
 
     public EntityManager(SpriteBatch batch, World world){
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.deletedProjectiles = new ArrayList<>();
+        this.explosionEntities = new ArrayList<>();
+        this.deletedExplosionEntities = new ArrayList<>();
         this.batch = batch;
         this.world = world;
     }
 
     public void update(float delta){
-        player.update(delta);
         for(Enemy enemy : enemies.toArray(new Enemy[0])){
             if(enemy.getHealth() == 0){
                 enemy.delete();
@@ -59,6 +63,18 @@ public class EntityManager {
                 deletedProjectiles.remove(deletedProjectile);
             }
         }
+
+        if(!explosionEntities.isEmpty()){
+            for (ExplosionEntity explosionEntity : explosionEntities.toArray(new ExplosionEntity[0])) {
+                if(explosionEntity.isEntityDefined()){
+                    explosionEntity.update(delta);
+                } else {
+                    explosionEntity.defineEntity();
+                }
+            }
+        }
+
+        player.update(delta);
     }
 
     public void render(){
@@ -68,6 +84,10 @@ public class EntityManager {
 
         for (ProjectileEntity projectile : projectiles) {
             projectile.render();
+        }
+
+        for (ExplosionEntity explosionEntity : explosionEntities) {
+            explosionEntity.render();
         }
 
         player.render();
@@ -105,6 +125,17 @@ public class EntityManager {
         projectile.delete();
         this.projectiles.remove(projectile);
         this.deletedProjectiles.add(projectile);
+    }
+
+    public void createExplosion(Vector2 position, float damage, short categoryBits, short maskBits){
+        ExplosionEntity explosionEntity = new ExplosionEntity(batch, world, position, this, null, damage, categoryBits, maskBits, false);
+        explosionEntities.add(explosionEntity);
+    }
+
+    public void removeExplosion(ExplosionEntity explosionEntity){
+        explosionEntity.delete();
+        this.explosionEntities.remove(explosionEntity);
+        this.deletedExplosionEntities.add(explosionEntity);
     }
 
 }

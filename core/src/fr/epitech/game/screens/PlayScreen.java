@@ -1,21 +1,12 @@
 package fr.epitech.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
@@ -50,17 +41,17 @@ public class PlayScreen implements Screen {
 
         Vector2 playerSpawn = new Vector2(5, 50);
 
-        Character player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", playerSpawn, entityManager, waveManager);
+        Character player;
 
         switch(selectedCharacter) {
             case "Barbarian" :
                 player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", playerSpawn, entityManager, waveManager);
                 break;
-            case "Mage" :
-                player = new Wizard(game.getBatch(), worldMap.getWorld(), "Mage", playerSpawn, entityManager, waveManager);
-                break;
             case "Archer" :
                 player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", playerSpawn, entityManager, waveManager);
+                break;
+            default:
+                player = new Wizard(game.getBatch(), worldMap.getWorld(), "Mage", playerSpawn, entityManager, waveManager);
         }
 
         Gdx.input.setInputProcessor(player);

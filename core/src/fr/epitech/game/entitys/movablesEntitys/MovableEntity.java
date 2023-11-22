@@ -16,6 +16,9 @@ import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class MovableEntity extends fr.epitech.game.entitys.Entity implements InputProcessor {
     protected float health;
     protected float maxHealth;
@@ -26,6 +29,7 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     protected boolean isJumping = false, isFalling = false;
     protected float lastY = 0;
     protected float invincibilityTimer = 0;
+    protected final Set<Direction> directions = new HashSet<>();
 
     public MovableEntity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
         super(batch, world, name, coordinate, texture, entityManager, waveManager, categoryBits, maskBits);
@@ -64,12 +68,36 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     public void update(float delta) {
         super.update(delta);
 
+        if(!entityDefined){
+            return;
+        }
+
+        if(directions.contains(Direction.LEFT)){
+            this.velocity.x = -this.speed;
+            reverted = false;
+        } else if(directions.contains(Direction.RIGHT)){
+            this.velocity.x = this.speed;
+            reverted = true;
+        } else {
+            this.velocity.x = 0;
+        }
+
+        if(directions.contains(Direction.UP) && !isFalling){
+            this.velocity.y = 7.5f;
+
+            if(jumpDuration == 0){
+                jumpDuration = 0.25f;
+            }
+        } else {
+            jumpDuration = 0;
+        }
+
         if(invincibilityTimer > 0){
             invincibilityTimer -= delta;
         }
 
         float currentY = b2body.getPosition().y;
-        isFalling = lastY != currentY;
+        isFalling = lastY > currentY;
 
         lastY = currentY;
 
@@ -140,18 +168,16 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.A){
-            this.velocity.x = -this.speed;
-            reverted = false;
-        } else if(keycode == Input.Keys.D){
-            this.velocity.x = this.speed;
-            reverted = true;
-        } else if(keycode == Input.Keys.W && !isFalling && !isJumping){
-            this.velocity.y = 7.5f;
-            isJumping = true;
-            jumpDuration = 0.25f;
-        } else {
-            jumpDuration = 0;
+        switch (keycode){
+            case Input.Keys.A:
+                directions.add(Direction.LEFT);
+                break;
+            case Input.Keys.D:
+                directions.add(Direction.RIGHT);
+                break;
+            case Input.Keys.W:
+                directions.add(Direction.UP);
+                break;
         }
 
         if(keycode == Input.Keys.ESCAPE){
@@ -163,13 +189,24 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.A){
+        switch (keycode){
+            case Input.Keys.A:
+                directions.remove(Direction.LEFT);
+                break;
+            case Input.Keys.D:
+                directions.remove(Direction.RIGHT);
+                break;
+            case Input.Keys.W:
+                directions.remove(Direction.UP);
+                break;
+        }
+        /*if(keycode == Input.Keys.A){
             this.velocity.x = 0;
         } else if(keycode == Input.Keys.D){
             this.velocity.x = 0;
         } else if(keycode == Input.Keys.W){
             this.velocity.y = 0;
-        }
+        }*/
 
         return true;
     }

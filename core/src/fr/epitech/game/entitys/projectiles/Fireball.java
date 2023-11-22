@@ -48,6 +48,8 @@ public class Fireball extends ProjectileEntity {
         b2body.createFixture(fdef);
         b2body.setUserData(this);
         shape.dispose();
+
+        entityDefined = true;
     }
 
 }
