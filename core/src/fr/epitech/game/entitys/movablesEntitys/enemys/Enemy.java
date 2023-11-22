@@ -1,6 +1,7 @@
 package fr.epitech.game.entitys.movablesEntitys.enemys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -9,6 +10,7 @@ import fr.epitech.game.EpiGame;
 import fr.epitech.game.directions.Direction;
 import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.entitys.projectiles.Fireball;
 import fr.epitech.game.inventorys.items.equipables.weapons.Weapon;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
@@ -48,14 +50,18 @@ public abstract class Enemy extends MovableEntity {
         } else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
             move(Direction.RIGHT);
             this.lastx = curretx;
-            //this.lastx = curretx;
 
 
         } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
             move(Direction.LEFT);
             this.lastx = curretx;
-            //this.lastx = curretx;
+
 
         }
+    }
+
+    public void attack(float angle) {
+        Fireball fireball = new Fireball(batch, world, b2body.getPosition(), entityManager, angle, 25, getCategoryBits(), getMaskBits());
+        entityManager.addProjectiles(fireball);
     }
 }
