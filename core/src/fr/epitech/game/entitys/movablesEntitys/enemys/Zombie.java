@@ -22,4 +22,8 @@ public class Zombie extends Enemy{
         System.out.println("Player found");
         }
 
+    @Override
+    public void attack(float angle) {
+        System.out.println("Zombie attaque le joueur !");
+    }
 }

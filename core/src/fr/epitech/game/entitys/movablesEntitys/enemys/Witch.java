@@ -19,14 +19,28 @@ import fr.epitech.game.managers.WaveManager;
 public class Witch extends Enemy{
 
         private Character player;
+        int x = 200;
 
         public Witch(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
             super(batch, world, "Witch", coordinate,
                     new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 150)[0], entityManager, waveManager);
             this.player = entityManager.getPlayer();
-            float angle = MathUtils.atan2(player.getPosition().y - b2body.getPosition().y, player.getPosition().x - b2body.getPosition().x);
-            attack(angle);
         }
+
+
+    @Override
+    public void attack(float angle) {
+                if (x!=0){
+                    x --;
+                }else {
+                    Fireball fireball = new Fireball(batch, world, getPosition(), entityManager, angle, 25, getCategoryBits(), getMaskBits());
+                    entityManager.addProjectiles(fireball);
+                    System.out.println("Fireball created");
+                    x = 200;
+                }
+
+
+    }
 
 
 }
