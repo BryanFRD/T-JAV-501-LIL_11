@@ -15,25 +15,20 @@ public class WaveManager {
     }
 
     public void update(float delta){
-        System.out.println("Updating wave manager");
         if(this.entityManager.getEnemies().isEmpty() && this.waveTimer == 0 && !this.newWave){
             this.waveTimer = 10;
             this.newWave = true;
-            System.out.println("Wave reseted");
         }
 
         if(this.waveTimer > 0){
             this.waveTimer -= Math.max(1 * delta, 0);
-            System.out.println("Change wave timer");
         }
 
         if(this.waveTimer <= 0 && this.newWave){
             this.waveTimer = 0;
             this.newWave = false;
             this.wave++;
-            System.out.println("New wave");
             this.entityManager.generateEnemies(wave);
-            System.out.println("Enemies generated");
         }
     }
 

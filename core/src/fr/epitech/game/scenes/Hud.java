@@ -2,18 +2,9 @@ package fr.epitech.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
@@ -23,9 +14,10 @@ public class Hud {
     private final SpriteBatch batch;
     private final BitmapFont font;
     private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout;
-    private Texture healthBackground, healthForeground;
-    private final int healthBarWidth = 200, healthBarHeight = 30;
-    private float x = 10, y = EpiGame.V_HEIGHT / 2 - healthBarHeight - 10;
+    private Texture healthBackground, healthForeground, experienceBackground, experienceForeground;
+    private final int healthBarWidth = 200, healthBarHeight = 30 , experienceBarWidth = 150, experienceBarHeight = 30;
+    private float healthbarX = 10, healthbarY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 10;
+    private float experienceX = 10, experienceY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 10 - experienceBarHeight - 10;
     private final WaveManager waveManager;
     private final EntityManager entityManager;
 
@@ -46,6 +38,9 @@ public class Hud {
 
         healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
         healthForeground = new Texture(Gdx.files.internal("whitepixel.png"));
+
+        experienceBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
+        experienceForeground = new Texture(Gdx.files.internal("whitepixel.png"));
     }
 
     public void update(float delta){
@@ -56,10 +51,14 @@ public class Hud {
     public void render() {
         batch.begin();
 
-        batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
+        batch.draw(healthBackground, healthbarX, healthbarY, healthBarWidth, healthBarHeight);
         batch.setColor(Color.RED);
-        batch.draw(healthForeground, x + 15, y + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
+        batch.draw(healthForeground, healthbarX + 15, healthbarY + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
         batch.setColor(Color.WHITE);
+
+        batch.draw(experienceBackground, experienceX, experienceY, experienceBarWidth, experienceBarHeight);
+        batch.setColor(Color.LIME);
+        //batch.draw(experienceForeground, experienceX + 15, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) entityManager.getPlayer().getExperience() / entityManager.getPlayer().getMaxExperience()), experienceBarHeight / 2f);
 
         font.draw(batch, waveLayout, EpiGame.V_WIDTH / 2 - waveLayout.width - 20, EpiGame.V_HEIGHT / 2 - waveLayout.height / 2 - 10);
 

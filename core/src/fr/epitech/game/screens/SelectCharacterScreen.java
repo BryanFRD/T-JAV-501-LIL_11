@@ -31,10 +31,21 @@ public class SelectCharacterScreen implements Screen {
         this.skin = new Skin();
         Gdx.input.setInputProcessor(stage);
 
+        Texture backgroundTexture = new Texture(Gdx.files.internal("tavern.png"));
+        Image backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        stage.addActor(backgroundImage);
+
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelade.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 50;
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parameter.size = 100;
+        parameter2.size = 100;
+        parameter2.borderColor = Color.BLACK;
+        parameter2.borderWidth = 3;
         BitmapFont font = generator.generateFont(parameter);
+        BitmapFont font2 = generator.generateFont(parameter2);
         generator.dispose();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
@@ -46,7 +57,7 @@ public class SelectCharacterScreen implements Screen {
         textButtonStyle.over = buttonBackgroundOver;
 
         CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
-        checkBoxStyle.font = font;
+        checkBoxStyle.font = font2;
 
         skin.add("default", textButtonStyle);
         skin.add("default", checkBoxStyle);
@@ -61,6 +72,7 @@ public class SelectCharacterScreen implements Screen {
                 game.setScreen(new PlayScreen(game, selectedCharacter));
             }
         });
+        selectButton.getLabelCell().padBottom(35);
 
         backButton = new TextButton("Back", skin);
         backButton.addListener(new ClickListener() {
@@ -69,6 +81,7 @@ public class SelectCharacterScreen implements Screen {
                 game.setScreen(new MainScreen(game));
             }
         });
+        backButton.getLabelCell().padBottom(35);
 
         barbarianButton = new CheckBox("Barbarian", skin);
         barbarianButton.addListener(new ClickListener() {
@@ -79,6 +92,7 @@ public class SelectCharacterScreen implements Screen {
                 barbarianButton.getLabel().setColor(Color.GREEN);
             }
         });
+        barbarianButton.getLabelCell().padBottom(35);
 
         mageButton = new CheckBox("Mage", skin);
         mageButton.addListener(new ClickListener() {
@@ -89,6 +103,7 @@ public class SelectCharacterScreen implements Screen {
                 mageButton.getLabel().setColor(Color.GREEN);
             }
         });
+        mageButton.getLabelCell().padBottom(35);
 
         archerButton = new CheckBox("Archer", skin);
         archerButton.addListener(new ClickListener() {
@@ -99,6 +114,7 @@ public class SelectCharacterScreen implements Screen {
                 archerButton.getLabel().setColor(Color.GREEN);
             }
         });
+        archerButton.getLabelCell().padBottom(35);
 
         Texture barbarianTexture = new Texture(Gdx.files.internal("knight.png"));
         TextureRegion barbarianTextureRegion = new TextureRegion(barbarianTexture, 16,16);
@@ -129,9 +145,9 @@ public class SelectCharacterScreen implements Screen {
         table.row().pad(0, 0, 40, 0);
         table.add(barbarianButton, mageButton, archerButton);
         table.row().pad(0, 100, 0, 100);
-        table.add(selectButton).fillX().uniformX().colspan(3);
+        table.add(selectButton).width(300).height(100).colspan(3);
         table.row().pad(20,100,0,100);
-        table.add(backButton).colspan(3).fillX().uniformX();
+        table.add(backButton).width(300).height(100).colspan(3);
     }
 
     @Override

@@ -38,7 +38,6 @@ public abstract class Enemy extends MovableEntity {
         super.update(delta);
         curretx = b2body.getPosition().x;
 
-
         if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.25 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.25) {
             move(Direction.STOP);
             this.lastx = 0;

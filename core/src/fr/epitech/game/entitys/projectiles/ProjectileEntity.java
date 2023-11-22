@@ -43,12 +43,6 @@ public abstract class ProjectileEntity extends Entity {
         this.b2body.setLinearVelocity(x, y);
     }
 
-    @Override
-    public void dispose() {
-        System.out.println("disposed");
-        super.dispose();
-    }
-
     public void destroy(){
         this.entityManager.removeProjectile(this);
     }

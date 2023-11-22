@@ -36,8 +36,6 @@ public class GameOverScreen implements Screen {
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
 
-        System.out.println("Generator font generated");
-
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         TextureRegionDrawable buttonBackgroundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_04.png"))));
         TextureRegionDrawable buttonBackgroundOver = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Buttons/Black/buttons_10.png"))));
@@ -46,15 +44,12 @@ public class GameOverScreen implements Screen {
         textButtonStyle.up = buttonBackgroundUp;
         textButtonStyle.over = buttonBackgroundOver;
 
-        System.out.println("LabelStyle created");
-
         skin.add("default", textButtonStyle);
 
-        System.out.println("Skin created");
+        Texture skullTexture = new Texture(Gdx.files.internal("skull_dead.png"));
+        Image skullImage = new Image(skullTexture);
 
         Label title = new Label("YOU ARE DEAD", labelStyle);
-
-        System.out.println("Title created");
 
         restartButton = new TextButton("Retry", skin);
         restartButton.addListener(new ClickListener() {
@@ -63,6 +58,7 @@ public class GameOverScreen implements Screen {
                 game.setScreen(new SelectCharacterScreen(game));
             }
         });
+        restartButton.getLabelCell().padBottom(35);
 
         quitButton = new TextButton("Quit", skin);
         quitButton.addListener(new ClickListener() {
@@ -71,20 +67,19 @@ public class GameOverScreen implements Screen {
                 Gdx.app.exit();;
             }
         });
-
-        System.out.println("Buttons created");
+        quitButton.getLabelCell().padBottom(35);
 
         Table table = new Table();
         table.setFillParent(true);
         table.center();
         stage.addActor(table);
-        table.add(title).center();
-        table.row();
-        table.add(restartButton);
-        table.row();
-        table.add(quitButton);
-
-        System.out.println("Table created");
+        table.add(title).center().padBottom(40);
+        table.row().pad(40, 0, 40, 0);
+        table.add(skullImage).center().width(400).height(400);
+        table.row().pad(0,0,20,0);
+        table.add(restartButton).width(300).height(100);
+        table.row().pad(0,0,20,0);
+        table.add(quitButton).width(300).height(100);
 
 
     }
