@@ -17,6 +17,7 @@ public class WorldContactListener implements ContactListener {
 
         if(userDataA instanceof Fireball || userDataB instanceof Fireball) {
             final boolean fireballIsFixtureA = userDataA instanceof Fireball;
+
             if(fireballIsFixtureA && userDataB instanceof Fireball)
                 return;
 

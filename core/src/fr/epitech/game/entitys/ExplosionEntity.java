@@ -10,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import fr.epitech.game.EpiGame;
+import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
 
@@ -18,14 +20,13 @@ import java.util.List;
 
 public class ExplosionEntity extends Entity {
     protected float damage;
-    private final List<Entity> damagedEntities;
+    private boolean damagedEntityListed = false;
 
     public ExplosionEntity(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager, float damage, short categoryBits, short maskBits, boolean defineEntity) {
         super(batch, world, "Explosion", coordinate, new TextureRegion(new Texture("explosiontip1_32x32.png")).split(32, 32)[0], entityManager, waveManager, categoryBits, maskBits, defineEntity);
         this.damage = damage;
         frameDuration = 0.5f;
         animation.setPlayMode(Animation.PlayMode.NORMAL);
-        damagedEntities = new ArrayList<>();
     }
 
     @Override
@@ -59,6 +60,16 @@ public class ExplosionEntity extends Entity {
 
         if(animation.isAnimationFinished(stateTime)){
             entityManager.removeExplosion(this);
+        }
+
+        if(!damagedEntityListed){
+            damagedEntityListed = true;
+
+            for(Enemy enemy : entityManager.getEnemies()){
+                if(enemy.getPosition().dst(this.getPosition()) < 1.5){
+                    enemy.receiveDamage(damage);
+                }
+            }
         }
     }
 }

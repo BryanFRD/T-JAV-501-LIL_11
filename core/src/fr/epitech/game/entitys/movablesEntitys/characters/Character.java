@@ -33,6 +33,10 @@ public abstract class Character extends MovableEntity {
         this.capacity = capacity;
     }
 
+    public void addExperience(int xp){
+        this.xp += xp;
+    }
+
     public int getLevel(){
         return calculateLevel(xp);
     }

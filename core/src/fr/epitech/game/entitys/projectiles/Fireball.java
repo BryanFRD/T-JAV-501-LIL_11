@@ -29,7 +29,6 @@ public class Fireball extends ProjectileEntity {
         this.animation = new Animation<>(this.frameDuration, this.textureRegions);
 
         this.speed = 1000f;
-        b2body.setGravityScale(0);
     }
 
     public void defineEntity() {
@@ -48,6 +47,8 @@ public class Fireball extends ProjectileEntity {
         b2body.createFixture(fdef);
         b2body.setUserData(this);
         shape.dispose();
+
+        b2body.setGravityScale(0);
 
         entityDefined = true;
     }
