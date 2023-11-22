@@ -40,25 +40,30 @@ public abstract class Enemy extends MovableEntity {
         float angle = MathUtils.atan2(entityManager.getPlayer().getPosition().y - b2body.getPosition().y, entityManager.getPlayer().getPosition().x - b2body.getPosition().x);
 
 
-        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 1.25 && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -1.25) {
-            move(Direction.STOP);
-            this.lastx = 0;
+        if (entityManager.getPlayer().getPosition().x - b2body.getPosition().x < 2f && entityManager.getPlayer().getPosition().x - b2body.getPosition().x > -2f) {
+            directions.remove(Direction.UP);
+            directions.remove(Direction.LEFT);
+            directions.remove(Direction.RIGHT);
 
 
         } else if (curretx == lastx) {
-            move(Direction.UP);
+            directions.add(Direction.UP);
 
 
         } else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
-            move(Direction.RIGHT);
+            directions.remove(Direction.UP);
+            directions.remove(Direction.LEFT);
             this.lastx = curretx;
-
+            directions.add(Direction.RIGHT);
 
         } else if (entityManager.getPlayer().getPosition().x < b2body.getPosition().x) {
-            move(Direction.LEFT);
+            directions.remove(Direction.UP);
+            directions.remove(Direction.RIGHT);
             this.lastx = curretx;
+            directions.add(Direction.LEFT);
 
         }
+        System.out.println(" enemy x " + b2body.getPosition().x + "  player x  " + entityManager.getPlayer().getPosition().x + " player y " + entityManager.getPlayer().getPosition().y + " enemy y " + b2body.getPosition().y);
         attack(angle);
     }
 
