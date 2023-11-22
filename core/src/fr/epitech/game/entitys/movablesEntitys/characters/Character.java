@@ -17,7 +17,7 @@ public abstract class Character extends MovableEntity {
     protected int gold;
     protected int capacity;
     protected int maxCapacity;
-    protected int xp = 0;
+    protected int level = 1, xp = 0, neededXp = calculateLevel(level+1);
 
     public Character(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, int gold, int maxCapacity, int capacity) {
         super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.PLAYER_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.ENEMY_BIT));
@@ -33,12 +33,34 @@ public abstract class Character extends MovableEntity {
         this.capacity = capacity;
     }
 
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+
+        this.health = Math.min(this.health + delta, this.maxHealth);
+    }
+
     public void addExperience(int xp){
         this.xp += xp;
+        while(this.xp >= neededXp) {
+            this.xp -= neededXp;
+            this.level++;
+            this.neededXp = calculateLevel(level);
+
+            entityManager.getPlayer().maxHealth = maxHealth + 50;
+        }
     }
 
     public int getLevel(){
-        return calculateLevel(xp);
+        return this.level;
+    }
+
+    public int getXp(){
+        return this.xp;
+    }
+
+    public int getNeededXp(){
+        return this.neededXp;
     }
 
     public int calculateLevel(int xp){
