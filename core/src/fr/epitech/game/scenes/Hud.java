@@ -2,18 +2,9 @@ package fr.epitech.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.epitech.game.EpiGame;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
@@ -22,11 +13,11 @@ public class Hud {
 
     private final SpriteBatch batch;
     private final BitmapFont font;
-    private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout;
-    private Texture healthBackground, healthForeground;
-    private final int healthBarWidth = 200, healthBarHeight = 30;
-    private Vector2 healthBarPosition = new Vector2(10, EpiGame.V_HEIGHT - healthBarHeight - 10);
-    private int x = 10, y = EpiGame.V_HEIGHT - healthBarHeight - 10;
+    private final GlyphLayout waveLayout, waveTimerPrefixLayout, waveTimerLayout, levelLayout;
+    private Texture healthBackground, healthForeground, experienceBackground, experienceForeground;
+    private final int healthBarWidth = 200, healthBarHeight = 30 , experienceBarWidth = 150, experienceBarHeight = 30;
+    private float healthbarX = 10, healthbarY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 50;
+    private float experienceX = 10, experienceY = EpiGame.V_HEIGHT / 2 - healthBarHeight - 50 - experienceBarHeight - 10;
     private final WaveManager waveManager;
     private final EntityManager entityManager;
 
@@ -44,27 +35,42 @@ public class Hud {
         waveLayout = new GlyphLayout(font, "Wave: 0");
         waveTimerPrefixLayout = new GlyphLayout(font, "Wave starts in ");
         waveTimerLayout = new GlyphLayout(font, "0s");
+        levelLayout = new GlyphLayout(font, "Level: 1");
 
         healthBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
-        healthForeground = new Texture(Gdx.files.internal("Bars/bar_89.png"));
+        healthForeground = new Texture(Gdx.files.internal("whitepixel.png"));
+
+        experienceBackground = new Texture(Gdx.files.internal("Bars/bar_86.png"));
+        experienceForeground = new Texture(Gdx.files.internal("whitepixel.png"));
     }
 
     public void update(float delta){
         waveLayout.setText(font, "Wave: " + waveManager.getWave());
         waveTimerLayout.setText(font, String.format("%.2fs", waveManager.getWaveTimer()));
+        levelLayout.setText(font, "Level: " + entityManager.getPlayer().getLevel());
     }
 
     public void render() {
         batch.begin();
 
-        batch.draw(healthBackground, x, y, healthBarWidth, healthBarHeight);
-        batch.draw(healthForeground, x, y, healthBarWidth * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight);
+        batch.draw(healthBackground, healthbarX, healthbarY, healthBarWidth, healthBarHeight);
+        batch.setColor(Color.RED);
+        batch.draw(healthForeground, healthbarX + 16, healthbarY + healthBarHeight / 4f, (healthBarWidth - 30) * ((float) entityManager.getPlayer().getHealth() / entityManager.getPlayer().getMaxHealth()), healthBarHeight / 2f);
+        batch.setColor(Color.WHITE);
 
-        font.draw(batch, waveLayout, EpiGame.V_WIDTH - waveLayout.width - 10, EpiGame.V_HEIGHT - waveLayout.height / 2 - 10);
+        batch.draw(experienceBackground, experienceX, experienceY, experienceBarWidth, experienceBarHeight);
+        batch.setColor(Color.LIME);
+
+        batch.draw(experienceForeground, experienceX + 14, experienceY + experienceBarHeight / 4f, (experienceBarWidth - 30) * ((float) entityManager.getPlayer().getXp() / entityManager.getPlayer().getNeededXp()), experienceBarHeight / 2f);
+        batch.setColor(Color.WHITE);
+
+        font.draw(batch, levelLayout, 20, EpiGame.V_HEIGHT / 2 - levelLayout.height / 2 - 10);
+
+        font.draw(batch, waveLayout, EpiGame.V_WIDTH / 2 - waveLayout.width - 20, EpiGame.V_HEIGHT / 2 - waveLayout.height / 2 - 10);
 
         if(waveManager.isNewWave()){
-            font.draw(batch, waveTimerPrefixLayout, EpiGame.V_WIDTH / 2f - waveTimerPrefixLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height / 2 - 10);
-            font.draw(batch, waveTimerLayout, EpiGame.V_WIDTH / 2f - waveTimerLayout.width / 2f - 10, EpiGame.V_HEIGHT / 1.25f - waveLayout.height - waveTimerLayout.height / 2 - 30);
+            font.draw(batch, waveTimerPrefixLayout, EpiGame.V_WIDTH / 4f - waveTimerPrefixLayout.width / 2f, EpiGame.V_HEIGHT / 2.5f - waveLayout.height / 2 - 10);
+            font.draw(batch, waveTimerLayout, EpiGame.V_WIDTH/ 4f - waveTimerLayout.width / 2f, EpiGame.V_HEIGHT / 2.5f - waveLayout.height - waveTimerLayout.height / 2 - 30);
         }
 
         batch.end();

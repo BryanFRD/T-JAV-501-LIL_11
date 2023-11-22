@@ -1,21 +1,31 @@
 package fr.epitech.game.entitys.movablesEntitys.enemys;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import fr.epitech.game.EpiGame;
 import fr.epitech.game.entitys.movablesEntitys.characters.Character;
-import fr.epitech.game.map.Chunk;
+import fr.epitech.game.managers.EntityManager;
+import fr.epitech.game.managers.WaveManager;
 
 public class Zombie extends Enemy{
 
-    private int enemx = 0, enemy = 0;
+    private Character player;
 
-    public Zombie(SpriteBatch batch, World world, Vector2 velocity) {
-        super(batch, world, "Zombie", new Vector2(EpiGame.V_WIDTH / 2f, 1000),  new TextureRegion(new Texture("monster_58.png")).split(16, 16)[0][1].getTexture());
+    public Zombie(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
+        super(batch, world, "Zombie", coordinate,
+                new TextureRegion(new Texture("zombiealigner.png")).split(500/6, 108)[0], entityManager, waveManager);
+        System.out.println("Zombie created");
+
+        this.player = entityManager.getPlayer();
+        System.out.println("Player found");
+        }
+
+    @Override
+    public void attack(float angle) {
+        if (player.getPosition().x - b2body.getPosition().x < 2f && player.getPosition().x - b2body.getPosition().x > -2f) {
+            System.out.println("Zombie attaque le joueur !");
+        }
     }
 }

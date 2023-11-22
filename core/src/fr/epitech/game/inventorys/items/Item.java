@@ -1,12 +1,23 @@
 package fr.epitech.game.inventorys.items;
 
-public abstract class Item extends fr.epitech.game.inventorys.Inventory{
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
+import fr.epitech.game.managers.EntityManager;
 
+public abstract class Item {
+
+    protected SpriteBatch batch;
+    protected World world;
+    protected EntityManager entityManager;
     protected String name;
 
-    public Item(String name) {
+    protected Item(SpriteBatch batch, World world, EntityManager entityManager, String name) {
+        this.batch = batch;
+        this.world = world;
+        this.entityManager = entityManager;
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
