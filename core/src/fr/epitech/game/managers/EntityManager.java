@@ -46,6 +46,7 @@ public class EntityManager {
             if(enemy.getHealth() == 0){
                 enemy.delete();
                 enemies.remove(enemy);
+                player.addExperience(enemy.getExperienceGiven());
                 continue;
             }
             enemy.update(delta);

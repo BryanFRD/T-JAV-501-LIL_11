@@ -20,7 +20,8 @@ import fr.epitech.game.map.WorldMap;
 
 public abstract class Enemy extends MovableEntity {
     protected World world;
-    float lastx = 1, curretx;
+    protected float lastx = 1, curretx;
+    protected int experienceGiven = 5;
 
     public Enemy(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] texture, EntityManager entityManager, WaveManager waveManager){
         super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.ENEMY_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.PLAYER_BIT | EpiGame.ENEMY_BIT));
@@ -36,6 +37,11 @@ public abstract class Enemy extends MovableEntity {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if(!this.entityDefined){
+            return;
+        }
+
         curretx = b2body.getPosition().x;
         float angle = MathUtils.atan2(entityManager.getPlayer().getPosition().y - b2body.getPosition().y, entityManager.getPlayer().getPosition().x - b2body.getPosition().x);
 
@@ -67,5 +73,9 @@ public abstract class Enemy extends MovableEntity {
         attack(angle);
     }
 
+    public int getExperienceGiven(){
+        return experienceGiven;
+    }
+  
     public abstract void attack(float angle);
 }

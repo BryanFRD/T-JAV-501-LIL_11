@@ -32,6 +32,7 @@ public abstract class Entity extends Sprite {
     protected boolean reverted = true;
     protected boolean forcedAnimation = false;
     protected boolean entityDefined = false;
+    protected boolean forceEntityDefine = true;
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits) {
         super(texture);
@@ -44,7 +45,6 @@ public abstract class Entity extends Sprite {
         this.waveManager = waveManager;
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
-        defineEntity();
     }
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits){
@@ -59,7 +59,6 @@ public abstract class Entity extends Sprite {
         this.waveManager = waveManager;
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
-        defineEntity();
     }
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits, boolean defineEntity) {
@@ -74,9 +73,7 @@ public abstract class Entity extends Sprite {
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
 
-        if(defineEntity){
-            defineEntity();
-        }
+        forceEntityDefine = defineEntity;
     }
 
     public Entity(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, short categoryBits, short maskBits, boolean defineEntity){
@@ -92,9 +89,7 @@ public abstract class Entity extends Sprite {
         this.categoryBits = categoryBits;
         this.maskBits = maskBits;
 
-        if(defineEntity){
-            defineEntity();
-        }
+        forceEntityDefine = defineEntity;
     }
 
     public void defineEntity() {
@@ -122,11 +117,19 @@ public abstract class Entity extends Sprite {
     }
 
     public Vector2 getPosition() {
+        if(b2body == null){
+            return new Vector2(0, 0);
+        }
+
         return b2body.getPosition();
     }
 
     public void update(float delta) {
         if(!entityDefined){
+            if(forceEntityDefine && !world.isLocked()){
+                defineEntity();
+            }
+
             return;
         }
 
