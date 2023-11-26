@@ -25,13 +25,6 @@ public class Skeleton extends Enemy{
 
     @Override
     public void attack(float angle) {
-        if (x!=0){
-            x --;
-        }else {
-            Fireball fireball = new Fireball(batch, world, getPosition(), entityManager, angle, 25, getCategoryBits(), getMaskBits());
-            entityManager.addProjectiles(fireball);
-            System.out.println("fleche created");
-            x = 200;
-        }
+
     }
 }

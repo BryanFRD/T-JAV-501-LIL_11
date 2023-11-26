@@ -77,8 +77,7 @@ public class Chunk {
         fdef.shape = shape;
         fdef.filter.categoryBits = EpiGame.WORLD_BIT;
 
-        body.createFixture(fdef);
-        body.setUserData(this);
+        body.createFixture(fdef).setUserData(this);
         shape.dispose();
     }
 

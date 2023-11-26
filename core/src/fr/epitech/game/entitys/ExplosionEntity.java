@@ -43,8 +43,7 @@ public class ExplosionEntity extends Entity {
         fdef.filter.maskBits = EpiGame.NOTHING_BIT;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef);
-        b2body.setUserData(this);
+        b2body.createFixture(fdef).setUserData(this);
         shape.dispose();
 
         entityDefined = true;
