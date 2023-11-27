@@ -96,7 +96,7 @@ public class PlayScreen implements Screen {
         game.getBatch().setProjectionMatrix(camera.combined);
         worldMap.render();
 
-        worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
+        //worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
 
         entityManager.render();
         hud.render();
