@@ -23,7 +23,7 @@ public class Witch extends Enemy{
 
         public Witch(SpriteBatch batch, World world, Vector2 coordinate, EntityManager entityManager, WaveManager waveManager) {
             super(batch, world, "Witch", coordinate,
-                    new TextureRegion(new Texture("sorcierMoove.png")).split(500/6, 150)[0], entityManager, waveManager);
+                    new TextureRegion(new Texture(".png")).split(500/6, 150)[0], entityManager, waveManager);
             this.player = entityManager.getPlayer();
         }
 

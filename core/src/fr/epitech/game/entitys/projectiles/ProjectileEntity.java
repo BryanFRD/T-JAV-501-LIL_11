@@ -23,7 +23,7 @@ public abstract class ProjectileEntity extends Entity {
     protected float range = 1000f;
 
     public ProjectileEntity(SpriteBatch batch, World world, Vector2 coordinate, String name, TextureRegion[] textureRegions, EntityManager entityManager, float angle, short categoryBits, short maskBits) {
-        super(batch, world, name, coordinate, textureRegions, entityManager, null, categoryBits, maskBits);
+        super(batch, world, name, coordinate, textureRegions, entityManager, null, categoryBits, maskBits, false);
         this.startPosition = coordinate;
         this.angle = angle;
         this.frameDuration = 0.05f;
@@ -32,6 +32,9 @@ public abstract class ProjectileEntity extends Entity {
 
     public void update(float delta){
         super.update(delta);
+
+        if(!entityDefined)
+            return;
 
         if(this.startPosition.dst(this.getPosition()) > this.range){
             destroy();

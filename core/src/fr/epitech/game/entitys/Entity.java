@@ -105,8 +105,7 @@ public abstract class Entity extends Sprite {
         fdef.filter.maskBits = this.maskBits;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef);
-        b2body.setUserData(this);
+        b2body.createFixture(fdef).setUserData(this);
         shape.dispose();
 
         entityDefined = true;

@@ -12,7 +12,7 @@ public class EpiGame extends Game {
 	public static final short NOTHING_BIT = 0, WORLD_BIT = 1, PLAYER_BIT = 2, ENEMY_BIT = 4;
 	private SpriteBatch batch;
 	private Music backgroundMusic;
-	private int percentVolume = 100;
+	private int percentVolume = 10;
 
 	@Override
 	public void create () {
@@ -21,6 +21,7 @@ public class EpiGame extends Game {
 
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("musique.mp3"));
 		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(percentVolume / 100f);
 		backgroundMusic.play();
 
 		setScreen(new MainScreen(this));

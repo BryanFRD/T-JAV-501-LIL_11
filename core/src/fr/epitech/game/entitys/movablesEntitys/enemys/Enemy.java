@@ -54,8 +54,6 @@ public abstract class Enemy extends MovableEntity {
 
         } else if (curretx == lastx) {
             directions.add(Direction.UP);
-
-
         } else if (entityManager.getPlayer().getPosition().x > b2body.getPosition().x) {
             directions.remove(Direction.UP);
             directions.remove(Direction.LEFT);
@@ -69,7 +67,7 @@ public abstract class Enemy extends MovableEntity {
             directions.add(Direction.LEFT);
 
         }
-        System.out.println(" enemy x " + b2body.getPosition().x + "  player x  " + entityManager.getPlayer().getPosition().x + " player y " + entityManager.getPlayer().getPosition().y + " enemy y " + b2body.getPosition().y);
+
         attack(angle);
     }
 
