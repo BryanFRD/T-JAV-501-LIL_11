@@ -162,6 +162,10 @@ public abstract class MovableEntity extends fr.epitech.game.entitys.Entity imple
     }
 
     public float getDamage(){
+        if(this.inventory.getWeapon() == null){
+            return 500;
+        }
+
         return this.inventory.getDamage();
     }
 
