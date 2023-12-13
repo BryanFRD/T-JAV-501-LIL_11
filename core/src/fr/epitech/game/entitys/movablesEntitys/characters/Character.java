@@ -11,6 +11,7 @@ import fr.epitech.game.entitys.movablesEntitys.MovableEntity;
 import fr.epitech.game.inventorys.Inventory;
 import fr.epitech.game.managers.EntityManager;
 import fr.epitech.game.managers.WaveManager;
+import fr.epitech.game.screens.GameOverScreen;
 
 public abstract class Character extends MovableEntity {
 
@@ -18,24 +19,31 @@ public abstract class Character extends MovableEntity {
     protected int capacity;
     protected int maxCapacity;
     protected int level = 1, xp = 0, neededXp = calculateLevel(level+1);
+    protected final EpiGame epiGame;
 
-    public Character(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, int gold, int maxCapacity, int capacity) {
+    public Character(SpriteBatch batch, World world, String name, Vector2 coordinate, Texture texture, EntityManager entityManager, WaveManager waveManager, int gold, int maxCapacity, int capacity, EpiGame epiGame) {
         super(batch, world, name, coordinate, texture, entityManager, waveManager, EpiGame.PLAYER_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.ENEMY_BIT));
         this.gold = gold;
         this.maxCapacity = maxCapacity;
         this.capacity = capacity;
+        this.epiGame = epiGame;
     }
 
-    public Character(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, int gold, int maxCapacity, int capacity){
+    public Character(SpriteBatch batch, World world, String name, Vector2 coordinate, TextureRegion[] textureRegions, EntityManager entityManager, WaveManager waveManager, int gold, int maxCapacity, int capacity, EpiGame epiGame){
         super(batch, world, name, coordinate, textureRegions, entityManager, waveManager, EpiGame.PLAYER_BIT, (short) (EpiGame.WORLD_BIT | EpiGame.ENEMY_BIT));
         this.gold = gold;
         this.maxCapacity = maxCapacity;
         this.capacity = capacity;
+        this.epiGame = epiGame;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if(this.health == 0){
+            epiGame.setScreen(new GameOverScreen(epiGame));
+        }
 
         this.health = Math.min(this.health + delta, this.maxHealth);
     }

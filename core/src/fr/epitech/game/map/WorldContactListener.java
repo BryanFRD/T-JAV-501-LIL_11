@@ -1,8 +1,9 @@
 package fr.epitech.game.map;
 
 import com.badlogic.gdx.physics.box2d.*;
+import fr.epitech.game.entitys.movablesEntitys.characters.Character;
+import fr.epitech.game.entitys.movablesEntitys.enemys.Enemy;
 import fr.epitech.game.entitys.projectiles.Fireball;
-import fr.epitech.game.managers.EntityManager;
 
 public class WorldContactListener implements ContactListener {
 
@@ -10,10 +11,10 @@ public class WorldContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         final Fixture fixtureA = contact.getFixtureA(), fixtureB = contact.getFixtureB();
 
-        if(fixtureA.getBody() == null || fixtureB.getBody() == null || fixtureA.getBody().getUserData() == null || fixtureB.getBody().getUserData() == null)
+        if(fixtureA == null || fixtureB == null || fixtureA.getUserData() == null || fixtureB.getUserData() == null)
             return;
 
-        final Object userDataA = fixtureA.getBody().getUserData(), userDataB = fixtureB.getBody().getUserData();
+        final Object userDataA = fixtureA.getUserData(), userDataB = fixtureB.getUserData();
 
         if(userDataA instanceof Fireball || userDataB instanceof Fireball) {
             final boolean fireballIsFixtureA = userDataA instanceof Fireball;
@@ -26,6 +27,19 @@ public class WorldContactListener implements ContactListener {
 
             fireball.getEntityManager().createExplosion(fireball.getPosition(), fireball.getDamage(), fireball.getCategoryBits(), fireball.getMaskBits());
             fireball.destroy();
+        } else if(userDataA instanceof Character || userDataB instanceof Character){
+            final boolean characterIsFixtureA = userDataA instanceof Character;
+
+            if(characterIsFixtureA && userDataB instanceof Character)
+                return;
+
+            final Character character = characterIsFixtureA ? (Character) userDataA : (Character) userDataB;
+            final Object fixture = !characterIsFixtureA ? userDataA : userDataB;
+
+            if(fixture instanceof Enemy){
+                final Enemy enemy = (Enemy) fixture;
+                character.receiveDamage(enemy.getDamage());
+            }
         }
     }
 

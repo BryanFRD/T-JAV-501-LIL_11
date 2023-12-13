@@ -57,7 +57,11 @@ public class EntityManager {
 
         if(!projectiles.isEmpty()){
             for (ProjectileEntity projectile : projectiles.toArray(new ProjectileEntity[0])) {
-                projectile.update(delta);
+                if(projectile.isEntityDefined()){
+                    projectile.update(delta);
+                } else {
+                    projectile.defineEntity();
+                }
             }
         }
 

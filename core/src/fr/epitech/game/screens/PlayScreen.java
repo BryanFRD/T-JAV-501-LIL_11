@@ -48,13 +48,13 @@ public class PlayScreen implements Screen {
 
         switch(selectedCharacter) {
             case "Barbarian" :
-                player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", playerSpawn, entityManager, waveManager);
+                player = new Barbarian(game.getBatch(), worldMap.getWorld(), "Barbarian", playerSpawn, entityManager, waveManager, game);
                 break;
             case "Archer" :
-                player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", playerSpawn, entityManager, waveManager);
+                player = new Archer(game.getBatch(), worldMap.getWorld(), "Archer", playerSpawn, entityManager, waveManager, game);
                 break;
             default:
-                player = new Wizard(game.getBatch(), worldMap.getWorld(), "Mage", playerSpawn, entityManager, waveManager);
+                player = new Wizard(game.getBatch(), worldMap.getWorld(), "Mage", playerSpawn, entityManager, waveManager, game);
         }
 
         Gdx.input.setInputProcessor(player);
@@ -96,7 +96,7 @@ public class PlayScreen implements Screen {
         game.getBatch().setProjectionMatrix(camera.combined);
         worldMap.render();
 
-        worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
+        //worldMap.getBox2DRenderer().render(worldMap.getWorld(), camera.combined);
 
         entityManager.render();
         hud.render();

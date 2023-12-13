@@ -24,8 +24,6 @@ public class Zombie extends Enemy{
 
     @Override
     public void attack(float angle) {
-        if (player.getPosition().x - b2body.getPosition().x < 2f && player.getPosition().x - b2body.getPosition().x > -2f) {
-            System.out.println("Zombie attaque le joueur !");
-        }
+
     }
 }
